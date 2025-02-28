@@ -1,0 +1,17 @@
+{
+  "name": "botig",
+  "version": "1.0.0",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "instagram-private-api": "^1.46.1",
+    "instagram-web-api": "^2.2.2",
+    "lodash": "^4.17.21"
+  }
+}
