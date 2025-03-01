@@ -364,17 +364,18 @@ bot.on("callback_query", async (query) => {
 bot.onText(/^\/jam$/, async (msg) => {
     const chatId = msg.chat.id;
 
+    // Jika jam sudah berjalan, beri tahu user
     if (jamAktif.has(chatId)) {
         return bot.sendMessage(chatId, "⏳ Jam sudah berjalan!");
     }
 
-    jamAktif.set(chatId, true);
+    jamAktif.set(chatId, true); // Tandai bahwa jam sedang berjalan
 
     const getJam = () => {
-        return `🕰 *Jam WIB*\n` +
-               `⏳ ${moment().tz("Asia/Jakarta").format("hh:mm:ss A")}`;
+        return `🕰 *Jam WIB*\n⏳ ${moment().tz("Asia/Jakarta").format("hh:mm:ss A")}`;
     };
 
+    // Kirim pesan awal
     const sentMsg = await bot.sendMessage(chatId, getJam(), {
         parse_mode: "Markdown",
         reply_markup: {
@@ -382,8 +383,10 @@ bot.onText(/^\/jam$/, async (msg) => {
         }
     });
 
+    // Fungsi untuk memperbarui jam setiap detik
     const updateJam = async () => {
-        if (!jamAktif.has(chatId)) return;
+        if (!jamAktif.has(chatId)) return; // Jika sudah dihentikan, berhenti
+
         try {
             await bot.editMessageText(getJam(), {
                 chat_id: chatId,
@@ -393,27 +396,27 @@ bot.onText(/^\/jam$/, async (msg) => {
                     inline_keyboard: [[{ text: "🛑 Hapus", callback_data: `hapus_jam_${chatId}` }]]
                 }
             });
-            setTimeout(updateJam, 1000);
+
+            setTimeout(updateJam, 1000); // Jalankan update lagi dalam 1 detik
         } catch (err) {
-            jamAktif.delete(chatId);
+            jamAktif.delete(chatId); // Hentikan jika terjadi error (misalnya pesan dihapus)
         }
     };
 
-    updateJam();
+    updateJam(); // Jalankan update pertama kali
 });
 
+// Fungsi untuk menangani tombol "Hapus"
 bot.on("callback_query", async (callbackQuery) => {
     const chatId = callbackQuery.message.chat.id;
     const data = callbackQuery.data;
 
     if (data.startsWith("hapus_jam_")) {
-        jamAktif.delete(chatId);
+        jamAktif.delete(chatId); // Hentikan update jam
         await bot.deleteMessage(chatId, callbackQuery.message.message_id);
         await bot.answerCallbackQuery(callbackQuery.id, { text: "🛑 Jam dihentikan!" });
     }
 });
-
-console.log("Bot berjalan...");
 
 bot.onText(/\/stopmotion/, (msg) => {
     const chatId = msg.chat.id;
