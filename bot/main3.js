@@ -38,6 +38,8 @@ const aiSessions = {};
 const userState = {};
 const uploadStatus = {};
 const activeClock = {};
+const buttonFrames = ["⬜⬜⬜⬛", "⬜⬜⬛⬜", "⬜⬛⬜⬜", "⬛⬜⬜⬜"];
+const pressedFrame = "🟥🟥🟥🟥";
 let autoAI = {};
 let promptAI = {};
 let bratData = {};
@@ -45,6 +47,8 @@ let kbbiData = {};
 let kalkulatorData = {};
 let userSearchResults = {};
 let stopMotionData = {};
+let startTime = Date.now();
+let uptimeIntervals = {};
 const settingsFile = "settings.json";
 
 // Debugging polling error
@@ -71,7 +75,7 @@ function simpanData() {
 // Daftar perintah yang valid
 const validCommands = [
     "/register", "/profile", "/logout", "/forum on", "/forum off",
-    "/addkode", "/pluskode", "/deladmin", "/wikipedia", "/nulis", "/stalker", "/addmsg", "/listmsg", "/delmsg", "/start", "/help", "/ngl", "/tts", "/report", "/kbbi", "/jadwalpagi", "/senduser", "/tourl", "/aiimg", "/aiimgf", "/kalender", "/suit", "/webrec", "/shai", "/rmbg", "/selfie", "/ai", "/yts", "/sendb", "/igdm", "/pin", "/artime", "/editrole", "/robloxstalk", "/autoai", "/promptai", "/getpp", "/brat", "/spy", "/igstalk", "/cuaca", "/tourl2", "/text2binary", "/binary2text", "/ping", "/ttstalk", "/gempa", "/dewatermark", "/ttt", "/hd", "/spy2", "/up", "/itung", "/aideck", "/translate", "/stopmotion", "/rngyt", "/menu", "/teksanim", "/jam",
+    "/addkode", "/pluskode", "/deladmin", "/wikipedia", "/nulis", "/stalker", "/addmsg", "/listmsg", "/delmsg", "/start", "/help", "/ngl", "/tts", "/report", "/kbbi", "/jadwalpagi", "/senduser", "/tourl", "/aiimg", "/aiimgf", "/kalender", "/suit", "/webrec", "/shai", "/rmbg", "/selfie", "/ai", "/yts", "/sendb", "/igdm", "/pin", "/artime", "/editrole", "/robloxstalk", "/autoai", "/promptai", "/getpp", "/brat", "/spy", "/igstalk", "/cuaca", "/tourl2", "/text2binary", "/binary2text", "/ping", "/ttstalk", "/gempa", "/dewatermark", "/ttt", "/hd", "/spy2", "/up", "/itung", "/aideck", "/translate", "/stopmotion", "/rngyt", "/menu", "/teksanim", "/jam", "/uptime",
 ];
 
 // 🔹 Handle pesan yang tidak dikenal
@@ -178,8 +182,8 @@ bot.onText(/\/menu/, async (msg) => {
 /deladmin  
 /delmsg  
 /dewatermark  
-/forumoff  
-/forumon  
+/forum off  
+/forum on  
 /gempa  
 /getpp  
 /hd  
@@ -215,6 +219,7 @@ bot.onText(/\/menu/, async (msg) => {
 /translate  
 /tts  
 /ttstalk  
+/uptime
 /webrec  
 /wikipedia  
 /yts`,  
@@ -359,6 +364,72 @@ bot.on("callback_query", async (query) => {
       message_id: query.message.message_id,
     });
   }
+});
+
+bot.onText(/\/uptime/, (msg) => {
+    const chatId = msg.chat.id;
+
+    if (uptimeIntervals[chatId]) {
+        clearInterval(uptimeIntervals[chatId]);
+        delete uptimeIntervals[chatId];
+    }
+
+    const getUptime = () => {
+        let elapsed = Math.floor((Date.now() - startTime) / 1000);
+        let hours = String(Math.floor(elapsed / 3600)).padStart(2, '0');
+        let minutes = String(Math.floor((elapsed % 3600) / 60)).padStart(2, '0');
+        let seconds = String(elapsed % 60).padStart(2, '0');
+        return `${hours}:${minutes}:${seconds}`;
+    };
+
+    bot.sendMessage(chatId, `⏳ Uptime: ${getUptime()}`, {
+        reply_markup: {
+            inline_keyboard: [[{ text: buttonFrames[0], callback_data: `uptime_${chatId}` }]],
+        },
+    }).then((sentMessage) => {
+        const messageId = sentMessage.message_id;
+
+        uptimeIntervals[chatId] = setInterval(() => {
+            bot.editMessageText(`⏳ Uptime: ${getUptime()}`, {
+                chat_id: chatId,
+                message_id: messageId,
+                reply_markup: {
+                    inline_keyboard: [[{ text: buttonFrames[buttonIndex], callback_data: `uptime_${chatId}` }]],
+                },
+            }).catch(() => {
+                clearInterval(uptimeIntervals[chatId]);
+                delete uptimeIntervals[chatId];
+            });
+
+            buttonIndex = (buttonIndex + 1) % buttonFrames.length;
+        }, 1000);
+    });
+});
+
+// Fungsi saat tombol ditekan
+bot.on('callback_query', (query) => {
+    const chatId = query.message.chat.id;
+    const messageId = query.message.message_id;
+
+    if (query.data === `uptime_${chatId}`) {
+        // Ganti tombol jadi 🟥🟥🟥🟥 selama 1 detik
+        bot.editMessageReplyMarkup({
+            inline_keyboard: [[{ text: pressedFrame, callback_data: `uptime_${chatId}` }]],
+        }, { chat_id: chatId, message_id: messageId });
+
+        // Kembalikan ke animasi setelah 1 detik
+        setTimeout(() => {
+            bot.editMessageReplyMarkup({
+                inline_keyboard: [[{ text: buttonFrames[buttonIndex], callback_data: `uptime_${chatId}` }]],
+            }, { chat_id: chatId, message_id: messageId });
+        }, 1000);
+    }
+});
+
+// Hentikan semua interval jika bot dimatikan
+process.on('SIGINT', () => {
+    Object.values(uptimeIntervals).forEach(clearInterval);
+    process.exit();
 });
 
 const animasiStop = (pos) => {
