@@ -38,6 +38,7 @@ const aiSessions = {};
 const userState = {};
 const uploadStatus = {};
 const activeClock = {};
+let gameData = {};
 let autoAI = {};
 let promptAI = {};
 let bratData = {};
@@ -71,7 +72,7 @@ function simpanData() {
 // Daftar perintah yang valid
 const validCommands = [
     "/register", "/profile", "/logout", "/forum on", "/forum off",
-    "/addkode", "/pluskode", "/deladmin", "/wikipedia", "/nulis", "/stalker", "/addmsg", "/listmsg", "/delmsg", "/start", "/help", "/ngl", "/tts", "/report", "/kbbi", "/jadwalpagi", "/senduser", "/tourl", "/aiimg", "/aiimgf", "/kalender", "/suit", "/webrec", "/shai", "/rmbg", "/selfie", "/ai", "/yts", "/sendb", "/igdm", "/pin", "/artime", "/editrole", "/robloxstalk", "/autoai", "/promptai", "/getpp", "/brat", "/spy", "/igstalk", "/cuaca", "/tourl2", "/text2binary", "/binary2text", "/ping", "/ttstalk", "/gempa", "/dewatermark", "/ttt", "/hd", "/spy2", "/up", "/itung", "/aideck", "/translate", "/stopmotion", "/rngyt", "/menu", "/teksanim", "/jam", "/uptime",
+    "/addkode", "/pluskode", "/deladmin", "/wikipedia", "/nulis", "/stalker", "/addmsg", "/listmsg", "/delmsg", "/start", "/help", "/ngl", "/tts", "/report", "/kbbi", "/jadwalpagi", "/senduser", "/tourl", "/aiimg", "/aiimgf", "/kalender", "/suit", "/webrec", "/shai", "/rmbg", "/selfie", "/ai", "/yts", "/sendb", "/igdm", "/pin", "/artime", "/editrole", "/robloxstalk", "/autoai", "/promptai", "/getpp", "/brat", "/spy", "/igstalk", "/cuaca", "/tourl2", "/text2binary", "/binary2text", "/ping", "/ttstalk", "/gempa", "/dewatermark", "/ttt", "/hd", "/spy2", "/up", "/itung", "/aideck", "/translate", "/stopmotion", "/rngyt", "/menu", "/teksanim", "/jam", "/uptime", "/randangka",
 ];
 
 // 🔹 Handle pesan yang tidak dikenal
@@ -198,6 +199,7 @@ bot.onText(/\/menu/, async (msg) => {
 /pluskode  
 /profile  
 /promptai  
+/randangka
 /register  
 /report  
 /rngyt  
@@ -215,7 +217,6 @@ bot.onText(/\/menu/, async (msg) => {
 /translate  
 /tts  
 /ttstalk  
-/uptime
 /webrec  
 /wikipedia  
 /yts`,  
@@ -227,6 +228,75 @@ bot.onText(/\/menu/, async (msg) => {
         );
     }, 2000); // Tunggu 2 detik (2000 ms)
 });
+
+bot.onText(/\/randangka/, (msg) => {
+    const chatId = msg.chat.id;
+    const randomNumber = Math.floor(Math.random() * 100) + 1; // Angka acak 1-100
+    gameData[chatId] = { number: randomNumber, input: "" }; // Simpan angka target dan input user
+
+    sendGameMessage(chatId, "Tebak angka antara 1 - 100!");
+});
+
+bot.on("callback_query", (callbackQuery) => {
+    const chatId = callbackQuery.message.chat.id;
+    const data = callbackQuery.data;
+
+    if (!gameData[chatId]) return; // Jika user tidak dalam permainan, abaikan
+
+    if (data === "randangka_enter") {
+        let guess = parseInt(gameData[chatId].input);
+        if (isNaN(guess)) return; // Jika input kosong, abaikan
+
+        if (guess > gameData[chatId].number) {
+            sendGameMessage(chatId, `Terlalu besar!`);
+        } else if (guess < gameData[chatId].number) {
+            sendGameMessage(chatId, `Terlalu kecil!`);
+        } else {
+            sendGameMessage(chatId, `🎉 Benar! Angkanya adalah ${gameData[chatId].number}`);
+            delete gameData[chatId]; // Hapus data permainan
+        }
+        gameData[chatId].input = ""; // Reset input setelah submit
+    } else if (data === "randangka_hapus") {
+        gameData[chatId].input = gameData[chatId].input.slice(0, -1); // Hapus angka terakhir
+        sendGameMessage(chatId, "Tebak angka antara 1 - 100!");
+    } else if (data === "randangka_menyerah") {
+        sendGameMessage(chatId, `😔 Menyerah! Angkanya adalah ${gameData[chatId].number}`);
+        delete gameData[chatId]; // Hapus data permainan
+    } else if (data.startsWith("randangka_angka")) {
+        const angka = data.split("_")[2]; // Ambil angka dari callback_data
+        gameData[chatId].input += angka;
+        sendGameMessage(chatId, "Tebak angka antara 1 - 100!");
+    }
+
+    bot.answerCallbackQuery(callbackQuery.id);
+});
+
+function sendGameMessage(chatId, message) {
+    const inputDisplay = gameData[chatId]?.input || "_";
+    const keyboard = {
+        inline_keyboard: [
+            ["1", "2", "3"].map((num) => ({ text: num, callback_data: `randangka_angka_${num}` })),
+            ["4", "5", "6"].map((num) => ({ text: num, callback_data: `randangka_angka_${num}` })),
+            ["7", "8", "9"].map((num) => ({ text: num, callback_data: `randangka_angka_${num}` })),
+            [{ text: "Hapus", callback_data: "randangka_hapus" }, { text: "Enter", callback_data: "randangka_enter" }],
+            [{ text: "Menyerah", callback_data: "randangka_menyerah" }]
+        ],
+    };
+
+    if (gameData[chatId]?.messageId) {
+        bot.editMessageText(`🎯 ${message}\n\n🔢 Input: ${inputDisplay}`, {
+            chat_id: chatId,
+            message_id: gameData[chatId].messageId,
+            reply_markup: keyboard,
+        }).catch(() => {}); // Catch error jika pesan sudah dihapus
+    } else {
+        bot.sendMessage(chatId, `🎯 ${message}\n\n🔢 Input: ${inputDisplay}`, {
+            reply_markup: keyboard,
+        }).then((sentMessage) => {
+            gameData[chatId].messageId = sentMessage.message_id;
+        });
+    }
+}
 
 // Pastikan folder 'downloads' ada sebelum menyimpan file
 const downloadDir = path.join(__dirname, "downloads");
