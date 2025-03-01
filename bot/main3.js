@@ -953,7 +953,7 @@ bot.on("polling_error", async (error) => {
 
         // Kirim peringatan ke semua user yang masih aktif
         for (let userId of activeUsers.keys()) {
-            await bot.sendMessage(userId, `⚠️ Maaf, bot terkena rate limit.\nSilakan coba lagi dalam ${retryAfter} detik.`);
+            await bot.sendMessage(userId, `⚠️ Maaf, bot sedang terkena rate limit.\nSilakan coba lagi dalam ${retryAfter} detik.`);
         }
 
         // Reset status setelah waktu habis
@@ -967,21 +967,31 @@ bot.on("polling_error", async (error) => {
 bot.onText(/\/ekali/, (msg) => {
     const chatId = msg.chat.id;
     bot.sendMessage(chatId, "Masukkan angka yang ingin dikalikan:");
-  
+
     bot.once("message", (msg) => {
         let num = parseInt(msg.text);
         if (isNaN(num) || num < 0) {
             return bot.sendMessage(chatId, "Harap masukkan angka positif!");
         }
 
-        let result = 1;
+        let result = BigInt(1);
         let formula = `${num}! = `;
-        for (let i = num; i > 0; i--) {
+        for (let i = BigInt(num); i > 0; i--) {
             result *= i;
-            formula += (i === 1) ? `${i} = ${result}` : `${i} × `;
+            formula += (i === BigInt(1)) ? `${i} = ${result}` : `${i} × `;
         }
 
-        bot.sendMessage(chatId, `Hasil: ${formula}`);
+        // Fungsi untuk membagi pesan jika terlalu panjang
+        function sendLongMessage(chatId, text) {
+            const maxLength = 4000; // Batas aman sebelum 4096 karakter
+            while (text.length > maxLength) {
+                bot.sendMessage(chatId, text.slice(0, maxLength));
+                text = text.slice(maxLength);
+            }
+            bot.sendMessage(chatId, text);
+        }
+
+        sendLongMessage(chatId, formula);
     });
 });
 
