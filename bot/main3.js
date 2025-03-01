@@ -232,7 +232,7 @@ bot.onText(/\/menu/, async (msg) => {
 bot.onText(/\/randangka/, (msg) => {
     const chatId = msg.chat.id;
     const randomNumber = Math.floor(Math.random() * 100) + 1; // Angka acak 1-100
-    gameData[chatId] = { number: randomNumber, input: "" }; // Simpan angka target dan input user
+    gameData[chatId] = { number: randomNumber, input: "", messageId: null }; // Simpan angka target dan input user
 
     sendGameMessage(chatId, "Tebak angka antara 1 - 100!");
 });
@@ -260,7 +260,8 @@ bot.on("callback_query", (callbackQuery) => {
         gameData[chatId].input = gameData[chatId].input.slice(0, -1); // Hapus angka terakhir
         sendGameMessage(chatId, "Tebak angka antara 1 - 100!");
     } else if (data === "randangka_menyerah") {
-        sendGameMessage(chatId, `😔 Menyerah! Angkanya adalah ${gameData[chatId].number}`);
+        bot.deleteMessage(chatId, gameData[chatId].messageId).catch(() => {}); // Hapus pesan permainan
+        bot.sendMessage(chatId, `😔 Menyerah! Angka yang benar adalah ${gameData[chatId].number}`);
         delete gameData[chatId]; // Hapus data permainan
     } else if (data.startsWith("randangka_angka")) {
         const angka = data.split("_")[2]; // Ambil angka dari callback_data
@@ -278,8 +279,8 @@ function sendGameMessage(chatId, message) {
             ["1", "2", "3"].map((num) => ({ text: num, callback_data: `randangka_angka_${num}` })),
             ["4", "5", "6"].map((num) => ({ text: num, callback_data: `randangka_angka_${num}` })),
             ["7", "8", "9"].map((num) => ({ text: num, callback_data: `randangka_angka_${num}` })),
-            [{ text: "Hapus", callback_data: "randangka_hapus" }, { text: "Enter", callback_data: "randangka_enter" }],
-            [{ text: "Menyerah", callback_data: "randangka_menyerah" }]
+            [{ text: "0", callback_data: "randangka_angka_0" }, { text: "Hapus", callback_data: "randangka_hapus" }],
+            [{ text: "Enter", callback_data: "randangka_enter" }, { text: "Menyerah", callback_data: "randangka_menyerah" }]
         ],
     };
 
@@ -296,12 +297,6 @@ function sendGameMessage(chatId, message) {
             gameData[chatId].messageId = sentMessage.message_id;
         });
     }
-}
-
-// Pastikan folder 'downloads' ada sebelum menyimpan file
-const downloadDir = path.join(__dirname, "downloads");
-if (!fs.existsSync(downloadDir)) {
-  fs.mkdirSync(downloadDir, { recursive: true });
 }
 
 bot.onText(/^\/spy2$/, (msg) => {
