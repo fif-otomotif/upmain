@@ -1,0 +1,1 @@
+export const TOKEN = "7827504152:AAG8mfWl81w2n5E7NWCJlaEwLyQrd8KKqfM"; // Ganti dengan token bot-mu

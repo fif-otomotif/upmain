@@ -1,4 +1,5 @@
 import bot from './bot.js';
+import { TOKEN } from './config.js';
 import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 
