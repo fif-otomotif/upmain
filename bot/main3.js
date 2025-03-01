@@ -1,7 +1,7 @@
+import bot from './bot.js';
 import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 
-import TelegramBot from "node-telegram-bot-api";
 import fs from "fs";
 import axios from "axios";
 import schedule from "node-schedule";
@@ -18,7 +18,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const IMGBB_API_KEY = "9a6c7db46a74e55dbdd80b0e0620087d";
 
-const TOKEN = "7827504152:AAG8mfWl81w2n5E7NWCJlaEwLyQrd8KKqfM";
 const FILE_USERS = path.join(__dirname, "users.json");
 const FILE_FORUM = "forum_users.json";
 const FILE_CODES = "admin_codes.json";
@@ -39,13 +38,11 @@ const uploadStatus = {};
 let autoAI = {};
 let promptAI = {};
 let bratData = {};
+let kbbiData = {};
 let kalkulatorData = {};
 let userSearchResults = {};
+let stopMotionData = {};
 const settingsFile = "settings.json";
-
-const bot = new TelegramBot(TOKEN, { 
-  polling: { interval: 300, autoStart: true, params: { timeout: 10 } } 
-});
 
 // Debugging polling error
 bot.on("polling_error", (error) => {
@@ -71,7 +68,7 @@ function simpanData() {
 // Daftar perintah yang valid
 const validCommands = [
     "/register", "/profile", "/logout", "/forum on", "/forum off",
-    "/addkode", "/pluskode", "/deladmin", "/wikipedia", "/nulis", "/stalker", "/addmsg", "/listmsg", "/delmsg", "/start", "/help", "/ngl", "/tts", "/report", "/kbbi", "/jadwalpagi", "/senduser", "/tourl", "/aiimg", "/aiimgf", "/kalender", "/suit", "/webrec", "/shai", "/rmbg", "/selfie", "/ai", "/yts", "/sendb", "/igdm", "/pin", "/artime", "/editrole", "/robloxstalk", "/autoai", "/promptai", "/getpp", "/brat", "/spy", "/igstalk", "/cuaca", "/tourl2", "/text2binary", "/binary2text", "/ping", "/ttstalk", "/gempa", "/dewatermark", "/ttt", "/hd", "/spy2",
+    "/addkode", "/pluskode", "/deladmin", "/wikipedia", "/nulis", "/stalker", "/addmsg", "/listmsg", "/delmsg", "/start", "/help", "/ngl", "/tts", "/report", "/kbbi", "/jadwalpagi", "/senduser", "/tourl", "/aiimg", "/aiimgf", "/kalender", "/suit", "/webrec", "/shai", "/rmbg", "/selfie", "/ai", "/yts", "/sendb", "/igdm", "/pin", "/artime", "/editrole", "/robloxstalk", "/autoai", "/promptai", "/getpp", "/brat", "/spy", "/igstalk", "/cuaca", "/tourl2", "/text2binary", "/binary2text", "/ping", "/ttstalk", "/gempa", "/dewatermark", "/ttt", "/hd", "/spy2", "/up", "/itung", "/aideck", "/translate", "/stopmotion", "/rngyt", "/menu", "/teksanim",
 ];
 
 // 🔹 Handle pesan yang tidak dikenal
@@ -119,10 +116,123 @@ bot.on("message", (msg) => {
     }
 });
 
-bot.onText(/\/spy2/, (msg) => {
+bot.onText(/\/teksanim/, async (msg) => {
+    const chatId = msg.chat.id;
+
+    // Minta user mengirimkan teks
+    bot.sendMessage(chatId, "Silakan kirimkan teks yang ingin dianimasikan:").then(() => {
+        bot.once("message", async (response) => {
+            let text = response.text;
+            if (!text || text.length === 0) return bot.sendMessage(chatId, "Teks tidak valid!");
+
+            let animMessage = await bot.sendMessage(chatId, "...");
+            let animationSteps = [];
+
+            // Gunakan non-breaking space agar Telegram tetap menampilkan spasi
+            let fixedText = text.replace(/ /g, "\u00A0"); // Non-breaking space
+
+            // Buat array animasi huruf satu per satu termasuk spasi
+            for (let i = 1; i <= fixedText.length; i++) {
+                animationSteps.push(fixedText.substring(0, i));
+            }
+
+            // Animasi dengan editMessageText
+            let index = 0;
+            let interval = setInterval(() => {
+                if (index >= animationSteps.length) {
+                    clearInterval(interval);
+                } else {
+                    bot.editMessageText(animationSteps[index], {
+                        chat_id: chatId,
+                        message_id: animMessage.message_id,
+                    }).catch(() => clearInterval(interval));
+                    index++;
+                }
+            }, 1000); // Edit setiap 1 detik
+        });
+    });
+});
+
+bot.onText(/\/menu/, async (msg) => {
+    const chatId = msg.chat.id;
+
+    // Kirim pesan awal "okey, wait"
+    const sentMessage = await bot.sendMessage(chatId, "Okey, wait...");
+
+    // Tunggu 2 detik sebelum mengedit pesan menjadi menu
+    setTimeout(() => {
+        bot.editMessageText(
+            `📌 *MENU BOT*  
+
+/addkode  
+/addmsg  
+/ai  
+/aiimg  
+/aideck  
+/artime  
+/binary2text  
+/brat  
+/deladmin  
+/delmsg  
+/dewatermark  
+/forumoff  
+/forumon  
+/gempa  
+/getpp  
+/hd  
+/igstalk  
+/igdm  
+/itung  
+/autoai  
+/kbbi  
+/kalender  
+/listmsg  
+/logout  
+/nulis  
+/ngl  
+/pin  
+/pluskode  
+/profile  
+/promptai  
+/register  
+/report  
+/rngyt  
+/rmbg  
+/sendb  
+/shai  
+/spy  
+/spy2  
+/stalker  
+/stopmotion
+/teksanim
+/text2binary  
+/tourl  
+/tourl2  
+/translate  
+/tts  
+/ttstalk  
+/webrec  
+/wikipedia  
+/yts`,  
+            {
+                chat_id: chatId,
+                message_id: sentMessage.message_id,
+                parse_mode: "Markdown",
+            }
+        );
+    }, 2000); // Tunggu 2 detik (2000 ms)
+});
+
+// Pastikan folder 'downloads' ada sebelum menyimpan file
+const downloadDir = path.join(__dirname, "downloads");
+if (!fs.existsSync(downloadDir)) {
+  fs.mkdirSync(downloadDir, { recursive: true });
+}
+
+bot.onText(/^\/spy2$/, (msg) => {
   const chatId = msg.chat.id;
   bot.sendMessage(chatId, "Silakan masukkan judul lagu yang ingin dicari:");
-  userSearchResults[chatId] = { results: [], index: 0 };
+  userSearchResults[chatId] = { results: [], index: 0, messageId: null };
 });
 
 bot.on("message", async (msg) => {
@@ -140,7 +250,7 @@ bot.on("message", async (msg) => {
       return bot.sendMessage(chatId, "Lagu tidak ditemukan.");
     }
 
-    userSearchResults[chatId] = { results, index: 0 };
+    userSearchResults[chatId] = { results, index: 0, messageId: null };
     sendSongDetails(chatId, results[0], 0);
   } catch (error) {
     bot.sendMessage(chatId, "Terjadi kesalahan saat mencari lagu.");
@@ -160,14 +270,23 @@ async function sendSongDetails(chatId, song, index) {
     keyboard.push([{ text: ">>", callback_data: `spy2_next_${index + 1}` }]);
   }
 
-  bot.sendMessage(
-    chatId,
-    `🎵 *${song.title}*\n👨‍🎤 *Artist:* ${song.artist}\n⏱ *Duration:* ${song.duration}\n🔗 [Spotify Link](${song.url})`,
-    {
+  const text = `🎵 *${song.title}*\n👨‍🎤 *Artist:* ${song.artist}\n⏱ *Duration:* ${song.duration}\n🔗 [Spotify Link](${song.url})`;
+
+  if (userSearchResults[chatId].messageId) {
+    bot.editMessageText(text, {
+      chat_id: chatId,
+      message_id: userSearchResults[chatId].messageId,
       parse_mode: "Markdown",
       reply_markup: { inline_keyboard: keyboard },
-    }
-  );
+    });
+  } else {
+    bot.sendMessage(chatId, text, {
+      parse_mode: "Markdown",
+      reply_markup: { inline_keyboard: keyboard },
+    }).then((sentMessage) => {
+      userSearchResults[chatId].messageId = sentMessage.message_id;
+    });
+  }
 }
 
 bot.on("callback_query", async (query) => {
@@ -193,20 +312,249 @@ bot.on("callback_query", async (query) => {
     const song = userSearchResults[chatId].results[index];
 
     const downloadUrl = `https://fastrestapis.fasturl.cloud/downup/spotifydown?url=${encodeURIComponent(song.url)}`;
+    bot.sendMessage(chatId, "🔄 Sedang mendownload lagu...");
+
     try {
       const response = await axios.get(downloadUrl);
-      const downloadLink = response.data.result.link;
+      const songLink = response.data.result.link;
 
-      bot.sendMessage(chatId, `⬇️ *Download Lagu:*\n[Klik Disini](${downloadLink})`, { parse_mode: "Markdown" });
+      if (!songLink) return bot.sendMessage(chatId, "Gagal mendapatkan link download.");
+
+      const filePath = path.join(__dirname, "downloads", `${song.title}.mp3`);
+      const writer = fs.createWriteStream(filePath);
+
+      const songResponse = await axios({
+        url: songLink,
+        method: "GET",
+        responseType: "stream",
+      });
+
+      songResponse.data.pipe(writer);
+
+      writer.on("finish", () => {
+        bot.sendAudio(chatId, filePath, {
+          title: song.title,
+          performer: song.artist,
+        }).then(() => {
+          fs.unlinkSync(filePath); // Hapus file setelah dikirim
+        });
+      });
+
+      writer.on("error", () => {
+        bot.sendMessage(chatId, "Gagal mengunduh lagu.");
+      });
     } catch (error) {
-      bot.sendMessage(chatId, "Gagal mendapatkan link download.");
+      bot.sendMessage(chatId, "Terjadi kesalahan saat mengunduh lagu.");
     }
   }
 
   if (data === "spy2_exit") {
     delete userSearchResults[chatId];
-    bot.sendMessage(chatId, "Pencarian lagu telah dihentikan.");
+    bot.editMessageText("Pencarian lagu telah dihentikan.", {
+      chat_id: chatId,
+      message_id: query.message.message_id,
+    });
   }
+});
+
+bot.onText(/\/stopmotion/, (msg) => {
+    const chatId = msg.chat.id;
+    stopMotionData[chatId] = { frames: [], totalFrames: null, messageId: null };
+
+    bot.sendMessage(chatId, "Masukkan jumlah frame yang diinginkan:").then((sent) => {
+        stopMotionData[chatId].messageId = sent.message_id;
+    });
+});
+
+bot.on("message", (msg) => {
+    const chatId = msg.chat.id;
+    if (!stopMotionData[chatId]) return;
+    if (msg.text.startsWith("/")) return; // Hindari gangguan dari perintah lain
+
+    let userInput = msg.text.trim();
+    let data = stopMotionData[chatId];
+
+    if (data.totalFrames === null) {
+        let frameCount = parseInt(userInput);
+        if (isNaN(frameCount) || frameCount <= 0) {
+            return bot.editMessageText("Jumlah frame harus angka positif! Masukkan ulang:", {
+                chat_id: chatId,
+                message_id: data.messageId,
+            });
+        }
+        data.totalFrames = frameCount;
+        data.frames = [];
+        return bot.editMessageText(`Masukkan teks untuk frame ke-1:`, {
+            chat_id: chatId,
+            message_id: data.messageId,
+        });
+    } else if (data.frames.length < data.totalFrames) {
+        data.frames.push(userInput);
+        let nextFrame = data.frames.length + 1;
+
+        if (data.frames.length < data.totalFrames) {
+            bot.editMessageText(`Masukkan teks untuk frame ke-${nextFrame}:`, {
+                chat_id: chatId,
+                message_id: data.messageId,
+            });
+        } else {
+            bot.editMessageText("Semua frame sudah terkumpul! Tekan **Play** untuk mulai animasi.", {
+                chat_id: chatId,
+                message_id: data.messageId,
+                reply_markup: {
+                    inline_keyboard: [[{ text: "▶️ Play", callback_data: `play_${chatId}` }]],
+                },
+            });
+        }
+    }
+});
+
+bot.on("callback_query", async (callbackQuery) => {
+    const chatId = callbackQuery.message.chat.id;
+    const data = stopMotionData[chatId];
+
+    if (!data || !data.frames.length) return;
+
+    if (callbackQuery.data === `play_${chatId}`) {
+        let messageId = data.messageId;
+
+        for (let i = 0; i < data.frames.length; i++) {
+            await new Promise((resolve) => setTimeout(resolve, 1000)); // Delay 1 detik antar frame
+            bot.editMessageText(data.frames[i], { chat_id: chatId, message_id: messageId });
+        }
+
+        // Tunggu 3 detik sebelum menampilkan pesan selesai
+        await new Promise((resolve) => setTimeout(resolve, 3000));
+        bot.editMessageText("🎬 Animasi selesai!", {
+            chat_id: chatId,
+            message_id: messageId,
+        });
+
+        bot.answerCallbackQuery(callbackQuery.id);
+    }
+});
+
+bot.onText(/^\/rngyt$/, async (msg) => {
+    const chatId = msg.chat.id;
+    bot.sendMessage(chatId, "Kirimkan URL video YouTube yang ingin dianalisis.");
+    
+    bot.once("message", async (msg) => {
+        const url = msg.text.trim();
+        if (!url.startsWith("http")) {
+            return bot.sendMessage(chatId, "URL tidak valid! Harap kirimkan URL YouTube yang benar.");
+        }
+
+        bot.sendMessage(chatId, "🔍 Mengambil data, mohon tunggu...");
+
+        try {
+            const response = await fetch(`https://fastrestapis.fasturl.cloud/aiexperience/ytpoint?url=${encodeURIComponent(url)}`);
+            const data = await response.json();
+
+            if (data.status !== 200 || !data.result || !data.result.keyPoints) {
+                return bot.sendMessage(chatId, "⚠️ Gagal mengambil data. Pastikan URL valid!");
+            }
+
+            const { short_title, keyPoints } = data.result;
+            let resultText = `🎯 *Ringkasan Video*: ${short_title}\n\n📌 *Poin Penting*:\n`;
+
+            keyPoints.forEach((item, index) => {
+                resultText += `${index + 1}️⃣ *${item.point}*\n   - ${item.summary}\n\n`;
+            });
+
+            bot.sendMessage(chatId, resultText, { parse_mode: "Markdown" });
+
+        } catch (error) {
+            bot.sendMessage(chatId, "❌ Terjadi kesalahan saat mengambil data.");
+            console.error(error);
+        }
+    });
+});
+
+bot.onText(/\/aideck/, async (msg) => {
+    const chatId = msg.chat.id;
+    bot.sendMessage(chatId, "🔍 Kirimkan teks yang ingin dianalisis:");
+  
+    bot.once("message", async (msg) => {
+        if (msg.text.startsWith("/")) return; // Abaikan jika user kirim perintah lain
+        const text = encodeURIComponent(msg.text);
+        const url = `https://fastrestapis.fasturl.cloud/aiexperience/aitextdetector?text=${text}`;
+      
+        try {
+            const res = await fetch(url);
+            const data = await res.json();
+            if (data.status === 200) {
+                const result = data.result;
+                const responseText = `
+🔍 Hasil Analisis AI
+📌 Answer:\n${result.answer}
+👤 Made By: ${result.madeBy}
+🔢 AI Probability: ${result.probabilityAi}
+                `;
+                bot.sendMessage(chatId, responseText);
+            } else {
+                bot.sendMessage(chatId, "⚠️ Gagal mendapatkan hasil. Coba lagi.");
+            }
+        } catch (error) {
+            bot.sendMessage(chatId, "❌ Terjadi kesalahan. Pastikan teks valid dan coba lagi.");
+        }
+    });
+});
+
+bot.onText(/\/translate/, async (msg) => {
+    const chatId = msg.chat.id;
+    bot.sendMessage(chatId, "Silakan kirim teks yang ingin diterjemahkan.");
+
+    bot.once("message", async (msg) => {
+        if (msg.text.startsWith("/")) return; // Hindari menangkap perintah lain
+
+        const userInput = encodeURIComponent(msg.text);
+        const apiUrl = `https://fastrestapis.fasturl.cloud/tool/translate?text=${userInput}&target=id`;
+
+        try {
+            const response = await fetch(apiUrl);
+            const data = await response.json();
+
+            if (data.status === 200) {
+                bot.sendMessage(chatId, `**Hasil Terjemahan:**\n\n${data.result.translatedText}`, { parse_mode: "Markdown" });
+            } else {
+                bot.sendMessage(chatId, "Terjadi kesalahan saat menerjemahkan.");
+            }
+        } catch (error) {
+            bot.sendMessage(chatId, "Gagal menghubungi API terjemahan.");
+        }
+    });
+});
+
+bot.onText(/\/itung/, (msg) => {
+    const chatId = msg.chat.id;
+    bot.sendMessage(chatId, "Masukkan angka yang ingin dihitung:")
+        .then(sentMessage => {
+            bot.once("message", (response) => {
+                const number = parseInt(response.text);
+                if (isNaN(number) || number < 0) {
+                    return bot.sendMessage(chatId, "Harap masukkan angka yang valid.");
+                }
+
+                let count = 0;
+                const interval = setInterval(() => {
+                    if (count > number) {
+                        clearInterval(interval);
+                        bot.editMessageText("Hitungan selesai!", {
+                            chat_id: chatId,
+                            message_id: sentMessage.message_id
+                        });
+                        return;
+                    }
+
+                    bot.editMessageText(`Menghitung: ${count}`, {
+                        chat_id: chatId,
+                        message_id: sentMessage.message_id
+                    }).catch(() => clearInterval(interval)); // Hentikan jika ada error
+
+                    count++;
+                }, 1000); // Update setiap 1 detik
+            });
+        });
 });
 
 bot.onText(/\/hd/, async (msg) => {
@@ -589,7 +937,7 @@ bot.onText(/\/igstalk/, (msg) => {
     });
 });
 
-bot.onText(/\/spy/, async (msg) => {
+bot.onText(/^\/spy$/, async (msg) => {
     const chatId = msg.chat.id;
     bot.sendMessage(chatId, "Masukkan judul lagu yang ingin dicari:");
 
@@ -1108,31 +1456,82 @@ const OWNER_ID = "6202819748"; // Ganti dengan ID Telegram Pengembang (Admin Uta
 
 bot.onText(/\/kbbi/, async (msg) => {
     const chatId = msg.chat.id;
+    bot.sendMessage(chatId, "Silakan kirimkan kata yang ingin dicari di KBBI:");
 
-    bot.sendMessage(chatId, "Silakan masukkan kata yang ingin dicari di KBBI:").then(() => {
-        bot.once("message", async (msg) => {
-            if (!msg.text || msg.text.startsWith("/")) return;
+    bot.once("message", async (msg) => {
+        const word = msg.text.trim();
+        const url = `https://fastrestapis.fasturl.cloud/search/kbbi?word=${encodeURIComponent(word)}`;
 
-            const query = msg.text.trim();
-            const apiUrl = `https://fastrestapis.fasturl.cloud/search/kbbi?word=${encodeURIComponent(query)}`;
+        try {
+            const response = await axios.get(url);
+            const data = response.data;
 
-            try {
-                const response = await axios.get(apiUrl);
-                if (response.data.status === 200 && response.data.result.definitions.length > 0) {
-                    const definition = response.data.result.definitions[0]; // Ambil definisi pertama
-                    const reply = `📖 *KBBI: ${definition.term}*\n🔹 *Pelafalan:* ${definition.pronunciation}\n🔹 *Kelas Kata:* ${definition.class}\n🔹 *Arti:* ${definition.meaning}`;
-
-                    bot.sendMessage(chatId, reply, { parse_mode: "Markdown" });
-                } else {
-                    bot.sendMessage(chatId, `Maaf, kata *"${query}"* tidak ditemukan di KBBI.`, { parse_mode: "Markdown" });
-                }
-            } catch (error) {
-                console.error("Error fetching KBBI data:", error);
-                bot.sendMessage(chatId, "Terjadi kesalahan saat mengambil data KBBI. Coba lagi nanti.");
+            if (data.status !== 200 || !data.result || !data.result.definitions.length) {
+                bot.sendMessage(chatId, `❌ Kata *"${word}"* tidak ditemukan dalam KBBI.`, { parse_mode: "Markdown" });
+                return;
             }
-        });
+
+            kbbiData[chatId] = {
+                word: word,
+                definitions: data.result.definitions,
+                index: 0
+            };
+
+            sendDefinition(chatId);
+
+        } catch (error) {
+            bot.sendMessage(chatId, "⚠️ Terjadi kesalahan saat mengambil data dari KBBI.");
+            console.error(error);
+        }
     });
 });
+
+bot.on("callback_query", (callbackQuery) => {
+    const chatId = callbackQuery.message.chat.id;
+    const data = callbackQuery.data;
+
+    if (!kbbiData[chatId]) return;
+
+    if (data === "kbbi_next") {
+        kbbiData[chatId].index++;
+    } else if (data === "kbbi_prev") {
+        kbbiData[chatId].index--;
+    } else if (data === "kbbi_exit") {
+        bot.deleteMessage(chatId, callbackQuery.message.message_id);
+        delete kbbiData[chatId];
+        return;
+    }
+
+    sendDefinition(chatId, callbackQuery.message.message_id);
+});
+
+function sendDefinition(chatId, messageId = null) {
+    const { word, definitions, index } = kbbiData[chatId];
+    const def = definitions[index];
+
+    let hasil = `📖 *KBBI: ${word}*\n\n`;
+    hasil += `📌 *${def.term}*\n`;
+    hasil += `🔹 Pengucapan: _${def.pronunciation}_\n`;
+    hasil += `🔹 Kelas Kata: _${def.class}_\n`;
+    hasil += `🔹 Arti: ${def.meaning}\n\n`;
+    hasil += `(${index + 1}/${definitions.length})`;
+
+    let buttons = [];
+    if (index > 0) buttons.push({ text: "«", callback_data: "kbbi_prev" });
+    if (index < definitions.length - 1) buttons.push({ text: "»", callback_data: "kbbi_next" });
+    buttons.push({ text: "❌ Exit", callback_data: "kbbi_exit" });
+
+    const options = {
+        parse_mode: "Markdown",
+        reply_markup: { inline_keyboard: [buttons] }
+    };
+
+    if (messageId) {
+        bot.editMessageText(hasil, { chat_id: chatId, message_id: messageId, ...options });
+    } else {
+        bot.sendMessage(chatId, hasil, options);
+    }
+}
 
 bot.onText(/^\/ai$/, (msg) => {
     const chatId = msg.chat.id;
@@ -2365,5 +2764,3 @@ if (fs.existsSync("userMessages.json")) {
     const data = fs.readFileSync("userMessages.json");
     Object.assign(userMessages, JSON.parse(data));
 }
-
-console.log("Bot aktip...");

@@ -4,7 +4,7 @@
   "main": "main.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon main3.js",
+    "start": "node bot.js",
     "restart": "pkill -f 'node main2.js' && clear"
   },
   "keywords": [],
