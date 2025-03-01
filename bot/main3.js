@@ -974,10 +974,21 @@ bot.onText(/^\/react (.+)/, async (msg, match) => {
         return bot.sendMessage(chatId, "Gunakan perintah ini dengan me-reply pesan bot.");
     }
 
+    const apiUrl = `https://api.telegram.org/bot${TOKEN}/setMessageReaction`;
+
+    const data = {
+        chat_id: chatId,
+        message_id: replyToMessage.message_id,
+        reaction: [{ type: 'emoji', emoji }]
+    };
+
     try {
-        await bot.setMessageReaction(chatId, replyToMessage.message_id, [{ type: 'emoji', emoji }]);
+        const response = await axios.post(apiUrl, data);
+        if (!response.data.ok) {
+            throw new Error(response.data.description);
+        }
     } catch (error) {
-        bot.sendMessage(chatId, "Gagal memberikan reaction. Pastikan bot memiliki izin.");
+        bot.sendMessage(chatId, `Gagal memberikan reaction: ${error.message}`);
     }
 });
 
