@@ -370,6 +370,7 @@ bot.on("callback_query", async (query) => {
 bot.onText(/\/uptime/, async (msg) => {
     const chatId = msg.chat.id;
 
+    // Hapus interval sebelumnya jika ada
     if (uptimeIntervals[chatId]) {
         clearInterval(uptimeIntervals[chatId]);
         clearInterval(buttonIntervals[chatId]);
@@ -393,6 +394,7 @@ bot.onText(/\/uptime/, async (msg) => {
 
     const messageId = sentMessage.message_id;
 
+    // Interval untuk memperbarui uptime
     uptimeIntervals[chatId] = setInterval(() => {
         bot.editMessageText(`⏳ Uptime: ${getUptime()}`, {
             chat_id: chatId,
@@ -406,20 +408,23 @@ bot.onText(/\/uptime/, async (msg) => {
         });
     }, 1000);
 
+    // Interval untuk animasi tombol
     buttonIntervals[chatId] = setInterval(() => {
         buttonIndexes[chatId] = (buttonIndexes[chatId] + 1) % buttonFrames.length;
     }, 1000);
 });
 
-bot.on('callback_query', (query) => {
+bot.on('callback_query', async (query) => {
     const chatId = query.message.chat.id;
     const messageId = query.message.message_id;
 
     if (query.data === `uptime_${chatId}`) {
-        bot.editMessageReplyMarkup({
+        // Ubah tombol menjadi 🟥🟥🟥🟥 selama 1 detik
+        await bot.editMessageReplyMarkup({
             inline_keyboard: [[{ text: pressedFrame, callback_data: `uptime_${chatId}` }]],
         }, { chat_id: chatId, message_id: messageId });
 
+        // Kembalikan ke animasi setelah 1 detik
         setTimeout(() => {
             bot.editMessageReplyMarkup({
                 inline_keyboard: [[{ text: buttonFrames[buttonIndexes[chatId]], callback_data: `uptime_${chatId}` }]],
