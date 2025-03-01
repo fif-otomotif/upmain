@@ -76,7 +76,7 @@ function simpanData() {
 // Daftar perintah yang valid
 const validCommands = [
     "/register", "/profile", "/logout", "/forum on", "/forum off",
-    "/addkode", "/pluskode", "/deladmin", "/wikipedia", "/nulis", "/stalker", "/addmsg", "/listmsg", "/delmsg", "/start", "/help", "/ngl", "/tts", "/report", "/kbbi", "/jadwalpagi", "/senduser", "/tourl", "/aiimg", "/aiimgf", "/kalender", "/suit", "/webrec", "/shai", "/rmbg", "/selfie", "/ai", "/yts", "/sendb", "/igdm", "/pin", "/artime", "/editrole", "/robloxstalk", "/autoai", "/promptai", "/getpp", "/brat", "/spy", "/igstalk", "/cuaca", "/tourl2", "/text2binary", "/binary2text", "/ping", "/ttstalk", "/gempa", "/dewatermark", "/ttt", "/hd", "/spy2", "/up", "/itung", "/aideck", "/translate", "/stopmotion", "/rngyt", "/menu", "/teksanim", "/jam", "/uptime", "/randangka", "/ekali",
+    "/addkode", "/pluskode", "/deladmin", "/wikipedia", "/nulis", "/stalker", "/addmsg", "/listmsg", "/delmsg", "/start", "/help", "/ngl", "/tts", "/report", "/kbbi", "/jadwalpagi", "/senduser", "/tourl", "/aiimg", "/aiimgf", "/kalender", "/suit", "/webrec", "/shai", "/rmbg", "/selfie", "/ai", "/yts", "/sendb", "/igdm", "/pin", "/artime", "/editrole", "/robloxstalk", "/autoai", "/promptai", "/getpp", "/brat", "/spy", "/igstalk", "/cuaca", "/tourl2", "/text2binary", "/binary2text", "/ping", "/ttstalk", "/gempa", "/dewatermark", "/ttt", "/hd", "/spy2", "/up", "/itung", "/aideck", "/translate", "/stopmotion", "/rngyt", "/menu", "/teksanim", "/jam", "/uptime", "/randangka", "/ekali", "/react",
 ];
 
 // 🔹 Handle pesan yang tidak dikenal
@@ -206,6 +206,7 @@ bot.onText(/\/menu/, async (msg) => {
 /promptai  
 /randangka
 /register  
+/react
 /report  
 /rngyt  
 /rmbg  
@@ -961,6 +962,22 @@ bot.on("polling_error", async (error) => {
             rateLimited = false;
             retryAfter = 0;
         }, retryAfter * 1000);
+    }
+});
+
+bot.onText(/^\/react (.+)/, async (msg, match) => {
+    const chatId = msg.chat.id;
+    const replyToMessage = msg.reply_to_message;
+    const emoji = match[1];
+
+    if (!replyToMessage) {
+        return bot.sendMessage(chatId, "Gunakan perintah ini dengan me-reply pesan bot.");
+    }
+
+    try {
+        await bot.setMessageReaction(chatId, replyToMessage.message_id, [{ type: 'emoji', emoji }]);
+    } catch (error) {
+        bot.sendMessage(chatId, "Gagal memberikan reaction. Pastikan bot memiliki izin.");
     }
 });
 
