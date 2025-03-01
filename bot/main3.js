@@ -31,6 +31,7 @@ const TELEGRAM_USER_ID = 6202819748;
 const games = new Map();
 const awaitingOpponent = new Map();
 const waitingForImage = new Map();
+const jamAktif = new Map();
 const userSessions = {};
 const ytsSessions = {};
 const aiSessions = {};
@@ -360,47 +361,59 @@ bot.on("callback_query", async (query) => {
   }
 });
 
-export function handleJamCommand(bot) {
-    bot.onText(/\/jam/, async (msg) => {
-        const chatId = msg.chat.id;
+bot.onText(/^\/jam$/, async (msg) => {
+    const chatId = msg.chat.id;
 
-        if (activeClock[chatId]) {
-            return bot.sendMessage(chatId, "⏳ Jam sudah berjalan.").catch(() => {});
+    if (jamAktif.has(chatId)) {
+        return bot.sendMessage(chatId, "⏳ Jam sudah berjalan!");
+    }
+
+    jamAktif.set(chatId, true);
+
+    const getJam = () => {
+        return `🕰 *Jam WIB*\n` +
+               `⏳ ${moment().tz("Asia/Jakarta").format("hh:mm:ss A")}`;
+    };
+
+    const sentMsg = await bot.sendMessage(chatId, getJam(), {
+        parse_mode: "Markdown",
+        reply_markup: {
+            inline_keyboard: [[{ text: "🛑 Hapus", callback_data: `hapus_jam_${chatId}` }]]
         }
+    });
 
-        let keyboard = {
-            inline_keyboard: [[{ text: "🗑 Hapus", callback_data: "hapus_jam" }]]
-        };
-
-        let sentMessage = await bot.sendMessage(chatId, `🕰 *Jam Indonesia:*\n${moment().tz("Asia/Jakarta").format("hh:mm:ss A")}`, {
-            parse_mode: "Markdown",
-            reply_markup: keyboard
-        });
-
-        activeClock[chatId] = setInterval(() => {
-            bot.editMessageText(`🕰 *Jam Indonesia:*\n${moment().tz("Asia/Jakarta").format("hh:mm:ss A")}`, {
+    const updateJam = async () => {
+        if (!jamAktif.has(chatId)) return;
+        try {
+            await bot.editMessageText(getJam(), {
                 chat_id: chatId,
-                message_id: sentMessage.message_id,
+                message_id: sentMsg.message_id,
                 parse_mode: "Markdown",
-                reply_markup: keyboard
-            }).catch(() => clearInterval(activeClock[chatId]));
-        }, 1000);
-    });
-
-    bot.on("callback_query", async (query) => {
-        if (query.data === "hapus_jam") {
-            const chatId = query.message.chat.id;
-            const messageId = query.message.message_id;
-
-            if (activeClock[chatId]) {
-                clearInterval(activeClock[chatId]);
-                delete activeClock[chatId];
-            }
-
-            bot.deleteMessage(chatId, messageId).catch(() => {});
+                reply_markup: {
+                    inline_keyboard: [[{ text: "🛑 Hapus", callback_data: `hapus_jam_${chatId}` }]]
+                }
+            });
+            setTimeout(updateJam, 1000);
+        } catch (err) {
+            jamAktif.delete(chatId);
         }
-    });
-}
+    };
+
+    updateJam();
+});
+
+bot.on("callback_query", async (callbackQuery) => {
+    const chatId = callbackQuery.message.chat.id;
+    const data = callbackQuery.data;
+
+    if (data.startsWith("hapus_jam_")) {
+        jamAktif.delete(chatId);
+        await bot.deleteMessage(chatId, callbackQuery.message.message_id);
+        await bot.answerCallbackQuery(callbackQuery.id, { text: "🛑 Jam dihentikan!" });
+    }
+});
+
+console.log("Bot berjalan...");
 
 bot.onText(/\/stopmotion/, (msg) => {
     const chatId = msg.chat.id;
