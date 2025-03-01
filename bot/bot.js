@@ -1,0 +1,6 @@
+import TelegramBot from "node-telegram-bot-api";
+
+const TOKEN = "7827504152:AAG8mfWl81w2n5E7NWCJlaEwLyQrd8KKqfM"; // Ganti dengan token bot-mu
+const bot = new TelegramBot(TOKEN, { polling: true });
+
+export default bot;
