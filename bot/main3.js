@@ -57,6 +57,10 @@ let tempSchedule = {};
 
 let scheduledJob = null; // Simpan jadwal saat ini
 
+let rateLimited = false;
+let retryAfter = 0;
+let activeUsers = new Map(); // Menyimpan user dan waktu terakhir mereka aktif
+
 // Load database
 let users = fs.existsSync(FILE_USERS) ? JSON.parse(fs.readFileSync(FILE_USERS)) : {};
 let forumUsers = fs.existsSync(FILE_FORUM) ? JSON.parse(fs.readFileSync(FILE_FORUM)) : {};
@@ -72,7 +76,7 @@ function simpanData() {
 // Daftar perintah yang valid
 const validCommands = [
     "/register", "/profile", "/logout", "/forum on", "/forum off",
-    "/addkode", "/pluskode", "/deladmin", "/wikipedia", "/nulis", "/stalker", "/addmsg", "/listmsg", "/delmsg", "/start", "/help", "/ngl", "/tts", "/report", "/kbbi", "/jadwalpagi", "/senduser", "/tourl", "/aiimg", "/aiimgf", "/kalender", "/suit", "/webrec", "/shai", "/rmbg", "/selfie", "/ai", "/yts", "/sendb", "/igdm", "/pin", "/artime", "/editrole", "/robloxstalk", "/autoai", "/promptai", "/getpp", "/brat", "/spy", "/igstalk", "/cuaca", "/tourl2", "/text2binary", "/binary2text", "/ping", "/ttstalk", "/gempa", "/dewatermark", "/ttt", "/hd", "/spy2", "/up", "/itung", "/aideck", "/translate", "/stopmotion", "/rngyt", "/menu", "/teksanim", "/jam", "/uptime", "/randangka",
+    "/addkode", "/pluskode", "/deladmin", "/wikipedia", "/nulis", "/stalker", "/addmsg", "/listmsg", "/delmsg", "/start", "/help", "/ngl", "/tts", "/report", "/kbbi", "/jadwalpagi", "/senduser", "/tourl", "/aiimg", "/aiimgf", "/kalender", "/suit", "/webrec", "/shai", "/rmbg", "/selfie", "/ai", "/yts", "/sendb", "/igdm", "/pin", "/artime", "/editrole", "/robloxstalk", "/autoai", "/promptai", "/getpp", "/brat", "/spy", "/igstalk", "/cuaca", "/tourl2", "/text2binary", "/binary2text", "/ping", "/ttstalk", "/gempa", "/dewatermark", "/ttt", "/hd", "/spy2", "/up", "/itung", "/aideck", "/translate", "/stopmotion", "/rngyt", "/menu", "/teksanim", "/jam", "/uptime", "/randangka", "/ekali",
 ];
 
 // 🔹 Handle pesan yang tidak dikenal
@@ -179,6 +183,7 @@ bot.onText(/\/menu/, async (msg) => {
 /deladmin  
 /delmsg  
 /dewatermark  
+/ekali
 /forum off  
 /forum on  
 /gempa  
@@ -923,6 +928,61 @@ bot.onText(/\/gempa/, async (msg) => {
         console.error("Error mengambil data gempa:", error);
         bot.sendMessage(chatId, "⚠️ Gagal mengambil data gempa. Coba lagi nanti.");
     }
+});
+
+bot.on("message", (msg) => {
+    let chatId = msg.chat.id;
+    activeUsers.set(chatId, Date.now()); // Simpan waktu terakhir user aktif
+});
+
+setInterval(() => {
+    let now = Date.now();
+    for (let [userId, lastActive] of activeUsers) {
+        if (now - lastActive > 10 * 60 * 1000) { // 10 menit dalam milidetik
+            activeUsers.delete(userId); // Hapus user dari daftar aktif
+        }
+    }
+}, 60 * 1000); // Cek setiap 1 menit
+
+bot.on("polling_error", async (error) => {
+    if (error.response && error.response.parameters) {
+        rateLimited = true;
+        retryAfter = error.response.parameters.retry_after;
+
+        console.log(`Bot terkena rate limit! Retry dalam ${retryAfter} detik.`);
+
+        // Kirim peringatan ke semua user yang masih aktif
+        for (let userId of activeUsers.keys()) {
+            await bot.sendMessage(userId, `⚠️ Maaf, bot terkena rate limit.\nSilakan coba lagi dalam ${retryAfter} detik.`);
+        }
+
+        // Reset status setelah waktu habis
+        setTimeout(() => {
+            rateLimited = false;
+            retryAfter = 0;
+        }, retryAfter * 1000);
+    }
+});
+
+bot.onText(/\/ekali/, (msg) => {
+    const chatId = msg.chat.id;
+    bot.sendMessage(chatId, "Masukkan angka yang ingin dikalikan:");
+  
+    bot.once("message", (msg) => {
+        let num = parseInt(msg.text);
+        if (isNaN(num) || num < 0) {
+            return bot.sendMessage(chatId, "Harap masukkan angka positif!");
+        }
+
+        let result = 1;
+        let formula = `${num}! = `;
+        for (let i = num; i > 0; i--) {
+            result *= i;
+            formula += (i === 1) ? `${i} = ${result}` : `${i} × `;
+        }
+
+        bot.sendMessage(chatId, `Hasil: ${formula}`);
+    });
 });
 
 bot.onText(/\/ttstalk/, (msg) => {
