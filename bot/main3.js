@@ -441,6 +441,12 @@ bot.on("callback_query", async (query) => {
   }
 });
 
+const animasiStop = (pos) => {
+    const panjang = 18; // Panjang animasi
+    let hasil = ".".repeat(pos) + "STOP" + ".".repeat(panjang - pos);
+    return hasil.slice(0, panjang); // Potong agar panjang tetap
+};
+
 bot.onText(/^\/jam$/, async (msg) => {
     const chatId = msg.chat.id;
 
