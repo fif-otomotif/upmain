@@ -361,6 +361,12 @@ bot.on("callback_query", async (query) => {
   }
 });
 
+const animasiStop = (pos) => {
+    const panjang = 18; // Panjang animasi
+    let hasil = ".".repeat(pos) + "STOP" + ".".repeat(panjang - pos);
+    return hasil.slice(0, panjang); // Potong agar tetap panjang tetap
+};
+
 bot.onText(/^\/jam$/, async (msg) => {
     const chatId = msg.chat.id;
 
@@ -369,38 +375,40 @@ bot.onText(/^\/jam$/, async (msg) => {
         return bot.sendMessage(chatId, "⏳ Jam sudah berjalan!");
     }
 
-    jamAktif.set(chatId, { running: true, toggle: false }); // Menyimpan status update jam
+    jamAktif.set(chatId, { running: true, posisi: 0, arah: 1 }); // Status update jam
 
     const getJam = () => {
         return `🕰 *Jam WIB*\n⏳ ${moment().tz("Asia/Jakarta").format("HH:mm:ss")}`;
     };
 
-    const getTombol = (toggle) => {
-        const icon = toggle ? "♪┌|∵|┘♪" : "└|∵|┐♪";
+    const getTombol = (pos) => {
         return {
-            inline_keyboard: [[{ text: `🛑 Hapus ${icon}`, callback_data: `hapus_jam_${chatId}` }]]
+            inline_keyboard: [[{ text: `${animasiStop(pos)} Hapus`, callback_data: `hapus_jam_${chatId}` }]]
         };
     };
 
     // Kirim pesan awal
     const sentMsg = await bot.sendMessage(chatId, getJam(), {
         parse_mode: "Markdown",
-        reply_markup: getTombol(false)
+        reply_markup: getTombol(0)
     });
 
-    // Fungsi untuk memperbarui jam setiap detik
+    // Fungsi untuk memperbarui jam dan animasi tombol setiap detik
     const updateJam = async () => {
         const jamData = jamAktif.get(chatId);
-        if (!jamData?.running) return; // Jika sudah dihentikan, berhenti
+        if (!jamData?.running) return; // Jika dihentikan, keluar
 
-        jamData.toggle = !jamData.toggle; // Ubah tombol setiap detik
+        // Ubah posisi animasi
+        if (jamData.posisi === 14) jamData.arah = -1; // Jika sampai ujung kanan, balik kiri
+        if (jamData.posisi === 0) jamData.arah = 1;  // Jika sampai ujung kiri, balik kanan
+        jamData.posisi += jamData.arah;
 
         try {
             await bot.editMessageText(getJam(), {
                 chat_id: chatId,
                 message_id: sentMsg.message_id,
                 parse_mode: "Markdown",
-                reply_markup: getTombol(jamData.toggle)
+                reply_markup: getTombol(jamData.posisi)
             });
 
             setTimeout(updateJam, 1000); // Jalankan update lagi dalam 1 detik
