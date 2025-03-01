@@ -49,6 +49,7 @@ let userSearchResults = {};
 let stopMotionData = {};
 let startTime = Date.now();
 let uptimeIntervals = {};
+let buttonIndexes = {};
 const settingsFile = "settings.json";
 
 // Debugging polling error
@@ -366,13 +367,15 @@ bot.on("callback_query", async (query) => {
   }
 });
 
-bot.onText(/\/uptime/, (msg) => {
+bot.onText(/\/uptime/, async (msg) => {
     const chatId = msg.chat.id;
 
     if (uptimeIntervals[chatId]) {
         clearInterval(uptimeIntervals[chatId]);
-        delete uptimeIntervals[chatId];
+        clearInterval(buttonIntervals[chatId]);
     }
+
+    buttonIndexes[chatId] = 0;
 
     const getUptime = () => {
         let elapsed = Math.floor((Date.now() - startTime) / 1000);
@@ -382,61 +385,54 @@ bot.onText(/\/uptime/, (msg) => {
         return `${hours}:${minutes}:${seconds}`;
     };
 
-    bot.sendMessage(chatId, `⏳ Uptime: ${getUptime()}`, {
+    let sentMessage = await bot.sendMessage(chatId, `⏳ Uptime: ${getUptime()}`, {
         reply_markup: {
             inline_keyboard: [[{ text: buttonFrames[0], callback_data: `uptime_${chatId}` }]],
         },
-    }).then((sentMessage) => {
-        const messageId = sentMessage.message_id;
-
-        uptimeIntervals[chatId] = setInterval(() => {
-            bot.editMessageText(`⏳ Uptime: ${getUptime()}`, {
-                chat_id: chatId,
-                message_id: messageId,
-                reply_markup: {
-                    inline_keyboard: [[{ text: buttonFrames[buttonIndex], callback_data: `uptime_${chatId}` }]],
-                },
-            }).catch(() => {
-                clearInterval(uptimeIntervals[chatId]);
-                delete uptimeIntervals[chatId];
-            });
-
-            buttonIndex = (buttonIndex + 1) % buttonFrames.length;
-        }, 1000);
     });
+
+    const messageId = sentMessage.message_id;
+
+    uptimeIntervals[chatId] = setInterval(() => {
+        bot.editMessageText(`⏳ Uptime: ${getUptime()}`, {
+            chat_id: chatId,
+            message_id: messageId,
+            reply_markup: {
+                inline_keyboard: [[{ text: buttonFrames[buttonIndexes[chatId]], callback_data: `uptime_${chatId}` }]],
+            },
+        }).catch(() => {
+            clearInterval(uptimeIntervals[chatId]);
+            clearInterval(buttonIntervals[chatId]);
+        });
+    }, 1000);
+
+    buttonIntervals[chatId] = setInterval(() => {
+        buttonIndexes[chatId] = (buttonIndexes[chatId] + 1) % buttonFrames.length;
+    }, 1000);
 });
 
-// Fungsi saat tombol ditekan
 bot.on('callback_query', (query) => {
     const chatId = query.message.chat.id;
     const messageId = query.message.message_id;
 
     if (query.data === `uptime_${chatId}`) {
-        // Ganti tombol jadi 🟥🟥🟥🟥 selama 1 detik
         bot.editMessageReplyMarkup({
             inline_keyboard: [[{ text: pressedFrame, callback_data: `uptime_${chatId}` }]],
         }, { chat_id: chatId, message_id: messageId });
 
-        // Kembalikan ke animasi setelah 1 detik
         setTimeout(() => {
             bot.editMessageReplyMarkup({
-                inline_keyboard: [[{ text: buttonFrames[buttonIndex], callback_data: `uptime_${chatId}` }]],
+                inline_keyboard: [[{ text: buttonFrames[buttonIndexes[chatId]], callback_data: `uptime_${chatId}` }]],
             }, { chat_id: chatId, message_id: messageId });
         }, 1000);
     }
 });
 
-// Hentikan semua interval jika bot dimatikan
 process.on('SIGINT', () => {
     Object.values(uptimeIntervals).forEach(clearInterval);
+    Object.values(buttonIntervals).forEach(clearInterval);
     process.exit();
 });
-
-const animasiStop = (pos) => {
-    const panjang = 18; // Panjang animasi
-    let hasil = ".".repeat(pos) + "STOP" + ".".repeat(panjang - pos);
-    return hasil.slice(0, panjang); // Potong agar panjang tetap
-};
 
 bot.onText(/^\/jam$/, async (msg) => {
     const chatId = msg.chat.id;
