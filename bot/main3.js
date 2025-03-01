@@ -252,17 +252,14 @@ bot.on("callback_query", (callbackQuery) => {
         } else if (guess < gameData[chatId].number) {
             sendGameMessage(chatId, `Terlalu kecil!`);
         } else {
-            sendGameMessage(chatId, `🎉 Benar! Angkanya adalah ${gameData[chatId].number}`);
-            delete gameData[chatId]; // Hapus data permainan
+            sendGameMessage(chatId, `🎉 Benar! Angkanya adalah ${gameData[chatId].number}`, true);
         }
         gameData[chatId].input = ""; // Reset input setelah submit
     } else if (data === "randangka_hapus") {
         gameData[chatId].input = gameData[chatId].input.slice(0, -1); // Hapus angka terakhir
         sendGameMessage(chatId, "Tebak angka antara 1 - 100!");
     } else if (data === "randangka_menyerah") {
-        bot.deleteMessage(chatId, gameData[chatId].messageId).catch(() => {}); // Hapus pesan permainan
-        bot.sendMessage(chatId, `😔 Menyerah! Angka yang benar adalah ${gameData[chatId].number}`);
-        delete gameData[chatId]; // Hapus data permainan
+        sendGameMessage(chatId, `😔 Menyerah! Angkanya adalah ${gameData[chatId].number}`, true);
     } else if (data.startsWith("randangka_angka")) {
         const angka = data.split("_")[2]; // Ambil angka dari callback_data
         gameData[chatId].input += angka;
@@ -272,7 +269,7 @@ bot.on("callback_query", (callbackQuery) => {
     bot.answerCallbackQuery(callbackQuery.id);
 });
 
-function sendGameMessage(chatId, message) {
+function sendGameMessage(chatId, message, deleteAfter = false) {
     const inputDisplay = gameData[chatId]?.input || "_";
     const keyboard = {
         inline_keyboard: [
@@ -295,9 +292,27 @@ function sendGameMessage(chatId, message) {
             reply_markup: keyboard,
         }).then((sentMessage) => {
             gameData[chatId].messageId = sentMessage.message_id;
+
+            if (deleteAfter) {
+                setTimeout(() => {
+                    bot.deleteMessage(chatId, sentMessage.message_id).catch(() => {});
+                    delete gameData[chatId]; // Hapus data permainan setelah pesan dihapus
+                }, 3000); // Hapus pesan setelah 3 detik
+            }
         });
     }
+
+    if (deleteAfter) {
+        setTimeout(() => {
+            if (gameData[chatId]?.messageId) {
+                bot.deleteMessage(chatId, gameData[chatId].messageId).catch(() => {});
+                delete gameData[chatId]; // Hapus data permainan setelah pesan dihapus
+            }
+        }, 3000); // Hapus pesan setelah 3 detik
+    }
 }
+
+console.log("Bot berjalan...");
 
 bot.onText(/^\/spy2$/, (msg) => {
   const chatId = msg.chat.id;
