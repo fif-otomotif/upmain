@@ -364,7 +364,7 @@ bot.on("callback_query", async (query) => {
 const animasiStop = (pos) => {
     const panjang = 18; // Panjang animasi
     let hasil = ".".repeat(pos) + "STOP" + ".".repeat(panjang - pos);
-    return hasil.slice(0, panjang); // Potong agar tetap panjang tetap
+    return hasil.slice(0, panjang); // Potong agar panjang tetap
 };
 
 bot.onText(/^\/jam$/, async (msg) => {
@@ -383,7 +383,7 @@ bot.onText(/^\/jam$/, async (msg) => {
 
     const getTombol = (pos) => {
         return {
-            inline_keyboard: [[{ text: `${animasiStop(pos)} Hapus`, callback_data: `hapus_jam_${chatId}` }]]
+            inline_keyboard: [[{ text: animasiStop(pos), callback_data: `hapus_jam_${chatId}` }]]
         };
     };
 
