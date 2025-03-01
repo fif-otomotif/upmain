@@ -231,8 +231,7 @@ bot.onText(/\/menu/, async (msg) => {
 
 bot.onText(/\/randangka/, (msg) => {
     const chatId = msg.chat.id;
-    const randomNumber = Math.floor(Math.random() * 100) + 1; // Angka acak 1-100
-    gameData[chatId] = { number: randomNumber, input: "", messageId: null }; // Simpan angka target dan input user
+    gameData[chatId] = { number: Math.floor(Math.random() * 100) + 1, input: "", messageId: null };
 
     sendGameMessage(chatId, "Tebak angka antara 1 - 100!");
 });
@@ -241,11 +240,13 @@ bot.on("callback_query", (callbackQuery) => {
     const chatId = callbackQuery.message.chat.id;
     const data = callbackQuery.data;
 
-    if (!gameData[chatId]) return; // Jika user tidak dalam permainan, abaikan
+    if (!gameData[chatId]) {
+        gameData[chatId] = { number: Math.floor(Math.random() * 100) + 1, input: "", messageId: null };
+    }
 
     if (data === "randangka_enter") {
         let guess = parseInt(gameData[chatId].input);
-        if (isNaN(guess)) return; // Jika input kosong, abaikan
+        if (isNaN(guess)) return;
 
         if (guess > gameData[chatId].number) {
             sendGameMessage(chatId, `Terlalu besar!`);
@@ -254,14 +255,14 @@ bot.on("callback_query", (callbackQuery) => {
         } else {
             sendGameMessage(chatId, `🎉 Benar! Angkanya adalah ${gameData[chatId].number}`, true);
         }
-        gameData[chatId].input = ""; // Reset input setelah submit
+        gameData[chatId].input = "";
     } else if (data === "randangka_hapus") {
-        gameData[chatId].input = gameData[chatId].input.slice(0, -1); // Hapus angka terakhir
+        gameData[chatId].input = gameData[chatId].input.slice(0, -1);
         sendGameMessage(chatId, "Tebak angka antara 1 - 100!");
     } else if (data === "randangka_menyerah") {
         sendGameMessage(chatId, `😔 Menyerah! Angkanya adalah ${gameData[chatId].number}`, true);
     } else if (data.startsWith("randangka_angka")) {
-        const angka = data.split("_")[2]; // Ambil angka dari callback_data
+        const angka = data.split("_")[2];
         gameData[chatId].input += angka;
         sendGameMessage(chatId, "Tebak angka antara 1 - 100!");
     }
@@ -286,7 +287,7 @@ function sendGameMessage(chatId, message, deleteAfter = false) {
             chat_id: chatId,
             message_id: gameData[chatId].messageId,
             reply_markup: keyboard,
-        }).catch(() => {}); // Catch error jika pesan sudah dihapus
+        }).catch(() => {});
     } else {
         bot.sendMessage(chatId, `🎯 ${message}\n\n🔢 Input: ${inputDisplay}`, {
             reply_markup: keyboard,
@@ -296,8 +297,8 @@ function sendGameMessage(chatId, message, deleteAfter = false) {
             if (deleteAfter) {
                 setTimeout(() => {
                     bot.deleteMessage(chatId, sentMessage.message_id).catch(() => {});
-                    delete gameData[chatId]; // Hapus data permainan setelah pesan dihapus
-                }, 3000); // Hapus pesan setelah 3 detik
+                    delete gameData[chatId];
+                }, 3000);
             }
         });
     }
@@ -306,13 +307,11 @@ function sendGameMessage(chatId, message, deleteAfter = false) {
         setTimeout(() => {
             if (gameData[chatId]?.messageId) {
                 bot.deleteMessage(chatId, gameData[chatId].messageId).catch(() => {});
-                delete gameData[chatId]; // Hapus data permainan setelah pesan dihapus
+                delete gameData[chatId];
             }
-        }, 3000); // Hapus pesan setelah 3 detik
+        }, 3000);
     }
 }
-
-console.log("Bot berjalan...");
 
 bot.onText(/^\/spy2$/, (msg) => {
   const chatId = msg.chat.id;
