@@ -35,6 +35,7 @@ const ytsSessions = {};
 const aiSessions = {};
 const userState = {};
 const uploadStatus = {};
+const activeClock = {};
 let autoAI = {};
 let promptAI = {};
 let bratData = {};
@@ -68,7 +69,7 @@ function simpanData() {
 // Daftar perintah yang valid
 const validCommands = [
     "/register", "/profile", "/logout", "/forum on", "/forum off",
-    "/addkode", "/pluskode", "/deladmin", "/wikipedia", "/nulis", "/stalker", "/addmsg", "/listmsg", "/delmsg", "/start", "/help", "/ngl", "/tts", "/report", "/kbbi", "/jadwalpagi", "/senduser", "/tourl", "/aiimg", "/aiimgf", "/kalender", "/suit", "/webrec", "/shai", "/rmbg", "/selfie", "/ai", "/yts", "/sendb", "/igdm", "/pin", "/artime", "/editrole", "/robloxstalk", "/autoai", "/promptai", "/getpp", "/brat", "/spy", "/igstalk", "/cuaca", "/tourl2", "/text2binary", "/binary2text", "/ping", "/ttstalk", "/gempa", "/dewatermark", "/ttt", "/hd", "/spy2", "/up", "/itung", "/aideck", "/translate", "/stopmotion", "/rngyt", "/menu", "/teksanim",
+    "/addkode", "/pluskode", "/deladmin", "/wikipedia", "/nulis", "/stalker", "/addmsg", "/listmsg", "/delmsg", "/start", "/help", "/ngl", "/tts", "/report", "/kbbi", "/jadwalpagi", "/senduser", "/tourl", "/aiimg", "/aiimgf", "/kalender", "/suit", "/webrec", "/shai", "/rmbg", "/selfie", "/ai", "/yts", "/sendb", "/igdm", "/pin", "/artime", "/editrole", "/robloxstalk", "/autoai", "/promptai", "/getpp", "/brat", "/spy", "/igstalk", "/cuaca", "/tourl2", "/text2binary", "/binary2text", "/ping", "/ttstalk", "/gempa", "/dewatermark", "/ttt", "/hd", "/spy2", "/up", "/itung", "/aideck", "/translate", "/stopmotion", "/rngyt", "/menu", "/teksanim", "/jam",
 ];
 
 // 🔹 Handle pesan yang tidak dikenal
@@ -183,6 +184,7 @@ bot.onText(/\/menu/, async (msg) => {
 /igstalk  
 /igdm  
 /itung  
+/jam
 /autoai  
 /kbbi  
 /kalender  
@@ -356,6 +358,48 @@ bot.on("callback_query", async (query) => {
     });
   }
 });
+
+export function handleJamCommand(bot) {
+    bot.onText(/\/jam/, async (msg) => {
+        const chatId = msg.chat.id;
+
+        if (activeClock[chatId]) {
+            return bot.sendMessage(chatId, "⏳ Jam sudah berjalan.").catch(() => {});
+        }
+
+        let keyboard = {
+            inline_keyboard: [[{ text: "🗑 Hapus", callback_data: "hapus_jam" }]]
+        };
+
+        let sentMessage = await bot.sendMessage(chatId, `🕰 *Jam Indonesia:*\n${moment().tz("Asia/Jakarta").format("hh:mm:ss A")}`, {
+            parse_mode: "Markdown",
+            reply_markup: keyboard
+        });
+
+        activeClock[chatId] = setInterval(() => {
+            bot.editMessageText(`🕰 *Jam Indonesia:*\n${moment().tz("Asia/Jakarta").format("hh:mm:ss A")}`, {
+                chat_id: chatId,
+                message_id: sentMessage.message_id,
+                parse_mode: "Markdown",
+                reply_markup: keyboard
+            }).catch(() => clearInterval(activeClock[chatId]));
+        }, 1000);
+    });
+
+    bot.on("callback_query", async (query) => {
+        if (query.data === "hapus_jam") {
+            const chatId = query.message.chat.id;
+            const messageId = query.message.message_id;
+
+            if (activeClock[chatId]) {
+                clearInterval(activeClock[chatId]);
+                delete activeClock[chatId];
+            }
+
+            bot.deleteMessage(chatId, messageId).catch(() => {});
+        }
+    });
+}
 
 bot.onText(/\/stopmotion/, (msg) => {
     const chatId = msg.chat.id;
