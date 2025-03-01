@@ -369,32 +369,38 @@ bot.onText(/^\/jam$/, async (msg) => {
         return bot.sendMessage(chatId, "⏳ Jam sudah berjalan!");
     }
 
-    jamAktif.set(chatId, true); // Tandai bahwa jam sedang berjalan
+    jamAktif.set(chatId, { running: true, toggle: false }); // Menyimpan status update jam
 
     const getJam = () => {
         return `🕰 *Jam WIB*\n⏳ ${moment().tz("Asia/Jakarta").format("HH:mm:ss")}`;
     };
 
+    const getTombol = (toggle) => {
+        const icon = toggle ? "♪┌|∵|┘♪" : "└|∵|┐♪";
+        return {
+            inline_keyboard: [[{ text: `🛑 Hapus ${icon}`, callback_data: `hapus_jam_${chatId}` }]]
+        };
+    };
+
     // Kirim pesan awal
     const sentMsg = await bot.sendMessage(chatId, getJam(), {
         parse_mode: "Markdown",
-        reply_markup: {
-            inline_keyboard: [[{ text: "🛑 Hapus", callback_data: `hapus_jam_${chatId}` }]]
-        }
+        reply_markup: getTombol(false)
     });
 
     // Fungsi untuk memperbarui jam setiap detik
     const updateJam = async () => {
-        if (!jamAktif.has(chatId)) return; // Jika sudah dihentikan, berhenti
+        const jamData = jamAktif.get(chatId);
+        if (!jamData?.running) return; // Jika sudah dihentikan, berhenti
+
+        jamData.toggle = !jamData.toggle; // Ubah tombol setiap detik
 
         try {
             await bot.editMessageText(getJam(), {
                 chat_id: chatId,
                 message_id: sentMsg.message_id,
                 parse_mode: "Markdown",
-                reply_markup: {
-                    inline_keyboard: [[{ text: "🛑 Hapus", callback_data: `hapus_jam_${chatId}` }]]
-                }
+                reply_markup: getTombol(jamData.toggle)
             });
 
             setTimeout(updateJam, 1000); // Jalankan update lagi dalam 1 detik
