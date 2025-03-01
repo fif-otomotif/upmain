@@ -1,5 +1,4 @@
 import bot from './bot.js';
-import { TOKEN } from './config.js';
 import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 
@@ -207,7 +206,6 @@ bot.onText(/\/menu/, async (msg) => {
 /promptai  
 /randangka
 /register  
-/react
 /report  
 /rngyt  
 /rmbg  
@@ -963,33 +961,6 @@ bot.on("polling_error", async (error) => {
             rateLimited = false;
             retryAfter = 0;
         }, retryAfter * 1000);
-    }
-});
-
-bot.onText(/^\/react (.+)/, async (msg, match) => {
-    const chatId = msg.chat.id;
-    const replyToMessage = msg.reply_to_message;
-    const emoji = match[1];
-
-    if (!replyToMessage) {
-        return bot.sendMessage(chatId, "Gunakan perintah ini dengan me-reply pesan bot.");
-    }
-
-    const apiUrl = `https://api.telegram.org/bot${TOKEN}/setMessageReaction`;
-
-    const data = {
-        chat_id: chatId,
-        message_id: replyToMessage.message_id,
-        reaction: [{ type: 'emoji', emoji }]
-    };
-
-    try {
-        const response = await axios.post(apiUrl, data);
-        if (!response.data.ok) {
-            throw new Error(response.data.description);
-        }
-    } catch (error) {
-        bot.sendMessage(chatId, `Gagal memberikan reaction: ${error.message}`);
     }
 });
 

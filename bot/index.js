@@ -1,6 +1,5 @@
 import './bot.js';   // Hanya menjalankan koneksi bot
 import * as main from './main3.js';  // Impor semua fitur dari main3.js
-import './up.js';
 
 // Warna ANSI
 const cyan = "\x1b[36m";
