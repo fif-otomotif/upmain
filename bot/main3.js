@@ -372,7 +372,7 @@ bot.onText(/^\/jam$/, async (msg) => {
     jamAktif.set(chatId, true); // Tandai bahwa jam sedang berjalan
 
     const getJam = () => {
-        return `🕰 *Jam WIB*\n⏳ ${moment().tz("Asia/Jakarta").format("hh:mm:ss A")}`;
+        return `🕰 *Jam WIB*\n⏳ ${moment().tz("Asia/Jakarta").format("HH:mm:ss")}`;
     };
 
     // Kirim pesan awal
@@ -403,7 +403,7 @@ bot.onText(/^\/jam$/, async (msg) => {
         }
     };
 
-    updateJam(); // Jalankan update pertama kali
+    setTimeout(updateJam, 1000); // Mulai update setelah 1 detik
 });
 
 // Fungsi untuk menangani tombol "Hapus"
