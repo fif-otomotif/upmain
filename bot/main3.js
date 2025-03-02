@@ -77,7 +77,7 @@ function simpanData() {
 // Daftar perintah yang valid
 const validCommands = [
     "/register", "/profile", "/logout", "/forum on", "/forum off",
-    "/addkode", "/pluskode", "/deladmin", "/wikipedia", "/nulis", "/stalker", "/addmsg", "/listmsg", "/delmsg", "/start", "/help", "/ngl", "/tts", "/report", "/kbbi", "/jadwalpagi", "/senduser", "/tourl", "/aiimg", "/aiimgf", "/kalender", "/suit", "/webrec", "/shai", "/rmbg", "/selfie", "/ai", "/yts", "/sendb", "/igdm", "/pin", "/artime", "/editrole", "/robloxstalk", "/autoai", "/promptai", "/getpp", "/brat", "/spy", "/igstalk", "/cuaca", "/tourl2", "/text2binary", "/binary2text", "/ping", "/ttstalk", "/gempa", "/dewatermark", "/ttt", "/hd", "/spy2", "/up", "/itung", "/aideck", "/translate", "/stopmotion", "/rngyt", "/menu", "/teksanim", "/jam", "/uptime", "/randangka", "/ekali", "/react",
+    "/addkode", "/pluskode", "/deladmin", "/wikipedia", "/nulis", "/stalker", "/addmsg", "/listmsg", "/delmsg", "/start", "/help", "/ngl", "/tts", "/report", "/kbbi", "/jadwalpagi", "/senduser", "/tourl", "/aiimg", "/aiimgf", "/kalender", "/suit", "/webrec", "/shai", "/rmbg", "/selfie", "/ai", "/yts", "/sendb", "/igdm", "/pin", "/artime", "/editrole", "/robloxstalk", "/autoai", "/promptai", "/getpp", "/brat", "/spy", "/igstalk", "/cuaca", "/tourl2", "/text2binary", "/binary2text", "/ping", "/ttstalk", "/gempa", "/dewatermark", "/ttt", "/hd", "/spy2", "/up", "/itung", "/aideck", "/translate", "/stopmotion", "/rngyt", "/menu", "/teksanim", "/jam", "/uptime", "/randangka", "/ekali", "/react", "/liston",
 ];
 
 // 🔹 Handle pesan yang tidak dikenal
