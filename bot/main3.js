@@ -14,6 +14,7 @@ import FormData from "form-data";
 import { exec } from "child_process";
 import cloudscraper from 'cloudscraper';
 import moment from "moment-timezone";
+import os from "os";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -124,6 +125,45 @@ bot.on("message", (msg) => {
     }
 });
 
+bot.onText(/\/ping/, async (msg) => {
+    const chatId = msg.chat.id;
+    const start = Date.now();
+
+    // Uptime server
+    const uptime = os.uptime();
+    const hours = Math.floor(uptime / 3600);
+    const minutes = Math.floor((uptime % 3600) / 60);
+    const seconds = uptime % 60;
+
+    // CPU & RAM Usage
+    const cpuUsage = os.loadavg()[0].toFixed(2);
+    const totalMem = (os.totalmem() / 1024 / 1024).toFixed(0);
+    const freeMem = (os.freemem() / 1024 / 1024).toFixed(0);
+    const usedMem = totalMem - freeMem;
+
+    // Sistem Operasi & Node.js Version
+    const osType = os.type();
+    const osRelease = os.release();
+    const nodeVersion = process.version;
+
+    // Ping ke Google DNS (8.8.8.8) untuk cek koneksi
+    exec("ping -c 1 8.8.8.8", (error, stdout) => {
+        const latency = error ? "Timeout" : `${Date.now() - start} ms`;
+
+        // Format hasil
+        const message = `
+*Server Info*
+- OS: ${osType} ${osRelease}
+- Node.js: ${nodeVersion}
+- CPU Load: ${cpuUsage}%
+- RAM: ${usedMem}MB / ${totalMem}MB
+- Uptime: ${hours}h ${minutes}m ${seconds}s
+- Ping: ${latency}
+        `;
+        bot.sendMessage(chatId, message, { parse_mode: "Markdown" });
+    });
+});
+
 bot.onText(/\/liston/, async (msg) => {
     let chatId = msg.chat.id;
 
@@ -224,6 +264,7 @@ bot.onText(/\/menu/, async (msg) => {
 /nulis  
 /ngl  
 /pin  
+/ping
 /pluskode  
 /profile  
 /promptai  
