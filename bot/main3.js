@@ -125,7 +125,7 @@ bot.on("message", (msg) => {
     }
 });
 
-bot.onText(/\/ping/, async (msg) => {
+bot.onText(/^\/ping$/, async (msg) => {
     const chatId = msg.chat.id;
     const start = Date.now();
 
@@ -153,12 +153,12 @@ bot.onText(/\/ping/, async (msg) => {
         // Format hasil
         const message = `
 *Server Info*
-- OS: ${osType} ${osRelease}
-- Node.js: ${nodeVersion}
-- CPU Load: ${cpuUsage}%
-- RAM: ${usedMem}MB / ${totalMem}MB
-- Uptime: ${hours}h ${minutes}m ${seconds}s
-- Ping: ${latency}
+- <<OS>> ${osType} ${osRelease}
+- <<Node.js>> ${nodeVersion}
+- <<CPU Load>> ${cpuUsage}%
+- <<RAM>> ${usedMem}MB / ${totalMem}MB
+- <<Uptime>> ${hours}h ${minutes}m ${seconds}s
+- <<Ping>> ${latency}
         `;
         bot.sendMessage(chatId, message, { parse_mode: "Markdown" });
     });
@@ -1527,7 +1527,7 @@ bot.onText(/\/getpp/, async (msg) => {
     });
 });
 
-bot.onText(/\/pin/, async (msg) => {
+bot.onText(/^\/pin$/, async (msg) => {
     const chatId = msg.chat.id;
     bot.sendMessage(chatId, 'Masukkan query untuk mencari gambar di Pinterest:');
     
