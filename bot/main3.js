@@ -99,14 +99,28 @@ bot.onText(/\/randomcat/, async (msg) => {
     const filePath = path.join(__dirname, "randomcat.jpg");
 
     try {
+        // Kirim pesan loading
+        const loadingMsg = await bot.sendMessage(chatId, "Okey, wait....");
+
+        // Ambil gambar dari API
         const response = await fetch(url);
         const buffer = await response.buffer();
 
-        // Simpan gambar sebagai JPG
+        // Simpan sebagai JPG
         fs.writeFileSync(filePath, buffer);
 
-        // Kirim gambar ke user
-        await bot.sendPhoto(chatId, filePath, { caption: "Miaw! 🐱" });
+        // Ganti pesan dengan gambar
+        await bot.editMessageMedia(
+            {
+                type: "photo",
+                media: { source: filePath },
+                caption: "Miaw! 🐱"
+            },
+            {
+                chat_id: chatId,
+                message_id: loadingMsg.message_id
+            }
+        );
 
         // Hapus file setelah dikirim
         fs.unlinkSync(filePath);
