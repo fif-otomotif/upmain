@@ -125,6 +125,29 @@ bot.on("message", (msg) => {
     }
 });
 
+bot.onText(/\/randomcat/, async (msg) => {
+    const chatId = msg.chat.id;
+    const url = "https://api.siputzx.my.id/api/r/cats";
+    const filePath = path.join(__dirname, "randomcat.jpg");
+
+    try {
+        const response = await fetch(url);
+        const buffer = await response.buffer();
+
+        // Simpan gambar sebagai JPG
+        fs.writeFileSync(filePath, buffer);
+
+        // Kirim gambar ke user
+        await bot.sendPhoto(chatId, filePath, { caption: "Miaw! 🐱" });
+
+        // Hapus file setelah dikirim
+        fs.unlinkSync(filePath);
+    } catch (error) {
+        console.error("Error mengambil gambar kucing:", error);
+        bot.sendMessage(chatId, "Gagal mengambil gambar kucing. Coba lagi nanti!");
+    }
+});
+
 bot.onText(/^\/ping$/, async (msg) => {
     const chatId = msg.chat.id;
     const start = Date.now();
