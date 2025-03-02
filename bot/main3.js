@@ -47,7 +47,7 @@ let kbbiData = {};
 let kalkulatorData = {};
 let userSearchResults = {};
 let stopMotionData = {};
-let activeUsers = new Set();
+let tesaiUsers = new Set();
 const settingsFile = "settings.json";
 
 // Debugging polling error
@@ -97,23 +97,23 @@ bot.on("message", (msg) => {
 bot.onText(/\/tesai/, async (msg) => {
     const chatId = msg.chat.id;
 
-    if (activeUsers.has(chatId)) {
+    if (tesaiUsers.has(chatId)) {
         bot.sendMessage(chatId, "⚠️ Proses AI sedang berjalan, harap hentikan dulu sebelum memulai yang baru.");
         return;
     }
 
-    activeUsers.add(chatId);
+    tesaiUsers.add(chatId);
 
     let count = 0;
     let lastResponse = "hai, siapa nama kamu?";
 
     const sentMsg = await bot.sendMessage(chatId, `Memulai percakapan AI...\nRequest: 0`, {
         reply_markup: {
-            inline_keyboard: [[{ text: "⛔ Stop", callback_data: `stop_ai_${chatId}` }]]
+            inline_keyboard: [[{ text: "⛔ Stop", callback_data: `stop_tesai_${chatId}` }]]
         }
     });
 
-    while (activeUsers.has(chatId)) {
+    while (tesaiUsers.has(chatId)) {
         try {
             const response = await axios.get(`https://api.siputzx.my.id/api/ai/gemini-pro?content=${encodeURIComponent(lastResponse)}`);
 
@@ -125,7 +125,7 @@ bot.onText(/\/tesai/, async (msg) => {
                     chat_id: chatId,
                     message_id: sentMsg.message_id,
                     reply_markup: {
-                        inline_keyboard: [[{ text: "⛔ Stop", callback_data: `stop_ai_${chatId}` }]]
+                        inline_keyboard: [[{ text: "⛔ Stop", callback_data: `stop_tesai_${chatId}` }]]
                     }
                 });
             }
@@ -136,13 +136,13 @@ bot.onText(/\/tesai/, async (msg) => {
         }
     }
 
-    activeUsers.delete(chatId);
+    tesaiUsers.delete(chatId);
 });
 
 bot.on("callback_query", (query) => {
     const chatId = query.message.chat.id;
-    if (query.data === `stop_ai_${chatId}`) {
-        activeUsers.delete(chatId);
+    if (query.data === `stop_tesai_${chatId}`) {
+        tesaiUsers.delete(chatId);
         bot.editMessageText("🚫 Proses AI dihentikan.", {
             chat_id: chatId,
             message_id: query.message.message_id
