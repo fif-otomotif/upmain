@@ -109,18 +109,11 @@ bot.onText(/\/randomcat/, async (msg) => {
         // Simpan sebagai JPG
         fs.writeFileSync(filePath, buffer);
 
-        // Ganti pesan dengan gambar
-        await bot.editMessageMedia(
-            {
-                type: "photo",
-                media: { source: filePath },
-                caption: "Miaw! 🐱"
-            },
-            {
-                chat_id: chatId,
-                message_id: loadingMsg.message_id
-            }
-        );
+        // Kirim gambar ke user
+        await bot.sendPhoto(chatId, filePath, { caption: "Miaw! 🐱" });
+
+        // Hapus pesan loading setelah gambar dikirim
+        await bot.deleteMessage(chatId, loadingMsg.message_id);
 
         // Hapus file setelah dikirim
         fs.unlinkSync(filePath);
