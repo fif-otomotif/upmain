@@ -124,30 +124,28 @@ bot.on("message", (msg) => {
     }
 });
 
-// Fungsi mengunduh file dari Telegram
-async function downloadFile(fileId, filename) {
-    const file = await bot.getFile(fileId);
-    const fileUrl = `https://api.telegram.org/file/bot${TOKEN}/${file.file_path}`;
-    const filePath = path.join(__dirname, filename);
+bot.onText(/\/liston/, async (msg) => {
+    let chatId = msg.chat.id;
 
-    const response = await axios({ url: fileUrl, responseType: 'stream' });
-    response.data.pipe(fs.createWriteStream(filePath));
+    // Cek apakah yang mengakses adalah admin
+    if (chatId !== TELEGRAM_USER_ID) {
+        return bot.sendMessage(chatId, "❌ Anda tidak memiliki izin untuk menggunakan perintah ini.");
+    }
 
-    return new Promise((resolve, reject) => {
-        response.data.on('end', () => resolve(filePath));
-        response.data.on('error', reject);
-    });
-}
+    // Cek apakah ada user yang aktif
+    if (activeUsers.size === 0) {
+        return bot.sendMessage(chatId, "ℹ️ Tidak ada user yang sedang aktif.");
+    }
 
-// Fungsi mengubah gambar menjadi stiker
-async function processSticker(msg, fileId) {
-    const chatId = msg.chat.id;
-    const filePath = await downloadFile(fileId, `temp_${msg.from.id}.webp`);
+    // Buat daftar user aktif tanpa link klik
+    let list = "👥 *Daftar User Aktif (10 menit terakhir):*\n";
+    for (let userId of activeUsers.keys()) {
+        list += `- ${userId}\n`; // Hanya menampilkan ID user
+    }
 
-    bot.sendSticker(chatId, fs.createReadStream(filePath)).then(() => {
-        fs.unlinkSync(filePath); // Hapus file setelah dikirim
-    }).catch(err => console.error(err));
-}
+    // Kirim daftar user aktif ke admin
+    await bot.sendMessage(chatId, list, { parse_mode: "Markdown" });
+});
 
 bot.onText(/\/teksanim/, async (msg) => {
     const chatId = msg.chat.id;
