@@ -1192,49 +1192,45 @@ bot.onText(/^\/tourl2$/, (msg) => {
 
 bot.on("photo", async (msg) => {
   const chatId = msg.chat.id;
-
-  // Cek apakah user sedang dalam mode upload
   if (uploadStatus[chatId] !== "waiting_for_photo") return;
 
   const fileId = msg.photo[msg.photo.length - 1].file_id;
 
   try {
-    // Mendapatkan URL file dari Telegram
     const file = await bot.getFile(fileId);
     const filePath = `https://api.telegram.org/file/bot${TOKEN}/${file.file_path}`;
-
-    // Unduh file dari Telegram
     const response = await axios.get(filePath, { responseType: "stream" });
+
     const fileName = `temp_${Date.now()}.jpg`;
     const fileStream = fs.createWriteStream(fileName);
     response.data.pipe(fileStream);
 
     fileStream.on("finish", async () => {
-      // Buat form data untuk upload ke Catbox
       const form = new FormData();
       form.append("reqtype", "fileupload");
       form.append("fileToUpload", fs.createReadStream(fileName));
 
-      // Upload ke Catbox.moe
       const uploadResponse = await axios.post("https://catbox.moe/user/api.php", form, {
         headers: form.getHeaders(),
       });
 
-      // Kirim link hasil upload tanpa preview
+      console.log("Catbox Response:", uploadResponse.data);
+
+      if (typeof uploadResponse.data !== "string") {
+        throw new Error("Invalid response from Catbox");
+      }
+
       bot.sendMessage(chatId, `✅ Foto berhasil diupload!\n🔗 ${uploadResponse.data}`, {
         disable_web_page_preview: true,
       });
 
-      // Hapus file lokal setelah upload selesai
       fs.unlinkSync(fileName);
-
-      // Reset status user setelah upload selesai
       delete uploadStatus[chatId];
     });
   } catch (error) {
-    console.error(error);
+    console.error("Upload Error:", error);
     bot.sendMessage(chatId, "❌ Gagal mengupload foto.");
-    delete uploadStatus[chatId]; // Reset status jika terjadi error
+    delete uploadStatus[chatId];
   }
 });
 
