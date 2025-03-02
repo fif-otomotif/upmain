@@ -106,10 +106,17 @@ bot.onText(/\/tesai/, async (msg) => {
 
     let count = 0;
     let lastResponse = "hai, siapa nama kamu?";
+    let filePath = path.join(__dirname, `tesai_${chatId}.txt`);
+
+    // Buat file kosong untuk menyimpan percakapan
+    fs.writeFileSync(filePath, "Percakapan AI:\n");
 
     const sentMsg = await bot.sendMessage(chatId, `Memulai percakapan AI...\nRequest: 0`, {
         reply_markup: {
-            inline_keyboard: [[{ text: "⛔ Stop", callback_data: `stop_tesai_${chatId}` }]]
+            inline_keyboard: [[
+                { text: "⛔ Stop", callback_data: `stop_tesai_${chatId}` },
+                { text: "📜 Look", callback_data: `look_tesai_${chatId}` }
+            ]]
         }
     });
 
@@ -121,11 +128,17 @@ bot.onText(/\/tesai/, async (msg) => {
                 lastResponse = response.data.data;
                 count++;
 
+                // Simpan ke file
+                fs.appendFileSync(filePath, `Bot: ${lastResponse}\n`);
+
                 await bot.editMessageText(`Memulai percakapan AI...\nRequest: ${count}`, {
                     chat_id: chatId,
                     message_id: sentMsg.message_id,
                     reply_markup: {
-                        inline_keyboard: [[{ text: "⛔ Stop", callback_data: `stop_tesai_${chatId}` }]]
+                        inline_keyboard: [[
+                            { text: "⛔ Stop", callback_data: `stop_tesai_${chatId}` },
+                            { text: "📜 Look", callback_data: `look_tesai_${chatId}` }
+                        ]]
                     }
                 });
             }
@@ -139,14 +152,31 @@ bot.onText(/\/tesai/, async (msg) => {
     tesaiUsers.delete(chatId);
 });
 
+// Handler untuk "Stop"
 bot.on("callback_query", (query) => {
     const chatId = query.message.chat.id;
+
     if (query.data === `stop_tesai_${chatId}`) {
         tesaiUsers.delete(chatId);
         bot.editMessageText("🚫 Proses AI dihentikan.", {
             chat_id: chatId,
             message_id: query.message.message_id
         });
+    }
+
+    // Handler untuk "Look"
+    if (query.data === `look_tesai_${chatId}`) {
+        tesaiUsers.delete(chatId);
+
+        let filePath = path.join(__dirname, `tesai_${chatId}.txt`);
+        
+        if (fs.existsSync(filePath)) {
+            bot.sendDocument(chatId, filePath).then(() => {
+                fs.unlinkSync(filePath); // Hapus file setelah dikirim
+            }).catch(err => console.error("Gagal mengirim file:", err));
+        } else {
+            bot.sendMessage(chatId, "❌ Tidak ada percakapan yang bisa dilihat.");
+        }
     }
 });
 
