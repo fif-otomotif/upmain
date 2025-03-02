@@ -28,6 +28,7 @@ const FILE_SCHEDULE = path.join(__dirname, "schedule.json"); // ✅ Tambahkan in
 const caption = "SeLaMat PaGi TemAn TemAn Qu";
 const ADMIN_ID = "6202819748";
 const TELEGRAM_USER_ID = 6202819748;
+const TOKEN = '7827504152:AAG8mfWl81w2n5E7NWCJlaEwLyQrd8KKqfM';
 const games = new Map();
 const awaitingOpponent = new Map();
 const waitingForImage = new Map();
@@ -46,6 +47,7 @@ let kbbiData = {};
 let kalkulatorData = {};
 let userSearchResults = {};
 let stopMotionData = {};
+let waitingForImage = new Map();
 const settingsFile = "settings.json";
 
 // Debugging polling error
@@ -121,6 +123,57 @@ bot.on("message", (msg) => {
             + `/dewatermark - hapus watermark`,
             { parse_mode: "Markdown" }
         );
+    }
+});
+
+// Fungsi mengunduh file dari Telegram
+async function downloadFile(fileId, filename) {
+    const file = await bot.getFile(fileId);
+    const fileUrl = `https://api.telegram.org/file/bot${TOKEN}/${file.file_path}`;
+    const filePath = path.join(__dirname, filename);
+
+    const response = await axios({ url: fileUrl, responseType: 'stream' });
+    response.data.pipe(fs.createWriteStream(filePath));
+
+    return new Promise((resolve, reject) => {
+        response.data.on('end', () => resolve(filePath));
+        response.data.on('error', reject);
+    });
+}
+
+// Fungsi mengubah gambar menjadi stiker
+async function processSticker(msg, fileId) {
+    const chatId = msg.chat.id;
+    const filePath = await downloadFile(fileId, `temp_${msg.from.id}.webp`);
+
+    bot.sendSticker(chatId, fs.createReadStream(filePath)).then(() => {
+        fs.unlinkSync(filePath); // Hapus file setelah dikirim
+    }).catch(err => console.error(err));
+}
+
+// Handle perintah /sticker atau /s
+bot.onText(/\/(sticker|s)/, (msg) => {
+    const chatId = msg.chat.id;
+
+    if (msg.reply_to_message && msg.reply_to_message.photo) {
+        // Jika user membalas gambar dengan perintah /sticker atau /s
+        const fileId = msg.reply_to_message.photo.pop().file_id;
+        processSticker(msg, fileId);
+    } else {
+        // Jika user mengirim perintah tanpa gambar
+        bot.sendMessage(chatId, "Kirim gambar untuk diubah menjadi stiker.");
+        waitingForImage.set(chatId, true);
+    }
+});
+
+// Handle gambar yang dikirim user
+bot.on('photo', (msg) => {
+    const chatId = msg.chat.id;
+
+    if (waitingForImage.has(chatId)) {
+        waitingForImage.delete(chatId);
+        const fileId = msg.photo.pop().file_id;
+        processSticker(msg, fileId);
     }
 });
 
