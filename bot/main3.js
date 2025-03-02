@@ -18,6 +18,7 @@ import os from "os";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const TOKEN = "7827504152:AAG8mfWl81w2n5E7NWCJlaEwLyQrd8KKqfM";
 const IMGBB_API_KEY = "9a6c7db46a74e55dbdd80b0e0620087d";
 
 const FILE_USERS = path.join(__dirname, "users.json");
@@ -98,11 +99,9 @@ bot.onText(/\/tesai/, async (msg) => {
     const chatId = msg.chat.id;
 
     if (tesaiUsers.has(chatId)) {
-        bot.sendMessage(chatId, "⚠️ Proses AI sedang berjalan, harap hentikan dulu sebelum memulai yang baru.");
+        bot.sendMessage(chatId, "⚠️ Proses AI sedang berjalan di latar belakang. Gunakan tombol Look untuk melihat hasil.");
         return;
     }
-
-    tesaiUsers.add(chatId);
 
     let count = 0;
     let lastResponse = "hai, siapa nama kamu?";
@@ -114,68 +113,71 @@ bot.onText(/\/tesai/, async (msg) => {
     const sentMsg = await bot.sendMessage(chatId, `Memulai percakapan AI...\nRequest: 0`, {
         reply_markup: {
             inline_keyboard: [[
-                { text: "⛔ Stop", callback_data: `stop_tesai_${chatId}` },
                 { text: "📜 Look", callback_data: `look_tesai_${chatId}` }
             ]]
         }
     });
 
-    while (tesaiUsers.has(chatId)) {
-        try {
-            const response = await axios.get(`https://api.siputzx.my.id/api/ai/gemini-pro?content=${encodeURIComponent(lastResponse)}`);
+    // Simpan informasi ke tesaiUsers
+    tesaiUsers.set(chatId, { running: true, messageId: sentMsg.message_id, filePath });
 
-            if (response.data && response.data.data) {
-                lastResponse = response.data.data;
-                count++;
+    // Jalankan request di latar belakang
+    (async function runAI() {
+        while (tesaiUsers.has(chatId) && tesaiUsers.get(chatId).running) {
+            try {
+                const response = await axios.get(`https://api.siputzx.my.id/api/ai/gpt3?prompt=gaya%20bicara%20mu%20dengan%20filsafat&content=${encodeURIComponent(lastResponse)}`);
 
-                // Simpan ke file
-                fs.appendFileSync(filePath, `Bot: ${lastResponse}\n`);
+                if (response.data && response.data.data) {
+                    lastResponse = response.data.data;
+                    count++;
 
-                await bot.editMessageText(`Memulai percakapan AI...\nRequest: ${count}`, {
-                    chat_id: chatId,
-                    message_id: sentMsg.message_id,
-                    reply_markup: {
-                        inline_keyboard: [[
-                            { text: "⛔ Stop", callback_data: `stop_tesai_${chatId}` },
-                            { text: "📜 Look", callback_data: `look_tesai_${chatId}` }
-                        ]]
-                    }
-                });
+                    // Simpan ke file
+                    fs.appendFileSync(filePath, `Bot: ${lastResponse}\n`);
+
+                    await bot.editMessageText(`Memulai percakapan AI...\nRequest: ${count}`, {
+                        chat_id: chatId,
+                        message_id: sentMsg.message_id,
+                        reply_markup: {
+                            inline_keyboard: [[
+                                { text: "📜 Look", callback_data: `look_tesai_${chatId}` }
+                            ]]
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error("Error fetching AI response:", error);
+                bot.sendMessage(chatId, "Terjadi kesalahan saat mengambil respons dari AI.");
+                break;
             }
-        } catch (error) {
-            console.error("Error fetching AI response:", error);
-            bot.sendMessage(chatId, "Terjadi kesalahan saat mengambil respons dari AI.");
-            break;
         }
-    }
-
-    tesaiUsers.delete(chatId);
+    })();
 });
 
-// Handler untuk "Stop"
-bot.on("callback_query", (query) => {
+// Handler untuk "Look"
+bot.on("callback_query", async (query) => {
     const chatId = query.message.chat.id;
 
-    if (query.data === `stop_tesai_${chatId}`) {
-        tesaiUsers.delete(chatId);
-        bot.editMessageText("🚫 Proses AI dihentikan.", {
-            chat_id: chatId,
-            message_id: query.message.message_id
-        });
-    }
-
-    // Handler untuk "Look"
     if (query.data === `look_tesai_${chatId}`) {
-        tesaiUsers.delete(chatId);
+        if (tesaiUsers.has(chatId)) {
+            let userData = tesaiUsers.get(chatId);
 
-        let filePath = path.join(__dirname, `tesai_${chatId}.txt`);
-        
-        if (fs.existsSync(filePath)) {
-            bot.sendDocument(chatId, filePath).then(() => {
-                fs.unlinkSync(filePath); // Hapus file setelah dikirim
-            }).catch(err => console.error("Gagal mengirim file:", err));
+            // Hentikan proses AI
+            tesaiUsers.delete(chatId);
+
+            // Hapus pesan request
+            await bot.deleteMessage(chatId, userData.messageId).catch(() => {});
+
+            // Kirim file percakapan
+            let filePath = userData.filePath;
+            if (fs.existsSync(filePath)) {
+                bot.sendDocument(chatId, filePath).then(() => {
+                    fs.unlinkSync(filePath); // Hapus file setelah terkirim
+                }).catch(err => console.error("Gagal mengirim file:", err));
+            } else {
+                bot.sendMessage(chatId, "❌ Tidak ada percakapan yang bisa dilihat.");
+            }
         } else {
-            bot.sendMessage(chatId, "❌ Tidak ada percakapan yang bisa dilihat.");
+            bot.sendMessage(chatId, "❌ Tidak ada percakapan yang sedang berlangsung.");
         }
     }
 });
