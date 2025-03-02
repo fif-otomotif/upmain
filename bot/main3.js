@@ -77,7 +77,7 @@ function simpanData() {
 // Daftar perintah yang valid
 const validCommands = [
     "/register", "/profile", "/logout", "/forum on", "/forum off",
-    "/addkode", "/pluskode", "/deladmin", "/wikipedia", "/nulis", "/stalker", "/addmsg", "/listmsg", "/delmsg", "/start", "/help", "/ngl", "/tts", "/report", "/kbbi", "/jadwalpagi", "/senduser", "/tourl", "/aiimg", "/aiimgf", "/kalender", "/suit", "/webrec", "/shai", "/rmbg", "/selfie", "/ai", "/yts", "/sendb", "/igdm", "/pin", "/artime", "/editrole", "/robloxstalk", "/autoai", "/promptai", "/getpp", "/brat", "/spy", "/igstalk", "/cuaca", "/tourl2", "/text2binary", "/binary2text", "/ping", "/ttstalk", "/gempa", "/dewatermark", "/ttt", "/hd", "/spy2", "/up", "/itung", "/aideck", "/translate", "/stopmotion", "/rngyt", "/menu", "/teksanim", "/jam", "/uptime", "/randangka", "/ekali", "/react", "/liston",
+    "/addkode", "/pluskode", "/deladmin", "/wikipedia", "/nulis", "/stalker", "/addmsg", "/listmsg", "/delmsg", "/start", "/help", "/ngl", "/tts", "/report", "/kbbi", "/jadwalpagi", "/senduser", "/tourl", "/aiimg", "/aiimgf", "/kalender", "/suit", "/webrec", "/shai", "/rmbg", "/selfie", "/ai", "/yts", "/sendb", "/igdm", "/pin", "/artime", "/editrole", "/robloxstalk", "/autoai", "/promptai", "/getpp", "/brat", "/spy", "/igstalk", "/cuaca", "/tourl2", "/text2binary", "/binary2text", "/ping", "/ttstalk", "/gempa", "/dewatermark", "/ttt", "/hd", "/spy2", "/up", "/itung", "/aideck", "/translate", "/stopmotion", "/rngyt", "/menu", "/teksanim", "/jam", "/uptime", "/randangka", "/ekali", "/react", "/liston", "/randomcat",
 ];
 
 // 🔹 Handle pesan yang tidak dikenal
@@ -87,39 +87,7 @@ bot.on("message", (msg) => {
 
     // Jika pesan adalah perintah dan tidak ada dalam daftar perintah valid
     if (text && text.startsWith("/") && !validCommands.some(cmd => text.startsWith(cmd))) {
-        bot.sendMessage(chatId, `❌ Perintah *${text}* tidak ditemukan. Berikut daftar perintah yang tersedia:\n\n`
-            + `📌 *Daftar Perintah:*\n`
-            + `/register - Daftar akun\n`
-            + `/profile - Lihat profil\n`
-            + `/logout - Keluar dari akun\n`
-            + `/forum on - Masuk forum chat\n`
-            + `/forum off - Keluar forum\n`
-            + `/addkode - Tambah kode admin\n`
-            + `/pluskode - Gunakan kode admin\n`
-            + `/deladmin - Hapus admin\n`
-            + `/wikipedia - Cari artikel di Wikipedia\n`
-            + `/nulis - Menulis di canvas\n`
-            + `/stalker - Cari informasi pengguna\n`
-            + `/addmsg - menambahkan msg\n`
-            + `/listmsg - melihat daftar msg\n`
-            + `/delmsg - menghapus msg\n`
-            + `/ngl - kirim pesan ke ngl\n`
-            + `/tts - mengubah text ke audio\n`
-            + `/aiimg - membuat gambar\n`
-            + `/kalender - melihat kelender\n`
-            + `/webrec - merekam website\n`
-            + `/yts - YouTube search\n`
-            + `/ai - bertanya ke ai\n`
-            + `/autoai - ngobrol dengan ai\n`
-            + `/shai - gemini img\n`
-            + `/pin - cari gambar di pin\n`
-            + `/artime - cari arti nama\n`
-            + `/getpp - ambil pp user\n`
-            + `/brat - buat brat\n`
-            + `/igstalk - stalker instagram\n`
-            + `/cuaca - cek cuaca daerah anda\n`
-            + `/ttstalk - stalker tiktok\n`
-            + `/dewatermark - hapus watermark`,
+        bot.sendMessage(chatId, `❌ Perintah *${text}* tidak ditemukan, lihat di /menu.`,
             { parse_mode: "Markdown" }
         );
     }
@@ -176,12 +144,12 @@ bot.onText(/^\/ping$/, async (msg) => {
         // Format hasil
         const message = `
 *Server Info*
-- <<OS>> ${osType} ${osRelease}
-- <<Node.js>> ${nodeVersion}
-- <<CPU Load>> ${cpuUsage}%
-- <<RAM>> ${usedMem}MB / ${totalMem}MB
-- <<Uptime>> ${hours}h ${minutes}m ${seconds}s
-- <<Ping>> ${latency}
+- OS: ${osType} ${osRelease}
+- Node.js: ${nodeVersion}
+- CPU Load: ${cpuUsage}%
+- RAM: ${usedMem}MB / ${totalMem}MB
+- Runtime ${hours}h ${minutes}m ${seconds}s
+- Ping ${latency}
         `;
         bot.sendMessage(chatId, message, { parse_mode: "Markdown" });
     });
@@ -292,6 +260,7 @@ bot.onText(/\/menu/, async (msg) => {
 /profile  
 /promptai  
 /randangka
+/randomcat
 /register  
 /report  
 /rngyt  
