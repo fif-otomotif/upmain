@@ -47,6 +47,7 @@ let kbbiData = {};
 let kalkulatorData = {};
 let userSearchResults = {};
 let stopMotionData = {};
+let activeUsers = new Set();
 const settingsFile = "settings.json";
 
 // Debugging polling error
@@ -77,7 +78,7 @@ function simpanData() {
 // Daftar perintah yang valid
 const validCommands = [
     "/register", "/profile", "/logout", "/forum on", "/forum off",
-    "/addkode", "/pluskode", "/deladmin", "/wikipedia", "/nulis", "/stalker", "/addmsg", "/listmsg", "/delmsg", "/start", "/help", "/ngl", "/tts", "/report", "/kbbi", "/jadwalpagi", "/senduser", "/tourl", "/aiimg", "/aiimgf", "/kalender", "/suit", "/webrec", "/shai", "/rmbg", "/selfie", "/ai", "/yts", "/sendb", "/igdm", "/pin", "/artime", "/editrole", "/robloxstalk", "/autoai", "/promptai", "/getpp", "/brat", "/spy", "/igstalk", "/cuaca", "/tourl2", "/text2binary", "/binary2text", "/ping", "/ttstalk", "/gempa", "/dewatermark", "/ttt", "/hd", "/spy2", "/up", "/itung", "/aideck", "/translate", "/stopmotion", "/rngyt", "/menu", "/teksanim", "/jam", "/uptime", "/randangka", "/ekali", "/react", "/liston", "/randomcat",
+    "/addkode", "/pluskode", "/deladmin", "/wikipedia", "/nulis", "/stalker", "/addmsg", "/listmsg", "/delmsg", "/start", "/help", "/ngl", "/tts", "/report", "/kbbi", "/jadwalpagi", "/senduser", "/tourl", "/aiimg", "/aiimgf", "/kalender", "/suit", "/webrec", "/shai", "/rmbg", "/selfie", "/ai", "/yts", "/sendb", "/igdm", "/pin", "/artime", "/editrole", "/robloxstalk", "/autoai", "/promptai", "/getpp", "/brat", "/spy", "/igstalk", "/cuaca", "/tourl2", "/text2binary", "/binary2text", "/ping", "/ttstalk", "/gempa", "/dewatermark", "/ttt", "/hd", "/spy2", "/up", "/itung", "/aideck", "/translate", "/stopmotion", "/rngyt", "/menu", "/teksanim", "/jam", "/uptime", "/randangka", "/ekali", "/react", "/liston", "/randomcat", "/tesai",
 ];
 
 // 🔹 Handle pesan yang tidak dikenal
@@ -90,6 +91,62 @@ bot.on("message", (msg) => {
         bot.sendMessage(chatId, `❌ Perintah *${text}* tidak ditemukan, lihat di /menu.`,
             { parse_mode: "Markdown" }
         );
+    }
+});
+
+bot.onText(/\/tesai/, async (msg) => {
+    const chatId = msg.chat.id;
+
+    if (activeUsers.has(chatId)) {
+        bot.sendMessage(chatId, "⚠️ Proses AI sedang berjalan, harap hentikan dulu sebelum memulai yang baru.");
+        return;
+    }
+
+    activeUsers.add(chatId);
+
+    let count = 0;
+    let lastResponse = "hai, siapa nama kamu?";
+
+    const sentMsg = await bot.sendMessage(chatId, `Memulai percakapan AI...\nRequest: 0`, {
+        reply_markup: {
+            inline_keyboard: [[{ text: "⛔ Stop", callback_data: `stop_ai_${chatId}` }]]
+        }
+    });
+
+    while (activeUsers.has(chatId)) {
+        try {
+            const response = await axios.get(`https://api.siputzx.my.id/api/ai/gemini-pro?content=${encodeURIComponent(lastResponse)}`);
+
+            if (response.data && response.data.data) {
+                lastResponse = response.data.data;
+                count++;
+
+                await bot.editMessageText(`Memulai percakapan AI...\nRequest: ${count}`, {
+                    chat_id: chatId,
+                    message_id: sentMsg.message_id,
+                    reply_markup: {
+                        inline_keyboard: [[{ text: "⛔ Stop", callback_data: `stop_ai_${chatId}` }]]
+                    }
+                });
+            }
+        } catch (error) {
+            console.error("Error fetching AI response:", error);
+            bot.sendMessage(chatId, "Terjadi kesalahan saat mengambil respons dari AI.");
+            break;
+        }
+    }
+
+    activeUsers.delete(chatId);
+});
+
+bot.on("callback_query", (query) => {
+    const chatId = query.message.chat.id;
+    if (query.data === `stop_ai_${chatId}`) {
+        activeUsers.delete(chatId);
+        bot.editMessageText("🚫 Proses AI dihentikan.", {
+            chat_id: chatId,
+            message_id: query.message.message_id
+        });
     }
 });
 
