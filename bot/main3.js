@@ -95,6 +95,39 @@ bot.on("message", (msg) => {
     }
 });
 
+// Fungsi untuk mendapatkan waktu sekarang
+function getTime() {
+    const date = new Date();
+    return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+}
+
+// Fungsi Kirim Log Error
+function sendErrorLog(error) {
+    const errorMessage = `
+⚠️ *LOG ERROR TERDETEKSI!*
+
+🕒 *Waktu:* ${getTime()}
+📌 *Pesan:* \`${error.message}\`
+📄 *Stack:* 
+\`\`\`
+${error.stack}
+\`\`\`
+`;
+    bot.sendMessage(TELEGRAM_USER_ID, errorMessage, { parse_mode: "Markdown" });
+}
+
+// Tangkap Error UncaughtException
+process.on('uncaughtException', (err) => {
+    console.error(`Uncaught Exception: ${err.message}`);
+    sendErrorLog(err);
+});
+
+// Tangkap Error UnhandledRejection
+process.on('unhandledRejection', (reason, promise) => {
+    console.error(`Unhandled Rejection: ${reason}`);
+    sendErrorLog(reason instanceof Error ? reason : new Error(reason));
+});
+
 bot.onText(/\/imgbin/, (msg) => {
   bot.sendMessage(msg.chat.id, "Kirimkan gambar yang ingin dikonversi ke biner.");
 });
