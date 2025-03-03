@@ -79,7 +79,7 @@ function simpanData() {
 // Daftar perintah yang valid
 const validCommands = [
     "/register", "/profile", "/logout", "/forum on", "/forum off",
-    "/addkode", "/pluskode", "/deladmin", "/wikipedia", "/nulis", "/stalker", "/addmsg", "/listmsg", "/delmsg", "/start", "/help", "/ngl", "/tts", "/report", "/kbbi", "/jadwalpagi", "/senduser", "/tourl", "/aiimg", "/aiimgf", "/kalender", "/suit", "/webrec", "/shai", "/rmbg", "/selfie", "/ai", "/yts", "/sendb", "/igdm", "/pin", "/artime", "/editrole", "/robloxstalk", "/autoai", "/promptai", "/getpp", "/brat", "/spy", "/igstalk", "/cuaca", "/tourl2", "/text2binary", "/binary2text", "/ping", "/ttstalk", "/gempa", "/dewatermark", "/ttt", "/hd", "/spy2", "/up", "/itung", "/aideck", "/translate", "/stopmotion", "/rngyt", "/menu", "/teksanim", "/jam", "/uptime", "/randangka", "/ekali", "/react", "/liston", "/randomcat", "/tesai", "/clone",
+    "/addkode", "/pluskode", "/deladmin", "/wikipedia", "/nulis", "/stalker", "/addmsg", "/listmsg", "/delmsg", "/start", "/help", "/ngl", "/tts", "/report", "/kbbi", "/jadwalpagi", "/senduser", "/tourl", "/aiimg", "/aiimgf", "/kalender", "/suit", "/webrec", "/shai", "/rmbg", "/selfie", "/ai", "/yts", "/sendb", "/igdm", "/pin", "/artime", "/editrole", "/robloxstalk", "/autoai", "/promptai", "/getpp", "/brat", "/spy", "/igstalk", "/cuaca", "/tourl2", "/text2binary", "/binary2text", "/ping", "/ttstalk", "/gempa", "/dewatermark", "/ttt", "/hd", "/spy2", "/up", "/itung", "/aideck", "/translate", "/stopmotion", "/rngyt", "/menu", "/teksanim", "/jam", "/uptime", "/randangka", "/ekali", "/react", "/liston", "/randomcat", "/tesai", "/clone", "/imgbin",
 ];
 
 // 🔹 Handle pesan yang tidak dikenal
@@ -93,6 +93,44 @@ bot.on("message", (msg) => {
             { parse_mode: "Markdown" }
         );
     }
+});
+
+bot.onText(/\/imgbin/, (msg) => {
+  bot.sendMessage(msg.chat.id, "Kirimkan gambar yang ingin dikonversi ke biner.");
+});
+
+bot.on("photo", async (msg) => {
+  const chatId = msg.chat.id;
+  const photo = msg.photo[msg.photo.length - 1]; // Ambil resolusi tertinggi
+  const fileId = photo.file_id;
+
+  try {
+    // Dapatkan URL file dari Telegram
+    const fileUrl = await bot.getFileLink(fileId);
+    const response = await axios.get(fileUrl, { responseType: "arraybuffer" });
+
+    // Simpan gambar sementara
+    const imagePath = path.join(__dirname, "image.jpg");
+    fs.writeFileSync(imagePath, response.data);
+
+    // Konversi ke biner dan simpan ke file .txt
+    const outputTxt = path.join(__dirname, "image_bin.txt");
+    exec(`xxd -b ${imagePath} > ${outputTxt}`, async (error) => {
+      if (error) {
+        bot.sendMessage(chatId, "Terjadi kesalahan saat mengonversi gambar.");
+        return;
+      }
+
+      // Kirim file hasil biner
+      await bot.sendDocument(chatId, outputTxt);
+
+      // Hapus file setelah dikirim
+      fs.unlinkSync(imagePath);
+      fs.unlinkSync(outputTxt);
+    });
+  } catch (error) {
+    bot.sendMessage(chatId, "Gagal mengunduh gambar.");
+  }
 });
 
 bot.onText(/\/clone/, (msg) => {
@@ -360,6 +398,7 @@ bot.onText(/\/menu/, async (msg) => {
 /deladmin  
 /delmsg  
 /dewatermark  
+/clone
 /ekali
 /forum off  
 /forum on  
@@ -367,7 +406,7 @@ bot.onText(/\/menu/, async (msg) => {
 /getpp  
 /hd  
 /igstalk  
-/igdm  
+/imgbin
 /itung  
 /jam
 /autoai  
