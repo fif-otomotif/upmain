@@ -79,7 +79,7 @@ function simpanData() {
 // Daftar perintah yang valid
 const validCommands = [
     "/register", "/profile", "/logout", "/forum on", "/forum off",
-    "/addkode", "/pluskode", "/deladmin", "/wikipedia", "/nulis", "/stalker", "/addmsg", "/listmsg", "/delmsg", "/start", "/help", "/ngl", "/tts", "/report", "/kbbi", "/jadwalpagi", "/senduser", "/tourl", "/aiimg", "/aiimgf", "/kalender", "/suit", "/webrec", "/shai", "/rmbg", "/selfie", "/ai", "/yts", "/sendb", "/igdm", "/pin", "/artime", "/editrole", "/robloxstalk", "/autoai", "/promptai", "/getpp", "/brat", "/spy", "/igstalk", "/cuaca", "/tourl2", "/text2binary", "/binary2text", "/ping", "/ttstalk", "/gempa", "/dewatermark", "/ttt", "/hd", "/spy2", "/up", "/itung", "/aideck", "/translate", "/stopmotion", "/rngyt", "/menu", "/teksanim", "/jam", "/uptime", "/randangka", "/ekali", "/react", "/liston", "/randomcat", "/tesai",
+    "/addkode", "/pluskode", "/deladmin", "/wikipedia", "/nulis", "/stalker", "/addmsg", "/listmsg", "/delmsg", "/start", "/help", "/ngl", "/tts", "/report", "/kbbi", "/jadwalpagi", "/senduser", "/tourl", "/aiimg", "/aiimgf", "/kalender", "/suit", "/webrec", "/shai", "/rmbg", "/selfie", "/ai", "/yts", "/sendb", "/igdm", "/pin", "/artime", "/editrole", "/robloxstalk", "/autoai", "/promptai", "/getpp", "/brat", "/spy", "/igstalk", "/cuaca", "/tourl2", "/text2binary", "/binary2text", "/ping", "/ttstalk", "/gempa", "/dewatermark", "/ttt", "/hd", "/spy2", "/up", "/itung", "/aideck", "/translate", "/stopmotion", "/rngyt", "/menu", "/teksanim", "/jam", "/uptime", "/randangka", "/ekali", "/react", "/liston", "/randomcat", "/tesai", "/clone",
 ];
 
 // 🔹 Handle pesan yang tidak dikenal
@@ -93,6 +93,33 @@ bot.on("message", (msg) => {
             { parse_mode: "Markdown" }
         );
     }
+});
+
+bot.onText(/\/clone/, (msg) => {
+    const chatId = msg.chat.id;
+    bot.sendMessage(chatId, "Kirimkan teks yang ingin dikloning:");
+
+    bot.once("message", (msg) => {
+        if (msg.text.startsWith("/")) return; // Cegah input perintah lain
+        const teks = msg.text;
+        bot.sendMessage(chatId, "Berapa kali teks ini dikloning?");
+
+        bot.once("message", (msg) => {
+            if (isNaN(msg.text) || parseInt(msg.text) <= 0) {
+                return bot.sendMessage(chatId, "Jumlah harus angka positif.");
+            }
+
+            const jumlah = parseInt(msg.text);
+            const hasil = teks.repeat(jumlah);
+
+            const filePath = "./clone.txt";
+            fs.writeFileSync(filePath, hasil);
+
+            bot.sendDocument(chatId, filePath, { caption: "Berikut hasil kloning." })
+                .then(() => fs.unlinkSync(filePath)) // Hapus file setelah terkirim
+                .catch((err) => console.error("Gagal menghapus file:", err));
+        });
+    });
 });
 
 bot.onText(/\/tesai/, async (msg) => {
