@@ -15,6 +15,7 @@ import { exec } from "child_process";
 import cloudscraper from 'cloudscraper';
 import moment from "moment-timezone";
 import os from "os";
+import figlet from "figlet";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -79,7 +80,7 @@ function simpanData() {
 // Daftar perintah yang valid
 const validCommands = [
     "/register", "/profile", "/logout", "/forum on", "/forum off",
-    "/addkode", "/pluskode", "/deladmin", "/wikipedia", "/nulis", "/stalker", "/addmsg", "/listmsg", "/delmsg", "/start", "/help", "/ngl", "/tts", "/report", "/kbbi", "/jadwalpagi", "/senduser", "/tourl", "/aiimg", "/aiimgf", "/kalender", "/suit", "/webrec", "/shai", "/rmbg", "/selfie", "/ai", "/yts", "/sendb", "/igdm", "/pin", "/artime", "/editrole", "/robloxstalk", "/autoai", "/promptai", "/getpp", "/brat", "/spy", "/igstalk", "/cuaca", "/tourl2", "/text2binary", "/binary2text", "/ping", "/ttstalk", "/gempa", "/dewatermark", "/ttt", "/hd", "/spy2", "/up", "/itung", "/aideck", "/translate", "/stopmotion", "/rngyt", "/menu", "/teksanim", "/jam", "/uptime", "/randangka", "/ekali", "/react", "/liston", "/randomcat", "/tesai", "/clone", "/imgbin",
+    "/addkode", "/pluskode", "/deladmin", "/wikipedia", "/nulis", "/stalker", "/addmsg", "/listmsg", "/delmsg", "/start", "/help", "/ngl", "/tts", "/report", "/kbbi", "/jadwalpagi", "/senduser", "/tourl", "/aiimg", "/aiimgf", "/kalender", "/suit", "/webrec", "/shai", "/rmbg", "/selfie", "/ai", "/yts", "/sendb", "/igdm", "/pin", "/artime", "/editrole", "/robloxstalk", "/autoai", "/promptai", "/getpp", "/brat", "/spy", "/igstalk", "/cuaca", "/tourl2", "/text2binary", "/binary2text", "/ping", "/ttstalk", "/gempa", "/dewatermark", "/ttt", "/hd", "/spy2", "/up", "/itung", "/aideck", "/translate", "/stopmotion", "/rngyt", "/menu", "/teksanim", "/jam", "/uptime", "/randangka", "/ekali", "/react", "/liston", "/randomcat", "/tesai", "/clone", "/imgbin", "/tks",
 ];
 
 // 🔹 Handle pesan yang tidak dikenal
@@ -93,6 +94,73 @@ bot.on("message", (msg) => {
             { parse_mode: "Markdown" }
         );
     }
+});
+
+// Perintah /tks
+bot.onText(/\/tks/, (msg) => {
+    const chatId = msg.chat.id;
+    bot.sendMessage(chatId, "Kirimkan teks yang ingin diubah menjadi ASCII.");
+    userSessions[chatId] = { step: "awaiting_text" }; // Simpan status user
+});
+
+// Menangani input teks dari user
+bot.on("message", (msg) => {
+    const chatId = msg.chat.id;
+    const text = msg.text;
+
+    if (!userSessions[chatId]) return; // Abaikan jika user tidak dalam sesi /tks
+
+    if (userSessions[chatId].step === "awaiting_text") {
+        userSessions[chatId].text = text; // Simpan teks yang dikirim user
+        userSessions[chatId].step = "awaiting_style"; // Ubah status ke pemilihan gaya
+
+        // Tampilkan pilihan gaya ASCII dengan alamat unik
+        bot.sendMessage(chatId, "Pilih gaya ASCII:", {
+            reply_markup: {
+                inline_keyboard: [
+                    [{ text: "Standard", callback_data: "tks_Standard" }],
+                    [{ text: "Slant", callback_data: "tks_Slant" }],
+                    [{ text: "Big", callback_data: "tks_Big" }],
+                    [{ text: "Ghost", callback_data: "tks_Ghost" }],
+                    [{ text: "Lean", callback_data: "tks_Lean" }],
+                ],
+            },
+        });
+    }
+});
+
+// Menangani pilihan gaya ASCII
+bot.on("callback_query", (callbackQuery) => {
+    const chatId = callbackQuery.message.chat.id;
+    const data = callbackQuery.data;
+
+    // Pastikan tombol memiliki prefix "tks_"
+    if (!data.startsWith("tks_")) return;
+
+    const style = data.replace("tks_", ""); // Ambil nama gaya
+    if (!userSessions[chatId] || !userSessions[chatId].text) return;
+
+    const userText = userSessions[chatId].text;
+
+    figlet.text(userText, { font: style }, (err, asciiText) => {
+        if (err) {
+            bot.sendMessage(chatId, "Terjadi kesalahan dalam konversi ASCII.");
+            return;
+        }
+
+        // Simpan hasil ASCII ke file
+        const filePath = `ascii_${chatId}.txt`;
+        fs.writeFileSync(filePath, asciiText);
+
+        // Kirim file ke user
+        bot.sendDocument(chatId, filePath).then(() => {
+            // Hapus file setelah terkirim
+            fs.unlinkSync(filePath);
+        });
+
+        // Hapus sesi user setelah selesai
+        delete userSessions[chatId];
+    });
 });
 
 // Fungsi untuk mendapatkan waktu sekarang
@@ -472,6 +540,7 @@ bot.onText(/\/menu/, async (msg) => {
 /tourl2  
 /translate  
 /tts  
+/tks
 /ttstalk  
 /webrec  
 /wikipedia  
