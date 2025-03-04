@@ -79,32 +79,89 @@ function simpanData() {
 
 // Daftar perintah yang valid
 const validCommands = [
-    "/register", "/profile", "/logout", "/forum on", "/forum off",
-    "/addkode", "/pluskode", "/deladmin", "/wikipedia", "/nulis", "/stalker", "/addmsg", "/listmsg", "/delmsg", "/start", "/help", "/ngl", "/tts", "/report", "/kbbi", "/jadwalpagi", "/senduser", "/tourl", "/aiimg", "/aiimgf", "/kalender", "/suit", "/webrec", "/shai", "/rmbg", "/selfie", "/ai", "/yts", "/sendb", "/igdm", "/pin", "/artime", "/editrole", "/robloxstalk", "/autoai", "/promptai", "/getpp", "/brat", "/spy", "/igstalk", "/cuaca", "/tourl2", "/text2binary", "/binary2text", "/ping", "/ttstalk", "/gempa", "/dewatermark", "/ttt", "/hd", "/spy2", "/up", "/itung", "/aideck", "/translate", "/stopmotion", "/rngyt", "/menu", "/teksanim", "/jam", "/uptime", "/randangka", "/ekali", "/react", "/liston", "/randomcat", "/tesai", "/clone", "/imgbin", "/tks",
+  "/addkode", "/addmsg", "/ai", "/aiimg", "/aideck", "/artime", "/binary2text", "/brat", "/deladmin",
+  "/delmsg", "/dewatermark", "/clone", "/ekali", "/forum off", "/forum on", "/gempa", "/getpp", "/hd",
+  "/igstalk", "/imgbin", "/itung", "/jam", "/autoai", "/kbbi", "/kalender", "/listmsg", "/logout",
+  "/nulis", "/ngl", "/pin", "/ping", "/pluskode", "/profile", "/promptai", "/randangka", "/randomcat",
+  "/register", "/report", "/rngyt", "/rmbg", "/sendb", "/shai", "/spy", "/spy2", "/stalker",
+  "/stopmotion", "/teksanim", "/text2binary", "/tourl", "/tourl2", "/translate", "/tts", "/tks",
+  "/ttstalk", "/webrec", "/wikipedia", "/yts", "/koreksi", "/up"
 ];
 
-// 🔹 Handle pesan yang tidak dikenal
-bot.on("message", (msg) => {
-    const chatId = msg.chat.id;
-    const text = msg.text;
+// Fungsi menghitung Levenshtein Distance
+function levenshtein(a, b) {
+  const tmp = Array(b.length + 1).fill(0).map(() => Array(a.length + 1).fill(0));
+  for (let i = 0; i <= a.length; i++) tmp[0][i] = i;
+  for (let j = 0; j <= b.length; j++) tmp[j][0] = j;
 
-    // Jika pesan adalah perintah dan tidak ada dalam daftar perintah valid
-    if (text && text.startsWith("/") && !validCommands.some(cmd => text.startsWith(cmd))) {
-        bot.sendMessage(chatId, `❌ Perintah *${text}* tidak ditemukan, lihat di /menu.`,
-            { parse_mode: "Markdown" }
-        );
+  for (let j = 1; j <= b.length; j++) {
+    for (let i = 1; i <= a.length; i++) {
+      if (a[i - 1] === b[j - 1]) tmp[j][i] = tmp[j - 1][i - 1];
+      else tmp[j][i] = Math.min(tmp[j - 1][i - 1] + 1, tmp[j][i - 1] + 1, tmp[j - 1][i] + 1);
     }
+  }
+  return tmp[b.length][a.length];
+}
+
+// Fungsi menghitung persentase kemiripan
+function similarityPercentage(input, target) {
+  const maxLength = Math.max(input.length, target.length);
+  const distance = levenshtein(input, target);
+  return Math.round(((maxLength - distance) / maxLength) * 100);
+}
+
+// Fungsi mencari perintah paling mirip
+function findClosestCommand(input) {
+  let closest = null;
+  let highestSimilarity = 0;
+
+  for (const cmd of validCommands) {
+    const similarity = similarityPercentage(input, cmd);
+    if (similarity > highestSimilarity) {
+      highestSimilarity = similarity;
+      closest = cmd;
+    }
+  }
+
+  return highestSimilarity >= 60 ? { command: closest, percentage: highestSimilarity } : null;
+}
+
+// Perintah /koreksi
+bot.onText(/^\/koreksi (.+)/, (msg, match) => {
+  const chatId = msg.chat.id;
+  const inputCommand = match[1].toLowerCase();
+
+  const result = findClosestCommand(inputCommand);
+
+  if (result) {
+    bot.sendMessage(chatId, `Mungkin yang kamu maksud: *${result.command}* (${result.percentage}%)`, { parse_mode: "Markdown" });
+  } else {
+    bot.sendMessage(chatId, "Perintah tidak ditemukan.");
+  }
+});
+
+// Koreksi otomatis saat user mengirim pesan tanpa perintah
+bot.on("message", (msg) => {
+  const text = msg.text?.toLowerCase();
+  if (!text || text.startsWith("/koreksi") || text.startsWith("/")) return;
+
+  const result = findClosestCommand(text);
+  if (result) {
+    bot.sendMessage(msg.chat.id, `Mungkin yang kamu maksud: *${result.command}* (${result.percentage}%)`, { parse_mode: "Markdown" });
+  }
 });
 
 // Perintah /tks
-bot.onText(/\/tks/, (msg) => {
+bot.onText(/\/tks/, async (msg) => {
     const chatId = msg.chat.id;
-    bot.sendMessage(chatId, "Kirimkan teks yang ingin diubah menjadi ASCII.");
-    userSessions[chatId] = { step: "awaiting_text" }; // Simpan status user
+
+    // Kirim pesan awal dan simpan message_id untuk diedit nanti
+    const sentMessage = await bot.sendMessage(chatId, "Kirimkan teks yang ingin diubah menjadi ASCII.");
+    userSessions[chatId] = { step: "awaiting_text", messageId: sentMessage.message_id };
 });
 
 // Menangani input teks dari user
-bot.on("message", (msg) => {
+bot.on("message", async (msg) => {
     const chatId = msg.chat.id;
     const text = msg.text;
 
@@ -114,8 +171,10 @@ bot.on("message", (msg) => {
         userSessions[chatId].text = text; // Simpan teks yang dikirim user
         userSessions[chatId].step = "awaiting_style"; // Ubah status ke pemilihan gaya
 
-        // Tampilkan pilihan gaya ASCII dengan alamat unik
-        bot.sendMessage(chatId, "Pilih gaya ASCII:", {
+        // Edit pesan sebelumnya untuk menampilkan pilihan gaya ASCII
+        await bot.editMessageText("Pilih gaya ASCII:", {
+            chat_id: chatId,
+            message_id: userSessions[chatId].messageId,
             reply_markup: {
                 inline_keyboard: [
                     [{ text: "Standard", callback_data: "tks_Standard" }],
@@ -130,7 +189,7 @@ bot.on("message", (msg) => {
 });
 
 // Menangani pilihan gaya ASCII
-bot.on("callback_query", (callbackQuery) => {
+bot.on("callback_query", async (callbackQuery) => {
     const chatId = callbackQuery.message.chat.id;
     const data = callbackQuery.data;
 
@@ -142,9 +201,18 @@ bot.on("callback_query", (callbackQuery) => {
 
     const userText = userSessions[chatId].text;
 
-    figlet.text(userText, { font: style }, (err, asciiText) => {
+    // Edit pesan menjadi status loading
+    await bot.editMessageText("Mengonversi ke ASCII...", {
+        chat_id: chatId,
+        message_id: userSessions[chatId].messageId,
+    });
+
+    figlet.text(userText, { font: style }, async (err, asciiText) => {
         if (err) {
-            bot.sendMessage(chatId, "Terjadi kesalahan dalam konversi ASCII.");
+            await bot.editMessageText("Terjadi kesalahan dalam konversi ASCII.", {
+                chat_id: chatId,
+                message_id: userSessions[chatId].messageId,
+            });
             return;
         }
 
@@ -153,10 +221,13 @@ bot.on("callback_query", (callbackQuery) => {
         fs.writeFileSync(filePath, asciiText);
 
         // Kirim file ke user
-        bot.sendDocument(chatId, filePath).then(() => {
-            // Hapus file setelah terkirim
-            fs.unlinkSync(filePath);
-        });
+        await bot.sendDocument(chatId, filePath);
+
+        // Hapus file setelah terkirim
+        fs.unlinkSync(filePath);
+
+        // Hapus pesan sebelumnya
+        await bot.deleteMessage(chatId, userSessions[chatId].messageId);
 
         // Hapus sesi user setelah selesai
         delete userSessions[chatId];
