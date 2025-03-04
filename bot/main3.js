@@ -46,6 +46,7 @@ let autoAI = {};
 let promptAI = {};
 let bratData = {};
 let kbbiData = {};
+let koreksiAktif = true;
 let kalkulatorData = {};
 let userSearchResults = {};
 let stopMotionData = {};
@@ -77,7 +78,6 @@ function simpanData() {
     fs.writeFileSync(FILE_CODES, JSON.stringify(adminCodes, null, 2));
 }
 
-// Daftar perintah yang valid
 const validCommands = [
   "/addkode", "/addmsg", "/ai", "/aiimg", "/aideck", "/artime", "/binary2text", "/brat", "/deladmin",
   "/delmsg", "/dewatermark", "/clone", "/ekali", "/forum off", "/forum on", "/gempa", "/getpp", "/hd",
@@ -85,7 +85,7 @@ const validCommands = [
   "/nulis", "/ngl", "/pin", "/ping", "/pluskode", "/profile", "/promptai", "/randangka", "/randomcat",
   "/register", "/report", "/rngyt", "/rmbg", "/sendb", "/shai", "/spy", "/spy2", "/stalker",
   "/stopmotion", "/teksanim", "/text2binary", "/tourl", "/tourl2", "/translate", "/tts", "/tks",
-  "/ttstalk", "/webrec", "/wikipedia", "/yts", "/koreksi", "/up"
+  "/ttstalk", "/webrec", "/wikipedia", "/yts"
 ];
 
 // Fungsi menghitung Levenshtein Distance
@@ -126,11 +126,25 @@ function findClosestCommand(input) {
   return highestSimilarity >= 60 ? { command: closest, percentage: highestSimilarity } : null;
 }
 
-// Perintah /koreksi
+// Perintah untuk mengaktifkan/nonaktifkan koreksi (Hanya Admin)
+bot.onText(/^\/koreksi (on|off)/, (msg, match) => {
+  const chatId = msg.chat.id;
+  const userId = msg.from.id.toString(); // Pastikan ID diubah menjadi string
+
+  if (userId !== ADMIN_ID) {
+    return bot.sendMessage(chatId, "❌ Kamu tidak memiliki izin untuk mengubah status koreksi.");
+  }
+
+  koreksiAktif = match[1] === "on";
+  bot.sendMessage(chatId, `✅ Koreksi typo ${koreksiAktif ? "diaktifkan" : "dinonaktifkan"}!`);
+});
+
+// Perintah /koreksi manual oleh user
 bot.onText(/^\/koreksi (.+)/, (msg, match) => {
+  if (!koreksiAktif) return; // Jika koreksi dinonaktifkan, bot tidak merespons
+  
   const chatId = msg.chat.id;
   const inputCommand = match[1].toLowerCase();
-
   const result = findClosestCommand(inputCommand);
 
   if (result) {
@@ -142,6 +156,8 @@ bot.onText(/^\/koreksi (.+)/, (msg, match) => {
 
 // Koreksi otomatis saat user mengirim pesan tanpa perintah
 bot.on("message", (msg) => {
+  if (!koreksiAktif) return; // Jika koreksi dinonaktifkan, bot tidak merespons
+
   const text = msg.text?.toLowerCase();
   if (!text || text.startsWith("/koreksi") || text.startsWith("/")) return;
 
