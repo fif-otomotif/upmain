@@ -86,7 +86,7 @@ const validCommands = [
   "/nulis", "/ngl", "/pin", "/ping", "/pluskode", "/profile", "/promptai", "/randangka", "/randomcat",
   "/register", "/report", "/rngyt", "/rmbg", "/sendb", "/shai", "/spy", "/spy2", "/stalker",
   "/stopmotion", "/teksanim", "/text2binary", "/tourl", "/tourl2", "/translate", "/tts", "/tks",
-  "/ttstalk", "/webrec", "/wikipedia", "/yts", "/spmngl"
+  "/ttstalk", "/webrec", "/wikipedia", "/yts", "/spmngl", "/analisis"
 ];
 
 // Fungsi menghitung Levenshtein Distance
@@ -631,6 +631,25 @@ bot.onText(/\/teksanim/, async (msg) => {
     });
 });
 
+bot.onText(/\/analisis/, (msg) => {
+    const chatId = msg.chat.id;
+    bot.sendMessage(chatId, "Kirimkan teks yang ingin dianalisis:");
+    
+    bot.once("message", (msg) => {
+        if (msg.text.startsWith("/")) return; // Mencegah perintah lain mengganggu
+
+        const text = msg.text;
+        const letters = (text.match(/[a-zA-Z]/g) || []).length;
+        const numbers = (text.match(/[0-9]/g) || []).length;
+        const symbols = (text.match(/[^a-zA-Z0-9\s]/g) || []).length;
+
+        bot.sendMessage(chatId, `📊 *Hasil Analisis:*\n` +
+            `🔤 Huruf: ${letters}\n` +
+            `🔢 Angka: ${numbers}\n` +
+            `🔣 Simbol: ${symbols}`, { parse_mode: "Markdown" });
+    });
+});
+
 bot.onText(/\/menu/, async (msg) => {
     const chatId = msg.chat.id;
 
@@ -648,6 +667,7 @@ bot.onText(/\/menu/, async (msg) => {
 /aiimg  
 /aideck  
 /artime  
+/analisis
 /binary2text  
 /brat  
 /deladmin  
