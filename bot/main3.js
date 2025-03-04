@@ -49,6 +49,7 @@ let kbbiData = {};
 let koreksiAktif = true;
 let kalkulatorData = {};
 let userSearchResults = {};
+let spamSessions = {};
 let stopMotionData = {};
 let tesaiUsers = new Set();
 const settingsFile = "settings.json";
@@ -85,7 +86,7 @@ const validCommands = [
   "/nulis", "/ngl", "/pin", "/ping", "/pluskode", "/profile", "/promptai", "/randangka", "/randomcat",
   "/register", "/report", "/rngyt", "/rmbg", "/sendb", "/shai", "/spy", "/spy2", "/stalker",
   "/stopmotion", "/teksanim", "/text2binary", "/tourl", "/tourl2", "/translate", "/tts", "/tks",
-  "/ttstalk", "/webrec", "/wikipedia", "/yts"
+  "/ttstalk", "/webrec", "/wikipedia", "/yts", "/spmngl"
 ];
 
 // Fungsi menghitung Levenshtein Distance
@@ -164,6 +165,72 @@ bot.on("message", (msg) => {
   const result = findClosestCommand(text);
   if (result) {
     bot.sendMessage(msg.chat.id, `Mungkin yang kamu maksud: *${result.command}* (${result.percentage}%)`, { parse_mode: "Markdown" });
+  }
+});
+
+bot.onText(/\/spmngl/, (msg) => {
+  const chatId = msg.chat.id;
+  bot.sendMessage(chatId, "🔗 Kirimkan link NGL kamu:").then(() => {
+    bot.once("message", (msg) => {
+      if (!msg.text.startsWith("http")) return bot.sendMessage(chatId, "⚠️ Link tidak valid!");
+      const linkNGL = msg.text;
+
+      bot.sendMessage(chatId, "📝 Kirimkan pesan yang ingin dikirim:").then(() => {
+        bot.once("message", (msg) => {
+          const pesanNGL = msg.text;
+          const stopButtonId = `stopspm_${chatId}`; // Tombol dengan alamat unik
+
+          bot.sendMessage(chatId, "🚀 Mulai spamming...", {
+            reply_markup: {
+              inline_keyboard: [[{ text: "🛑 Stop", callback_data: stopButtonId }]],
+            },
+          }).then((sentMessage) => {
+            let count = 0;
+            spamSessions[chatId] = setInterval(async () => {
+              try {
+                const response = await axios.get(
+                  `https://api.siputzx.my.id/api/tools/ngl?link=${encodeURIComponent(linkNGL)}&text=${encodeURIComponent(pesanNGL)}`
+                );
+                if (response.data.status) {
+                  count++;
+                  bot.editMessageText(
+                    `📨 Request ke-${count}\n🆔 Question ID: ${response.data.data.questionId}`,
+                    {
+                      chat_id: chatId,
+                      message_id: sentMessage.message_id,
+                      reply_markup: {
+                        inline_keyboard: [[{ text: "🛑 Stop", callback_data: stopButtonId }]],
+                      },
+                    }
+                  );
+                } else {
+                  bot.sendMessage(chatId, "⚠️ Gagal mengirim pesan.");
+                }
+              } catch (error) {
+                bot.sendMessage(chatId, "❌ Terjadi kesalahan saat mengirim pesan.");
+              }
+            }, 5000); // Interval 5 detik
+          });
+        });
+      });
+    });
+  });
+});
+
+// Handle tombol "Stop" dengan alamat unik
+bot.on("callback_query", (callbackQuery) => {
+  const chatId = callbackQuery.message.chat.id;
+  const data = callbackQuery.data;
+
+  if (data.startsWith("stopspm_") && data === `stopspm_${chatId}`) {
+    if (spamSessions[chatId]) {
+      clearInterval(spamSessions[chatId]);
+      delete spamSessions[chatId];
+      bot.editMessageText("✅ Spamming dihentikan.", {
+        chat_id: chatId,
+        message_id: callbackQuery.message.message_id,
+      });
+    }
   }
 });
 
@@ -620,6 +687,7 @@ bot.onText(/\/menu/, async (msg) => {
 /spy  
 /spy2  
 /stalker  
+/spmngl
 /stopmotion
 /teksanim
 /text2binary  
