@@ -170,7 +170,7 @@ bot.on("message", (msg) => {
 
 bot.onText(/\/spmngl/, (msg) => {
   const chatId = msg.chat.id;
-  bot.sendMessage(chatId, "🔗 Kirimkan link NGL kamu:").then(() => {
+  bot.sendMessage(chatId, "🔗 Kirimkan link NGL:").then(() => {
     bot.once("message", (msg) => {
       if (!msg.text.startsWith("http")) return bot.sendMessage(chatId, "⚠️ Link tidak valid!");
       const linkNGL = msg.text;
@@ -186,10 +186,10 @@ bot.onText(/\/spmngl/, (msg) => {
             },
           }).then((sentMessage) => {
             let count = 0;
-            let running = true;
+            spamSessions[chatId] = true; // Menandakan spam aktif
 
             const sendSpam = async () => {
-              while (running) {
+              while (spamSessions[chatId]) {
                 try {
                   const response = await axios.get(
                     `https://api.siputzx.my.id/api/tools/ngl?link=${encodeURIComponent(linkNGL)}&text=${encodeURIComponent(pesanNGL)}`
@@ -209,13 +209,11 @@ bot.onText(/\/spmngl/, (msg) => {
                     );
                   }
                 } catch (error) {
-                  // Jika API gagal, langsung lanjut ke request berikutnya tanpa delay
-                  continue;
+                  continue; // Jika error, langsung coba lagi
                 }
               }
             };
 
-            spamSessions[chatId] = { running: true, sendSpam };
             sendSpam();
           });
         });
@@ -231,8 +229,7 @@ bot.on("callback_query", (callbackQuery) => {
 
   if (data.startsWith("stopspm_") && data === `stopspm_${chatId}`) {
     if (spamSessions[chatId]) {
-      spamSessions[chatId].running = false;
-      delete spamSessions[chatId];
+      delete spamSessions[chatId]; // Hentikan spam
       bot.editMessageText("✅ Spamming dihentikan.", {
         chat_id: chatId,
         message_id: callbackQuery.message.message_id,
