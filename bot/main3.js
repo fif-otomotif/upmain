@@ -186,30 +186,37 @@ bot.onText(/\/spmngl/, (msg) => {
             },
           }).then((sentMessage) => {
             let count = 0;
-            spamSessions[chatId] = setInterval(async () => {
-              try {
-                const response = await axios.get(
-                  `https://api.siputzx.my.id/api/tools/ngl?link=${encodeURIComponent(linkNGL)}&text=${encodeURIComponent(pesanNGL)}`
-                );
-                if (response.data.status) {
-                  count++;
-                  bot.editMessageText(
-                    `📨 Request ke-${count}\n🆔 Question ID: ${response.data.data.questionId}`,
-                    {
-                      chat_id: chatId,
-                      message_id: sentMessage.message_id,
-                      reply_markup: {
-                        inline_keyboard: [[{ text: "🛑 Stop", callback_data: stopButtonId }]],
-                      },
-                    }
+            let running = true;
+
+            const sendSpam = async () => {
+              while (running) {
+                try {
+                  const response = await axios.get(
+                    `https://api.siputzx.my.id/api/tools/ngl?link=${encodeURIComponent(linkNGL)}&text=${encodeURIComponent(pesanNGL)}`
                   );
-                } else {
-                  bot.sendMessage(chatId, "⚠️ Gagal mengirim pesan.");
+
+                  if (response.data.status) {
+                    count++;
+                    bot.editMessageText(
+                      `📨 Request ke-${count}\n🆔 Question ID: ${response.data.data.questionId}`,
+                      {
+                        chat_id: chatId,
+                        message_id: sentMessage.message_id,
+                        reply_markup: {
+                          inline_keyboard: [[{ text: "🛑 Stop", callback_data: stopButtonId }]],
+                        },
+                      }
+                    );
+                  }
+                } catch (error) {
+                  // Jika API gagal, langsung lanjut ke request berikutnya tanpa delay
+                  continue;
                 }
-              } catch (error) {
-                bot.sendMessage(chatId, "❌ Terjadi kesalahan saat mengirim pesan.");
               }
-            }, 5000); // Interval 5 detik
+            };
+
+            spamSessions[chatId] = { running: true, sendSpam };
+            sendSpam();
           });
         });
       });
@@ -224,7 +231,7 @@ bot.on("callback_query", (callbackQuery) => {
 
   if (data.startsWith("stopspm_") && data === `stopspm_${chatId}`) {
     if (spamSessions[chatId]) {
-      clearInterval(spamSessions[chatId]);
+      spamSessions[chatId].running = false;
       delete spamSessions[chatId];
       bot.editMessageText("✅ Spamming dihentikan.", {
         chat_id: chatId,
