@@ -170,7 +170,7 @@ bot.on("message", (msg) => {
 
 bot.onText(/\/spmngl/, (msg) => {
   const chatId = msg.chat.id;
-  bot.sendMessage(chatId, "🔗 Kirimkan link NGL:").then(() => {
+  bot.sendMessage(chatId, "🔗 Kirimkan link NGL kamu:").then(() => {
     bot.once("message", (msg) => {
       if (!msg.text.startsWith("http")) return bot.sendMessage(chatId, "⚠️ Link tidak valid!");
       const linkNGL = msg.text;
@@ -186,10 +186,10 @@ bot.onText(/\/spmngl/, (msg) => {
             },
           }).then((sentMessage) => {
             let count = 0;
-            spamSessions[chatId] = true; // Menandakan spam aktif
+            spamSessions[chatId] = { active: true, messageId: sentMessage.message_id };
 
             const sendSpam = async () => {
-              while (spamSessions[chatId]) {
+              while (spamSessions[chatId]?.active) {
                 try {
                   const response = await axios.get(
                     `https://api.siputzx.my.id/api/tools/ngl?link=${encodeURIComponent(linkNGL)}&text=${encodeURIComponent(pesanNGL)}`
@@ -229,10 +229,13 @@ bot.on("callback_query", (callbackQuery) => {
 
   if (data.startsWith("stopspm_") && data === `stopspm_${chatId}`) {
     if (spamSessions[chatId]) {
+      const messageId = spamSessions[chatId].messageId;
       delete spamSessions[chatId]; // Hentikan spam
-      bot.editMessageText("✅ Spamming dihentikan.", {
-        chat_id: chatId,
-        message_id: callbackQuery.message.message_id,
+
+      bot.deleteMessage(chatId, messageId).then(() => {
+        bot.sendMessage(chatId, "✅ Spamming dihentikan.");
+      }).catch(() => {
+        bot.sendMessage(chatId, "✅ Spamming dihentikan.");
       });
     }
   }
