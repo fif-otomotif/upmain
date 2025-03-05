@@ -86,7 +86,7 @@ const validCommands = [
   "/nulis", "/ngl", "/pin", "/ping", "/pluskode", "/profile", "/promptai", "/randangka", "/randomcat",
   "/register", "/report", "/rngyt", "/rmbg", "/sendb", "/shai", "/spy", "/spy2", "/stalker",
   "/stopmotion", "/teksanim", "/text2binary", "/tourl", "/tourl2", "/translate", "/tts", "/tks",
-  "/ttstalk", "/webrec", "/wikipedia", "/yts", "/spmngl", "/analisis"
+  "/ttstalk", "/webrec", "/wikipedia", "/yts", "/spmngl", "/analisis", "/alay"
 ];
 
 // Fungsi menghitung Levenshtein Distance
@@ -211,6 +211,30 @@ bot.on("callback_query", (callbackQuery) => {
       });
     }
   }
+});
+
+bot.onText(/\/alay/, async (msg) => {
+    const chatId = msg.chat.id;
+
+    bot.sendMessage(chatId, "Kirimkan teks nya:")
+        .then(() => {
+            bot.once("message", async (msg) => {
+                const userInput = encodeURIComponent(msg.text);
+
+                try {
+                    const response = await fetch(`https://api.siputzx.my.id/api/fun/alay?text=${userInput}`);
+                    const data = await response.json();
+
+                    if (data.status) {
+                        bot.sendMessage(chatId, `📝 Hasil:\n\n\`${data.result}\``);
+                    } else {
+                        bot.sendMessage(chatId, "❌ Gagal mengubah teks ke alay.");
+                    }
+                } catch (error) {
+                    bot.sendMessage(chatId, "❌ Terjadi kesalahan, coba lagi nanti.");
+                }
+            });
+        });
 });
 
 // Perintah /tks
@@ -645,6 +669,7 @@ bot.onText(/\/menu/, async (msg) => {
 /ai  
 /aiimg  
 /aideck  
+/alay
 /artime  
 /analisis
 /binary2text  
