@@ -140,64 +140,6 @@ bot.onText(/^\/koreksi (on|off)/, (msg, match) => {
   bot.sendMessage(chatId, `✅ Koreksi typo ${koreksiAktif ? "diaktifkan" : "dinonaktifkan"}!`);
 });
 
-// Mendengarkan pesan yang diterima
-bot.on('message', (msg) => {
-    const chatId = msg.chat.id;
-    const text = msg.text;
-
-    // Simpan percakapan ke file berdasarkan ID pengguna
-    const filePath = path.join(__dirname, `${chatId}.txt`);
-    fs.appendFileSync(filePath, `${new Date().toISOString()}: ${text}\n`);
-
-    // Kirim kembali pesan yang diterima
-    bot.sendMessage(chatId, `Anda mengirim: ${text}`);
-});
-
-// Perintah untuk admin melihat daftar file percakapan
-bot.onText(/\/list_files/, (msg) => {
-    const chatId = msg.chat.id;
-
-    // Cek apakah pengirim adalah admin
-    if (chatId.toString() === ADMIN_ID) {
-        fs.readdir(__dirname, (err, files) => {
-            if (err) {
-                return bot.sendMessage(chatId, 'Terjadi kesalahan saat membaca file.');
-            }
-
-            // Filter file .txt
-            const txtFiles = files.filter(file => file.endsWith('.txt'));
-            if (txtFiles.length === 0) {
-                return bot.sendMessage(chatId, 'Tidak ada file percakapan yang ditemukan.');
-            }
-
-            // Kirim daftar file
-            bot.sendMessage(chatId, `Daftar file percakapan:\n${txtFiles.join('\n')}`);
-        });
-    } else {
-        bot.sendMessage(chatId, 'Anda tidak memiliki izin untuk melihat daftar file.');
-    }
-});
-
-// Perintah untuk admin meminta file percakapan tertentu
-bot.onText(/\/get_file (.+)/, (msg, match) => {
-    const chatId = msg.chat.id;
-
-    // Cek apakah pengirim adalah admin
-    if (chatId.toString() === ADMIN_ID) {
-        const userId = match[1];
-        const filePath = path.join(__dirname, `${userId}.txt`);
-
-        // Cek apakah file ada
-        if (fs.existsSync(filePath)) {
-            bot.sendDocument(chatId, filePath);
-        } else {
-            bot.sendMessage(chatId, 'File percakapan tidak ditemukan.');
-        }
-    } else {
-        bot.sendMessage(chatId, 'Anda tidak memiliki izin untuk meminta file.');
-    }
-});
-
 bot.onText(/\/spmngl/, (msg) => {
   const chatId = msg.chat.id;
   bot.sendMessage(chatId, "🔗 Kirimkan link NGL kamu:").then(() => {
