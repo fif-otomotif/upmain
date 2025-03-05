@@ -226,7 +226,12 @@ bot.onText(/\/alay/, async (msg) => {
                     const data = await response.json();
 
                     if (data.status) {
-                        bot.sendMessage(chatId, `📝 Hasil:\n\n\`${data.result}\``);
+                        // Escape karakter khusus agar tidak error di MarkdownV2
+                        const alayText = data.result.replace(/[_*[\]()~`>#+\-=|{}.!]/g, '\\$&');
+
+                        bot.sendMessage(chatId, `📝 Hasil:\n\n\`${alayText}\``, {
+                            parse_mode: "MarkdownV2"
+                        });
                     } else {
                         bot.sendMessage(chatId, "❌ Gagal mengubah teks ke alay.");
                     }
