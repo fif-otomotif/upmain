@@ -1,4 +1,4 @@
-import bot from './bot.js';
+import { bot } from './bot.js';
 import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 
@@ -16,6 +16,7 @@ import cloudscraper from 'cloudscraper';
 import moment from "moment-timezone";
 import os from "os";
 import figlet from "figlet";
+import { translate } from "@vitalets/google-translate-api";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -38,6 +39,7 @@ const jamAktif = new Map();
 const userSessions = {};
 const ytsSessions = {};
 const aiSessions = {};
+const spamData = {};
 const userState = {};
 const uploadStatus = {};
 const activeClock = {};
@@ -86,7 +88,7 @@ const validCommands = [
   "/nulis", "/ngl", "/pin", "/ping", "/pluskode", "/profile", "/promptai", "/randangka", "/randomcat",
   "/register", "/report", "/rngyt", "/rmbg", "/sendb", "/shai", "/spy", "/spy2", "/stalker",
   "/stopmotion", "/teksanim", "/text2binary", "/tourl", "/tourl2", "/translate", "/tts", "/tks",
-  "/ttstalk", "/webrec", "/wikipedia", "/yts", "/spmngl", "/analisis", "/alay"
+  "/ttstalk", "/webrec", "/wikipedia", "/yts", "/spmngl", "/analisis", "/alay", "/cekip", "/imgdescription",
 ];
 
 // Fungsi menghitung Levenshtein Distance
@@ -138,6 +140,185 @@ bot.onText(/^\/koreksi (on|off)/, (msg, match) => {
 
   koreksiAktif = match[1] === "on";
   bot.sendMessage(chatId, `✅ Koreksi typo ${koreksiAktif ? "diaktifkan" : "dinonaktifkan"}!`);
+});
+
+const dadu = ["⚀ (1)", "⚁ (2)", "⚂ (3)", "⚃ (4)", "⚄ (5)", "⚅ (6)"];
+
+bot.onText(/\/dadu/, async (msg) => {
+    const chatId = msg.chat.id;
+    
+    // Kirim pesan awal
+    let message = await bot.sendMessage(chatId, "🎲 Mengocok dadu...");
+    
+    let previousDice = "";
+    let i = 0;
+    let interval = setInterval(() => {
+        let randomDice;
+        
+        // Pastikan angka yang keluar tidak sama dengan sebelumnya
+        do {
+            randomDice = dadu[Math.floor(Math.random() * dadu.length)];
+        } while (randomDice === previousDice);
+        
+        previousDice = randomDice;
+
+        bot.editMessageText(`🎲 Mengocok dadu...\n\n${randomDice}`, { 
+            chat_id: chatId, 
+            message_id: message.message_id 
+        });
+
+        i++;
+        if (i > 5) { // Setelah 5 kali perubahan, stop animasi
+            clearInterval(interval);
+            let finalDice;
+            
+            // Pastikan hasil akhir berbeda dari angka terakhir dalam animasi
+            do {
+                finalDice = dadu[Math.floor(Math.random() * dadu.length)];
+            } while (finalDice === previousDice);
+            
+            bot.editMessageText(`🎲 Hasil dadu: ${finalDice}`, { 
+                chat_id: chatId, 
+                message_id: message.message_id 
+            });
+        }
+    }, 500); // Ubah angka setiap 0.5 detik
+});
+
+bot.onText(/\/imgdescription/, (msg) => {
+  const chatId = msg.chat.id;
+  bot.sendMessage(chatId, "Silakan kirimkan gambar yang ingin dideskripsikan.");
+});
+
+bot.on("photo", async (msg) => {
+  const chatId = msg.chat.id;
+  const fileId = msg.photo[msg.photo.length - 1].file_id; // Ambil resolusi tertinggi
+
+  try {
+    const fileLink = await bot.getFileLink(fileId);
+    const filePath = `/data/data/com.termux/files/home/temp_image.jpg`; // Simpan gambar sementara
+
+    // Download gambar dari URL
+    const writer = fs.createWriteStream(filePath);
+    const response = await axios({
+      url: fileLink,
+      method: "GET",
+      responseType: "stream",
+    });
+
+    response.data.pipe(writer);
+    await new Promise((resolve, reject) => {
+      writer.on("finish", resolve);
+      writer.on("error", reject);
+    });
+
+    // Buat form-data untuk upload gambar
+    const form = new FormData();
+    form.append("image", fs.createReadStream(filePath));
+
+    // Upload gambar ke API
+    const apiResponse = await axios.post(
+      "https://fastrestapis.fasturl.cloud/aiimage/imgdescription-v2",
+      form,
+      { headers: form.getHeaders() }
+    );
+
+    fs.unlinkSync(filePath); // Hapus gambar setelah upload
+
+    if (apiResponse.data.result?.description) {
+      let description = apiResponse.data.result.description;
+
+      // Cek apakah deskripsi dalam bahasa Indonesia
+      const detectedLang = await translate(description, { to: "id" });
+      if (detectedLang.from !== "id") {
+        description = detectedLang.text;
+      }
+
+      bot.sendMessage(chatId, `🖼 Deskripsi Gambar:\n\n${description}`);
+    } else {
+      bot.sendMessage(chatId, "❌ Gagal mendapatkan deskripsi gambar.");
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    bot.sendMessage(chatId, "❌ Terjadi kesalahan saat memproses gambar.");
+  }
+});
+
+bot.onText(/^\/cekip$/, async (msg) => {
+    const chatId = msg.chat.id;
+    bot.sendMessage(chatId, "Silakan kirim alamat IP yang ingin diperiksa.");
+
+    bot.once("message", async (msg) => {
+        const ip = msg.text.trim();
+        if (!/^(\d{1,3}\.){3}\d{1,3}$/.test(ip)) {
+            return bot.sendMessage(chatId, "⚠️ Format IP tidak valid. Harap kirim alamat IP yang benar.");
+        }
+
+        try {
+            const res = await fetch(`https://fastrestapis.fasturl.cloud/tool/whoip?ip=${ip}`);
+            const json = await res.json();
+
+            if (json.status !== 200) {
+                return bot.sendMessage(chatId, "❌ Gagal mendapatkan informasi IP. Coba lagi nanti.");
+            }
+
+            const data = json.result;
+            const info = `🌍 *Informasi IP*\n\n` +
+                `📌 *IP*: ${data.ip}\n` +
+                `🔍 *Tipe IP*: ${data.ipType}\n` +
+                `🖧 *Network*: ${data.network}\n` +
+                `🏢 *ISP*: ${data.isp}\n` +
+                `🏛 *Organisasi*: ${data.org}\n` +
+                `🆔 *ASN*: ${data.asn} (${data.asnData.asnName})\n` +
+                `🗺️ *Negara*: ${data.geoDetails.country} (${data.geoDetails.countryCode})\n` +
+                `📍 *Kota*: ${data.locationInsights.city}, ${data.locationInsights.region}\n` +
+                `⏳ *Zona Waktu*: ${data.locationInsights.timezone} (GMT ${data.locationInsights.timezoneGmt})\n` +
+                `🌐 *Google Maps*: [Klik di sini](${data.googleMapLink})\n` +
+                `🛡️ *Ancaman*: ${data.threatData.threatLevel}`;
+
+            bot.sendMessage(chatId, info, { parse_mode: "Markdown", disable_web_page_preview: false });
+        } catch (error) {
+            bot.sendMessage(chatId, "⚠️ Terjadi kesalahan saat mengambil data. Coba lagi nanti.");
+        }
+    });
+});
+
+bot.onText(/^\/cekip_me$/, async (msg) => {
+    const chatId = msg.chat.id;
+    bot.sendMessage(chatId, "🔍 Sedang mendeteksi alamat IP kamu...");
+
+    try {
+        // Dapatkan IP publik user
+        const ipRes = await fetch("https://api64.ipify.org?format=json");
+        const ipJson = await ipRes.json();
+        const userIp = ipJson.ip;
+
+        // Ambil informasi IP dari API
+        const res = await fetch(`https://fastrestapis.fasturl.cloud/tool/whoip?ip=${userIp}`);
+        const json = await res.json();
+
+        if (json.status !== 200) {
+            return bot.sendMessage(chatId, "❌ Gagal mendapatkan informasi IP. Coba lagi nanti.");
+        }
+
+        const data = json.result;
+        const info = `🌍 *Informasi IP Kamu*\n\n` +
+            `📌 *IP*: ${data.ip}\n` +
+            `🔍 *Tipe IP*: ${data.ipType}\n` +
+            `🖧 *Network*: ${data.network}\n` +
+            `🏢 *ISP*: ${data.isp}\n` +
+            `🏛 *Organisasi*: ${data.org}\n` +
+            `🆔 *ASN*: ${data.asn} (${data.asnData.asnName})\n` +
+            `🗺️ *Negara*: ${data.geoDetails.country} (${data.geoDetails.countryCode})\n` +
+            `📍 *Kota*: ${data.locationInsights.city}, ${data.locationInsights.region}\n` +
+            `⏳ *Zona Waktu*: ${data.locationInsights.timezone} (GMT ${data.locationInsights.timezoneGmt})\n` +
+            `🌐 *Google Maps*: [Klik di sini](${data.googleMapLink})\n` +
+            `🛡️ *Ancaman*: ${data.threatData.threatLevel}`;
+
+        bot.sendMessage(chatId, info, { parse_mode: "Markdown", disable_web_page_preview: true });
+    } catch (error) {
+        bot.sendMessage(chatId, "⚠️ Terjadi kesalahan saat mendeteksi IP. Coba lagi nanti.");
+    }
 });
 
 bot.onText(/\/spmngl/, (msg) => {
@@ -325,13 +506,11 @@ bot.on("callback_query", async (callbackQuery) => {
     });
 });
 
-// Fungsi untuk mendapatkan waktu sekarang
 function getTime() {
     const date = new Date();
     return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
 }
 
-// Fungsi Kirim Log Error
 function sendErrorLog(error) {
     const errorMessage = `
 ⚠️ *LOG ERROR TERDETEKSI!*
@@ -343,58 +522,32 @@ function sendErrorLog(error) {
 ${error.stack}
 \`\`\`
 `;
+
+    fs.appendFileSync("error.log", `[${getTime()}] ${error.stack}\n\n`);
     bot.sendMessage(TELEGRAM_USER_ID, errorMessage, { parse_mode: "Markdown" });
 }
 
-// Tangkap Error UncaughtException
-process.on('uncaughtException', (err) => {
-    console.error(`Uncaught Exception: ${err.message}`);
+process.on("uncaughtException", (err) => {
+    console.error(`❌ Uncaught Exception: ${err.message}`);
     sendErrorLog(err);
 });
 
-// Tangkap Error UnhandledRejection
-process.on('unhandledRejection', (reason, promise) => {
-    console.error(`Unhandled Rejection: ${reason}`);
+process.on("unhandledRejection", (reason, promise) => {
+    console.error(`❌ Unhandled Rejection: ${reason}`);
     sendErrorLog(reason instanceof Error ? reason : new Error(reason));
 });
 
-bot.onText(/\/imgbin/, (msg) => {
-  bot.sendMessage(msg.chat.id, "Kirimkan gambar yang ingin dikonversi ke biner.");
+process.on("SIGINT", () => {
+    console.log("⚠️ Proses dihentikan oleh user (SIGINT)");
+    process.exit(0);
 });
 
-bot.on("photo", async (msg) => {
-  const chatId = msg.chat.id;
-  const photo = msg.photo[msg.photo.length - 1]; // Ambil resolusi tertinggi
-  const fileId = photo.file_id;
-
-  try {
-    // Dapatkan URL file dari Telegram
-    const fileUrl = await bot.getFileLink(fileId);
-    const response = await axios.get(fileUrl, { responseType: "arraybuffer" });
-
-    // Simpan gambar sementara
-    const imagePath = path.join(__dirname, "image.jpg");
-    fs.writeFileSync(imagePath, response.data);
-
-    // Konversi ke biner dan simpan ke file .txt
-    const outputTxt = path.join(__dirname, "image_bin.txt");
-    exec(`xxd -b ${imagePath} > ${outputTxt}`, async (error) => {
-      if (error) {
-        bot.sendMessage(chatId, "Terjadi kesalahan saat mengonversi gambar.");
-        return;
-      }
-
-      // Kirim file hasil biner
-      await bot.sendDocument(chatId, outputTxt);
-
-      // Hapus file setelah dikirim
-      fs.unlinkSync(imagePath);
-      fs.unlinkSync(outputTxt);
-    });
-  } catch (error) {
-    bot.sendMessage(chatId, "Gagal mengunduh gambar.");
-  }
+process.on("SIGTERM", () => {
+    console.log("⚠️ Proses dihentikan oleh sistem (SIGTERM)");
+    process.exit(0);
 });
+
+const catchAsync = (fn) => (...args) => fn(...args).catch((err) => sendErrorLog(err));
 
 bot.onText(/\/clone/, (msg) => {
     const chatId = msg.chat.id;
@@ -681,8 +834,10 @@ bot.onText(/\/menu/, async (msg) => {
 /brat  
 /deladmin  
 /delmsg  
+/dadu
 /dewatermark  
 /clone
+/cekip
 /ekali
 /forum off  
 /forum on  
@@ -690,7 +845,7 @@ bot.onText(/\/menu/, async (msg) => {
 /getpp  
 /hd  
 /igstalk  
-/imgbin
+/imgdescription
 /itung  
 /jam
 /autoai  

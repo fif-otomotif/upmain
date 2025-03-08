@@ -1,4 +1,4 @@
-import bot from './bot.js';
+import { bot } from './bot.js';
 import fs from 'fs';
 import https from 'https';
 
