@@ -5,16 +5,17 @@ import https from 'https';
 // URL raw GitHub untuk main3.js
 const GITHUB_RAW_URL = "https://raw.githubusercontent.com/fif-otomotif/upmain/main/bot/main3.js";
 
-// Objek untuk menyimpan user yang sedang dalam proses update
-const updateQueue = {};
-
 bot.on('message', (msg) => {
     const chatId = msg.chat.id;
+    
+    // Pastikan `msg.text` ada sebelum menggunakan `.trim()`
+    if (!msg.text) return; 
+
     const text = msg.text.trim();
 
     if (text === "/up") {
         bot.sendMessage(chatId, "Mengunduh update terbaru, harap tunggu...");
-        updateMain3(chatId); // Jalankan proses update otomatis
+        updateMain3(chatId);
     }
 });
 

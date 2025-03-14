@@ -27,7 +27,7 @@ function askToken() {
 // Fungsi untuk menjalankan bot
 function startBot(token) {
   const bot = new TelegramBot(token, { polling: true });
-  console.log("Bot berjalan...");
+  console.log("✅ success...");
   return bot;
 }
 

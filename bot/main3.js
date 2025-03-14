@@ -38,6 +38,8 @@ const waitingForImage = new Map();
 const jamAktif = new Map();
 const userSessions = {};
 const ytsSessions = {};
+const gameSessions = {};
+const pendingRequests = {};
 const aiSessions = {};
 const spamData = {};
 const userState = {};
@@ -50,6 +52,9 @@ let bratData = {};
 let kbbiData = {};
 let koreksiAktif = true;
 let kalkulatorData = {};
+let tebakGambarSessions = {};
+let susunKataSessions = {};
+let tebakBenderaSessions = {};
 let userSearchResults = {};
 let spamSessions = {};
 let stopMotionData = {};
@@ -81,65 +86,349 @@ function simpanData() {
     fs.writeFileSync(FILE_CODES, JSON.stringify(adminCodes, null, 2));
 }
 
-const validCommands = [
-  "/addkode", "/addmsg", "/ai", "/aiimg", "/aideck", "/artime", "/binary2text", "/brat", "/deladmin",
-  "/delmsg", "/dewatermark", "/clone", "/ekali", "/forum off", "/forum on", "/gempa", "/getpp", "/hd",
-  "/igstalk", "/imgbin", "/itung", "/jam", "/autoai", "/kbbi", "/kalender", "/listmsg", "/logout",
-  "/nulis", "/ngl", "/pin", "/ping", "/pluskode", "/profile", "/promptai", "/randangka", "/randomcat",
-  "/register", "/report", "/rngyt", "/rmbg", "/sendb", "/shai", "/spy", "/spy2", "/stalker",
-  "/stopmotion", "/teksanim", "/text2binary", "/tourl", "/tourl2", "/translate", "/tts", "/tks",
-  "/ttstalk", "/webrec", "/wikipedia", "/yts", "/spmngl", "/analisis", "/alay", "/cekip", "/imgdescription",
-];
+bot.onText(/\/susunkata/, async (msg) => {
+    const chatId = msg.chat.id;
 
-// Fungsi menghitung Levenshtein Distance
-function levenshtein(a, b) {
-  const tmp = Array(b.length + 1).fill(0).map(() => Array(a.length + 1).fill(0));
-  for (let i = 0; i <= a.length; i++) tmp[0][i] = i;
-  for (let j = 0; j <= b.length; j++) tmp[j][0] = j;
+    try {
+        const response = await axios.get("https://api.siputzx.my.id/api/games/susunkata");
+        const { soal, tipe, jawaban } = response.data.data;
 
-  for (let j = 1; j <= b.length; j++) {
-    for (let i = 1; i <= a.length; i++) {
-      if (a[i - 1] === b[j - 1]) tmp[j][i] = tmp[j - 1][i - 1];
-      else tmp[j][i] = Math.min(tmp[j - 1][i - 1] + 1, tmp[j][i - 1] + 1, tmp[j - 1][i] + 1);
+        susunKataSessions[chatId] = {
+            answer: jawaban.toLowerCase(),
+            timer: setTimeout(() => {
+                bot.sendMessage(chatId, `⏳ Waktu habis! Jawaban yang benar adalah: *${jawaban}*`, { parse_mode: "Markdown" });
+                delete susunKataSessions[chatId];
+            }, 60000), // 1 menit
+        };
+
+        bot.sendMessage(chatId, `🧩 Susun kata ini!\n\n🔠 *Soal:* ${soal}\n📌 *Tipe:* ${tipe}\n\nKetik *menyerah* jika ingin menyerah.`, { parse_mode: "Markdown" });
+
+    } catch (error) {
+        bot.sendMessage(chatId, "⚠️ Terjadi kesalahan, coba lagi nanti.");
+        console.error(error);
     }
-  }
-  return tmp[b.length][a.length];
-}
+});
 
-// Fungsi menghitung persentase kemiripan
-function similarityPercentage(input, target) {
-  const maxLength = Math.max(input.length, target.length);
-  const distance = levenshtein(input, target);
-  return Math.round(((maxLength - distance) / maxLength) * 100);
-}
+bot.on("message", (msg) => {
+    const chatId = msg.chat.id;
+    const text = msg.text?.toLowerCase();
 
-// Fungsi mencari perintah paling mirip
-function findClosestCommand(input) {
-  let closest = null;
-  let highestSimilarity = 0;
-
-  for (const cmd of validCommands) {
-    const similarity = similarityPercentage(input, cmd);
-    if (similarity > highestSimilarity) {
-      highestSimilarity = similarity;
-      closest = cmd;
+    if (susunKataSessions[chatId] && text) {
+        if (text === "menyerah") {
+            clearTimeout(susunKataSessions[chatId].timer);
+            bot.sendMessage(chatId, `😔 Kamu menyerah! Jawaban yang benar adalah *${susunKataSessions[chatId].answer}*`, { parse_mode: "Markdown" });
+            delete susunKataSessions[chatId];
+        } else if (text === susunKataSessions[chatId].answer) {
+            clearTimeout(susunKataSessions[chatId].timer);
+            bot.sendMessage(chatId, `✅ Benar! Jawabannya adalah *${susunKataSessions[chatId].answer}*!`, { parse_mode: "Markdown" });
+            delete susunKataSessions[chatId];
+        } else {
+            bot.sendMessage(chatId, "❌ Salah! Coba lagi atau ketik *menyerah*.");
+        }
     }
-  }
+});
 
-  return highestSimilarity >= 60 ? { command: closest, percentage: highestSimilarity } : null;
+bot.onText(/\/tebakgambar/, async (msg) => {
+    const chatId = msg.chat.id;
+
+    try {
+        const response = await axios.get("https://api.siputzx.my.id/api/games/tebakgambar");
+        const { img, jawaban, deskripsi } = response.data.data;
+
+        // Download gambar sebagai buffer
+        const imageBuffer = await axios.get(img, { responseType: "arraybuffer" });
+
+        tebakGambarSessions[chatId] = {
+            answer: jawaban.toLowerCase(),
+            timer: setTimeout(() => {
+                bot.sendMessage(chatId, `⏳ Waktu habis! Jawaban yang benar adalah: *${jawaban}*`, { parse_mode: "Markdown" });
+                delete tebakGambarSessions[chatId];
+            }, 60000), // 1 menit
+        };
+
+        bot.sendPhoto(chatId, imageBuffer.data, {
+            caption: `🧐 Tebak gambar ini!\n\n🔍 *Petunjuk:* ${deskripsi}\n\nKetik *menyerah* jika ingin menyerah.`,
+            parse_mode: "Markdown",
+        });
+
+    } catch (error) {
+        bot.sendMessage(chatId, "⚠️ Terjadi kesalahan, coba lagi nanti.");
+        console.error(error);
+    }
+});
+
+bot.on("message", (msg) => {
+    const chatId = msg.chat.id;
+    const text = msg.text?.toLowerCase();
+
+    if (tebakGambarSessions[chatId] && text) {
+        if (text === "menyerah") {
+            clearTimeout(tebakGambarSessions[chatId].timer);
+            bot.sendMessage(chatId, `😔 Kamu menyerah! Jawaban yang benar adalah *${tebakGambarSessions[chatId].answer}*`, { parse_mode: "Markdown" });
+            delete tebakGambarSessions[chatId];
+        } else if (text === tebakGambarSessions[chatId].answer) {
+            clearTimeout(tebakGambarSessions[chatId].timer);
+            bot.sendMessage(chatId, `✅ Benar! Jawabannya adalah *${tebakGambarSessions[chatId].answer}*!`, { parse_mode: "Markdown" });
+            delete tebakGambarSessions[chatId];
+        } else {
+            bot.sendMessage(chatId, "❌ Salah! Coba lagi.");
+        }
+    }
+});
+
+bot.onText(/\/tebakbendera/, async (msg) => {
+    const chatId = msg.chat.id;
+
+    try {
+        const response = await axios.get("https://api.siputzx.my.id/api/games/tebakbendera");
+        const { name, img } = response.data;
+
+        // Download gambar sebagai buffer
+        const imageBuffer = await axios.get(img, { responseType: "arraybuffer" });
+
+        tebakBenderaSessions[chatId] = {
+            answer: name.toLowerCase(),
+            timer: setTimeout(() => {
+                bot.sendMessage(chatId, `⏳ Waktu habis! Jawaban yang benar adalah: *${name}*`, { parse_mode: "Markdown" });
+                delete tebakBenderaSessions[chatId];
+            }, 60000), // 1 menit
+        };
+
+        bot.sendPhoto(chatId, imageBuffer.data, {
+            caption: "🧐 Tebak bendera ini! Kamu punya waktu 1 menit.\n\nKetik *menyerah* jika ingin menyerah.",
+            parse_mode: "Markdown",
+        });
+
+    } catch (error) {
+        bot.sendMessage(chatId, "⚠️ Terjadi kesalahan, coba lagi nanti.");
+        console.error(error);
+    }
+});
+
+bot.on("message", (msg) => {
+    const chatId = msg.chat.id;
+    const text = msg.text?.toLowerCase();
+
+    if (tebakBenderaSessions[chatId] && text) {
+        if (text === "menyerah") {
+            clearTimeout(tebakBenderaSessions[chatId].timer);
+            bot.sendMessage(chatId, `😔 Kamu menyerah! Jawaban yang benar adalah *${tebakBenderaSessions[chatId].answer}*`, { parse_mode: "Markdown" });
+            delete tebakBenderaSessions[chatId];
+        } else if (text === tebakBenderaSessions[chatId].answer) {
+            clearTimeout(tebakBenderaSessions[chatId].timer);
+            bot.sendMessage(chatId, `✅ Benar! Ini adalah bendera *${tebakBenderaSessions[chatId].answer}*!`, { parse_mode: "Markdown" });
+            delete tebakBenderaSessions[chatId];
+        } else {
+            bot.sendMessage(chatId, "❌ Salah! Coba lagi.");
+        }
+    }
+});
+
+bot.onText(/^\/emojimix (.+)/, async (msg, match) => {
+    const chatId = msg.chat.id;
+    const input = match[1].split("|");
+
+    if (input.length !== 2) {
+        return bot.sendMessage(chatId, "Format salah! Gunakan: /emojimix (emoji)|(emoji)");
+    }
+
+    const emoji1 = encodeURIComponent(input[0].trim());
+    const emoji2 = encodeURIComponent(input[1].trim());
+    const url = `https://fastrestapis.fasturl.cloud/maker/emojimix?emoji1=${emoji1}&emoji2=${emoji2}`;
+
+    try {
+        // Ambil gambar dari API
+        const response = await axios.get(url, { responseType: "arraybuffer" });
+        const filePath = path.join(__dirname, "emojimix.png");
+
+        // Simpan gambar sementara
+        fs.writeFileSync(filePath, response.data);
+
+        // Kirim sebagai stiker
+        await bot.sendSticker(chatId, filePath);
+
+        // Hapus file setelah dikirim
+        fs.unlinkSync(filePath);
+    } catch (error) {
+        console.error("Gagal mengambil emoji mix:", error);
+        bot.sendMessage(chatId, "Gagal membuat emoji mix. Coba lagi.");
+    }
+});
+
+bot.onText(/\/tt (.+)/, async (msg, match) => {
+    const chatId = msg.chat.id;
+    const url = match[1];
+
+    if (!url.includes("tiktok.com")) return; // Abaikan jika bukan URL TikTok
+
+    processTikTok(chatId, url);
+});
+
+bot.on("message", async (msg) => {
+    const chatId = msg.chat.id;
+    const text = msg.text;
+
+    // Deteksi apakah pesan mengandung URL TikTok
+    if (text && text.includes("tiktok.com")) {
+        processTikTok(chatId, text);
+    }
+});
+
+async function processTikTok(chatId, url) {
+    try {
+        const apiUrl = `https://velyn.vercel.app/api/downloader/tiktok?url=${encodeURIComponent(url)}`;
+        const response = await axios.get(apiUrl);
+        const data = response.data;
+
+        if (!data.status || !data.data || !data.data.no_watermark) {
+            return bot.sendMessage(chatId, "⚠️ Gagal mengambil video. Coba link lain.");
+        }
+
+        const { title, no_watermark, music } = data.data;
+
+        // Kirim video tanpa watermark dengan caption
+        bot.sendVideo(chatId, no_watermark, { caption: title })
+            .then(() => {
+                // Setelah video terkirim, kirim musik
+                if (music) {
+                    bot.sendAudio(chatId, music);
+                }
+            })
+            .catch(() => {
+                bot.sendMessage(chatId, "⚠️ Gagal mengirim video.");
+            });
+
+    } catch (error) {
+        bot.sendMessage(chatId, "⚠️ Terjadi kesalahan saat mengambil data.");
+    }
 }
 
-// Perintah untuk mengaktifkan/nonaktifkan koreksi (Hanya Admin)
-bot.onText(/^\/koreksi (on|off)/, (msg, match) => {
-  const chatId = msg.chat.id;
-  const userId = msg.from.id.toString(); // Pastikan ID diubah menjadi string
+bot.onText(/^\/apakah(?:\s+(.+))?$/, (msg, match) => {
+    const chatId = msg.chat.id;
+    const pertanyaan = match[1];
 
-  if (userId !== ADMIN_ID) {
-    return bot.sendMessage(chatId, "❌ Kamu tidak memiliki izin untuk mengubah status koreksi.");
-  }
+    if (!pertanyaan) {
+        return bot.sendMessage(
+            chatId,
+            "❌ `/apakah`\n✅ `/apakah <pertanyaan>`\n\nContoh: `/apakah aku ganteng?`",
+            { parse_mode: "Markdown" }
+        );
+    }
 
-  koreksiAktif = match[1] === "on";
-  bot.sendMessage(chatId, `✅ Koreksi typo ${koreksiAktif ? "diaktifkan" : "dinonaktifkan"}!`);
+    const jawabanList = [
+        "Ya", "Tidak", "Tidak tahu", "Mungkin", "Mungkin tidak",
+        "Tentu saja", "Tentu tidak", "Bisa jadi", "Kemungkinan besar", "Kemungkinan kecil"
+    ];
+
+    const jawaban = jawabanList[Math.floor(Math.random() * jawabanList.length)];
+
+    bot.sendMessage(chatId, `*Pertanyaan:* ${pertanyaan}\n*Jawaban:* ${jawaban}`, { parse_mode: "Markdown" });
+});
+
+bot.onText(/\/sleep/, async (msg) => {
+    const chatId = msg.chat.id;
+    let countdown = 5; // Waktu mundur 5 detik
+
+    // Kirim pesan awal dengan tombol
+    const sentMessage = await bot.sendMessage(
+        chatId,
+        `Apakah Anda yakin ingin mematikan bot?`,
+        {
+            reply_markup: {
+                inline_keyboard: [
+                    [{ text: "Matikan Bot", callback_data: "shutdown" }],
+                    [{ text: `${countdown}`, callback_data: "timer" }], // Tombol timer (tidak bisa ditekan)
+                    [{ text: "Batal", callback_data: "cancel" }]
+                ]
+            }
+        }
+    );
+
+    const messageId = sentMessage.message_id;
+
+    // Timer untuk update tombol timer setiap detik
+    const interval = setInterval(() => {
+        countdown--;
+
+        if (countdown === 0) {
+            clearInterval(interval);
+            bot.editMessageText("Perintah dibatalkan (waktu habis).", {
+                chat_id: chatId,
+                message_id: messageId
+            });
+        } else {
+            bot.editMessageReplyMarkup(
+                {
+                    inline_keyboard: [
+                        [{ text: "Matikan Bot", callback_data: "shutdown" }],
+                        [{ text: `${countdown}`, callback_data: "timer" }],
+                        [{ text: "Batal", callback_data: "cancel" }]
+                    ]
+                },
+                { chat_id: chatId, message_id: messageId }
+            );
+        }
+    }, 1000);
+
+    // Event untuk menangani tombol
+    bot.once("callback_query", (callbackQuery) => {
+        clearInterval(interval); // Hentikan timer jika user merespons
+        const data = callbackQuery.data;
+
+        if (data === "shutdown") {
+            bot.editMessageText("Bot dimatikan...", {
+                chat_id: chatId,
+                message_id: messageId
+            });
+
+            setTimeout(() => {
+                bot.sendMessage(chatId, "Bot telah dimatikan.");
+                process.exit(0); // Mematikan bot
+            }, 1000);
+        } else if (data === "cancel") {
+            bot.editMessageText("Perintah dibatalkan.", {
+                chat_id: chatId,
+                message_id: messageId
+            });
+        }
+    });
+});
+
+bot.onText(/\/jadwalsholat(?:\s(.+))?/, async (msg, match) => {
+    const chatId = msg.chat.id;
+    const namaKota = match[1];
+
+    if (!namaKota) {
+        return bot.sendMessage(chatId, "❌ /jadwalsholat\n✅ /jadwalsholat <nama kota>\ncontoh: /jadwalsholat jakarta");
+    }
+
+    const url = `https://velyn.vercel.app/api/search/jadwalSholat?query=${encodeURIComponent(namaKota)}`;
+
+    try {
+        const response = await axios.get(url);
+        const data = response.data.data;
+
+        if (!data) {
+            return bot.sendMessage(chatId, `Maaf, jadwal sholat untuk kota "${namaKota}" tidak ditemukan.`);
+        }
+
+        const hasil = `
+🕌 *Jadwal Sholat ${namaKota}* 🕌
+- *Imsak*: ${data.imsak}
+- *Subuh*: ${data.subuh}
+- *Dzuhur*: ${data.dzuhur}
+- *Ashar*: ${data.ashar}
+- *Maghrib*: ${data.maghrib}
+- *Isya*: ${data.isya}
+
+📅 *Tanggal*: ${new Date().toLocaleDateString('id-ID')}
+        `;
+
+        bot.sendMessage(chatId, hasil, { parse_mode: "Markdown" });
+
+    } catch (error) {
+        bot.sendMessage(chatId, "Terjadi kesalahan saat mengambil data. Silakan coba lagi nanti.");
+    }
 });
 
 const dadu = ["⚀ (1)", "⚁ (2)", "⚂ (3)", "⚃ (4)", "⚄ (5)", "⚅ (6)"];
@@ -187,24 +476,25 @@ bot.onText(/\/dadu/, async (msg) => {
 
 bot.onText(/\/imgdescription/, (msg) => {
   const chatId = msg.chat.id;
+  pendingRequests[chatId] = true;
   bot.sendMessage(chatId, "Silakan kirimkan gambar yang ingin dideskripsikan.");
 });
 
 bot.on("photo", async (msg) => {
   const chatId = msg.chat.id;
-  const fileId = msg.photo[msg.photo.length - 1].file_id; // Ambil resolusi tertinggi
+
+  if (!pendingRequests[chatId]) return;
+
+  delete pendingRequests[chatId];
+
+  const fileId = msg.photo[msg.photo.length - 1].file_id;
 
   try {
     const fileLink = await bot.getFileLink(fileId);
-    const filePath = `/data/data/com.termux/files/home/temp_image.jpg`; // Simpan gambar sementara
+    const filePath = "/data/data/com.termux/files/home/temp_image.jpg";
 
-    // Download gambar dari URL
     const writer = fs.createWriteStream(filePath);
-    const response = await axios({
-      url: fileLink,
-      method: "GET",
-      responseType: "stream",
-    });
+    const response = await axios({ url: fileLink, method: "GET", responseType: "stream" });
 
     response.data.pipe(writer);
     await new Promise((resolve, reject) => {
@@ -212,29 +502,24 @@ bot.on("photo", async (msg) => {
       writer.on("error", reject);
     });
 
-    // Buat form-data untuk upload gambar
     const form = new FormData();
     form.append("image", fs.createReadStream(filePath));
 
-    // Upload gambar ke API
     const apiResponse = await axios.post(
       "https://fastrestapis.fasturl.cloud/aiimage/imgdescription-v2",
       form,
       { headers: form.getHeaders() }
     );
 
-    fs.unlinkSync(filePath); // Hapus gambar setelah upload
+    fs.unlinkSync(filePath);
 
     if (apiResponse.data.result?.description) {
-      let description = apiResponse.data.result.description;
+      const originalText = apiResponse.data.result.description;
 
-      // Cek apakah deskripsi dalam bahasa Indonesia
-      const detectedLang = await translate(description, { to: "id" });
-      if (detectedLang.from !== "id") {
-        description = detectedLang.text;
-      }
+      // Terjemahkan ke Bahasa Indonesia
+      const translatedText = await translate(originalText, { to: "id" });
 
-      bot.sendMessage(chatId, `🖼 Deskripsi Gambar:\n\n${description}`);
+      bot.sendMessage(chatId, `🖼 Deskripsi Gambar:\n\n${translatedText.text}`);
     } else {
       bot.sendMessage(chatId, "❌ Gagal mendapatkan deskripsi gambar.");
     }
@@ -809,88 +1094,6 @@ bot.onText(/\/analisis/, (msg) => {
             `🔢 Angka: ${numbers}\n` +
             `🔣 Simbol: ${symbols}`, { parse_mode: "Markdown" });
     });
-});
-
-bot.onText(/\/menu/, async (msg) => {
-    const chatId = msg.chat.id;
-
-    // Kirim pesan awal "okey, wait"
-    const sentMessage = await bot.sendMessage(chatId, "Okey, wait...");
-
-    // Tunggu 2 detik sebelum mengedit pesan menjadi menu
-    setTimeout(() => {
-        bot.editMessageText(
-            `📌 *MENU BOT*  
-
-/addkode  
-/addmsg  
-/ai  
-/aiimg  
-/aideck  
-/alay
-/artime  
-/analisis
-/binary2text  
-/brat  
-/deladmin  
-/delmsg  
-/dadu
-/dewatermark  
-/clone
-/cekip
-/ekali
-/forum off  
-/forum on  
-/gempa  
-/getpp  
-/hd  
-/igstalk  
-/imgdescription
-/itung  
-/jam
-/autoai  
-/kbbi  
-/kalender  
-/listmsg  
-/logout  
-/nulis  
-/ngl  
-/pin  
-/ping
-/pluskode  
-/profile  
-/promptai  
-/randangka
-/randomcat
-/register  
-/report  
-/rngyt  
-/rmbg  
-/sendb  
-/shai  
-/spy  
-/spy2  
-/stalker  
-/spmngl
-/stopmotion
-/teksanim
-/text2binary  
-/tourl  
-/tourl2  
-/translate  
-/tts  
-/tks
-/ttstalk  
-/webrec  
-/wikipedia  
-/yts`,  
-            {
-                chat_id: chatId,
-                message_id: sentMessage.message_id,
-                parse_mode: "Markdown",
-            }
-        );
-    }, 2000); // Tunggu 2 detik (2000 ms)
 });
 
 bot.onText(/\/randangka/, (msg) => {
@@ -1741,51 +1944,44 @@ bot.on("photo", async (msg) => {
   }
 });
 
-bot.onText(/\/cuaca/, (msg) => {
+bot.onText(/\/cuaca (.+)/, async (msg, match) => {
     const chatId = msg.chat.id;
-    
-    // Pemberitahuan awal
-    bot.sendMessage(chatId, "Jika Anda tidak tahu kode daerah Anda, silakan kunjungi kodewilayah.id\nMasukkan kode daerah (contoh: 35.78.08.1002):");
+    const city = match[1];
 
-    bot.once("message", async (msg) => {
-        const kodeDaerah = msg.text.trim();
+    try {
+        const url = `https://fastrestapis.fasturl.cloud/search/meteorology?location=${encodeURIComponent(city)}`;
+        const response = await axios.get(url);
+        const data = response.data;
 
-        if (!kodeDaerah) {
-            return bot.sendMessage(chatId, "Kode daerah tidak boleh kosong!");
+        if (data.status !== 200 || !data.result) {
+            return bot.sendMessage(chatId, "⚠️ Data cuaca tidak ditemukan untuk kota tersebut.");
         }
 
-        const apiUrl = `https://api.bmkg.go.id/publik/prakiraan-cuaca?adm4=${kodeDaerah}`;
+        // Gunakan nama variabel lain untuk menghindari konflik
+        const { 
+            city: cityName, latitude, longitude, temperature, condition, humidity, 
+            wind, precipitation, cloudCover, visibility, sunrise, sunset 
+        } = data.result;
 
-        try {
-            const response = await axios.get(apiUrl);
-            const data = response.data;
-            
-            if (!data || !data.data || data.data.length === 0) {
-                return bot.sendMessage(chatId, "Data cuaca tidak ditemukan untuk kode daerah ini.");
-            }
+        const message = `🌍 *Cuaca di ${cityName}*\n`
+            + `🌡️ Suhu: ${temperature}\n`
+            + `☁️ Kondisi: ${condition}\n`
+            + `💧 Kelembaban: ${humidity}\n`
+            + `🌬️ Angin: ${wind}\n`
+            + `🌧️ Curah Hujan: ${precipitation}\n`
+            + `☁️ Tutupan Awan: ${cloudCover}\n`
+            + `👀 Jarak Pandang: ${visibility}\n`
+            + `🌅 Matahari Terbit: ${sunrise}\n`
+            + `🌇 Matahari Terbenam: ${sunset}\n`
+            + `📍 Koordinat: ${latitude}, ${longitude}`;
 
-            const lokasi = data.lokasi;
-            const cuacaHariIni = data.data[0].cuaca.slice(0, 5); // Ambil 5 data pertama
+        bot.sendMessage(chatId, message, { parse_mode: "Markdown" });
 
-            let pesan = `📍 *Cuaca di ${lokasi.kotkab}, ${lokasi.provinsi}*\n\n`;
-            cuacaHariIni.forEach((cuaca) => {
-                pesan += `🕒 *${cuaca.local_datetime.split(" ")[1]} WIB*\n`;
-                pesan += `🌦️ *${cuaca.weather_desc}*\n`;
-                pesan += `🌡️ Suhu: ${cuaca.t}°C\n`;
-                pesan += `💨 Kecepatan angin: ${cuaca.ws} km/jam (${cuaca.wd})\n`;
-                pesan += `💧 Kelembaban: ${cuaca.hu}%\n\n`;
-            });
-
-            bot.sendMessage(chatId, pesan, { parse_mode: "Markdown" });
-        } catch (error) {
-            bot.sendMessage(chatId, "Terjadi kesalahan saat mengambil data cuaca.");
-        }
-    });
+    } catch (error) {
+        console.error(error);
+        bot.sendMessage(chatId, "❌ Terjadi kesalahan saat mengambil data cuaca.");
+    }
 });
-
-function escapeMarkdown(text) {
-    return text.replace(/[_*[\]()~`>#+\-=|{}.!]/g, "\\$&");
-}
 
 bot.onText(/\/igstalk/, (msg) => {
     const chatId = msg.chat.id;
@@ -2765,7 +2961,7 @@ const updateSchedule = () => {
     if (existingJob) existingJob.cancel();
 
     schedule.scheduleJob("morningJob", `0 ${minute} ${hour} * * *`, sendMorningVideo);
-    bot.sendMessage("-1002326815334", `✅ Jadwal pengiriman video diatur pada ${scheduleData.time} WIB.`);
+    bot.sendMessage("-4624817188", `✅ Jadwal pengiriman video diatur pada ${scheduleData.time} WIB.`);
 };
 
 // Load dan atur jadwal saat bot dijalankan
@@ -2960,28 +3156,80 @@ bot.onText(/\/register/, async (msg) => {
 
 bot.onText(/\/profile/, async (msg) => {
     const chatId = msg.chat.id;
+    const username = msg.from.username || msg.from.first_name; // Ambil username Telegram
+
     if (!users[chatId]) {
-        bot.sendMessage(chatId, "🔐 Anda belum terdaftar!");
-        return;
+        return bot.sendMessage(chatId, "🔐 Anda belum terdaftar!");
     }
 
     const user = users[chatId];
     const profileCaption = `👤 *Profil Anda:*\n`
         + `🆔 ID: *${chatId}*\n`
-        + `📛 Username: *${user.username}*\n`
+        + `📛 Username: *${username}*\n`
         + `📌 Role: *${user.role}*\n`
         + `📅 Bergabung: *${user.joinDate || "Tidak diketahui"}*\n`;
 
     try {
+        // Ambil foto profil user
         const photos = await bot.getUserProfilePhotos(chatId);
-        if (photos.total_count > 0) {
-            const fileId = photos.photos[0][0].file_id; // Ambil foto terbaru
-            bot.sendPhoto(chatId, fileId, { caption: profileCaption, parse_mode: "Markdown" });
-        } else {
-            bot.sendMessage(chatId, profileCaption, { parse_mode: "Markdown" });
+        if (!photos.total_count) {
+            return bot.sendMessage(chatId, profileCaption, { parse_mode: "Markdown" });
         }
+
+        const fileId = photos.photos[0][0].file_id;
+        const file = await bot.getFile(fileId);
+        const fileUrl = `https://api.telegram.org/file/bot${TOKEN}/${file.file_path}`;
+
+        // Download foto profil ke lokal
+        const filePath = "profile.jpg";
+        const response = await axios({
+            url: fileUrl,
+            method: "GET",
+            responseType: "stream",
+        });
+
+        const writer = fs.createWriteStream(filePath);
+        response.data.pipe(writer);
+
+        await new Promise((resolve, reject) => {
+            writer.on("finish", resolve);
+            writer.on("error", reject);
+        });
+
+        // Upload ke Catbox
+        const form = new FormData();
+        form.append("reqtype", "fileupload");
+        form.append("fileToUpload", fs.createReadStream(filePath));
+
+        const catboxResponse = await axios.post("https://catbox.moe/user/api.php", form, {
+            headers: form.getHeaders(),
+        });
+
+        const catboxUrl = catboxResponse.data.trim();
+
+        // Hapus file lokal setelah upload
+        fs.unlinkSync(filePath);
+
+        // Buat gambar dengan API Canvas
+        const apiUrl = `https://api.siputzx.my.id/api/canvas/xnxx?title=${encodeURIComponent(username)}&image=${encodeURIComponent(catboxUrl)}`;
+
+        try {
+            // Coba kirim gambar hasil API Canvas
+            await bot.sendPhoto(chatId, apiUrl, {
+                caption: profileCaption,
+                parse_mode: "Markdown"
+            });
+        } catch (canvasError) {
+            console.error("API Canvas error, mengirim foto profil asli:", canvasError);
+            // Jika API Canvas gagal, kirim foto profil asli
+            bot.sendPhoto(chatId, fileUrl, {
+                caption: profileCaption,
+                parse_mode: "Markdown"
+            });
+        }
+
     } catch (error) {
-        console.error("Gagal mengambil foto profil:", error);
+        console.error("Gagal mengambil atau mengunggah foto profil:", error);
         bot.sendMessage(chatId, profileCaption, { parse_mode: "Markdown" });
     }
 });

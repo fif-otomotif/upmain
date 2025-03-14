@@ -1,0 +1,16 @@
+{
+  "total_users": 1,
+  "total_messages": 9,
+  "commands_used": {
+    "/panduan": 2,
+    "/pin haj": 1,
+    "/autodelete 3": 2,
+    "/pin BB": 1,
+    "/pin": 1,
+    "/setbio": 1,
+    "/menu": 1
+  },
+  "users": [
+    -1002289650315
+  ]
+}
