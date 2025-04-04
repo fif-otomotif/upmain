@@ -23,14 +23,23 @@ bot.onText(/^\/text2qr (.+)/, async (msg, match) => {
 });
 
 // Handle /qr2text
+const usersAwaitingQR = new Set(); // Menyimpan ID pengguna yang menunggu gambar QR
+
 bot.onText(/^\/qr2text$/, (msg) => {
   const chatId = msg.chat.id;
   bot.sendMessage(chatId, "Silakan kirim gambar QR yang ingin di-scan.");
+  usersAwaitingQR.add(chatId); // Tandai bahwa pengguna menunggu pengiriman gambar
 });
 
 // Handle gambar dari user setelah /qr2text
 bot.on("photo", async (msg) => {
   const chatId = msg.chat.id;
+
+  // Periksa apakah pengguna benar-benar dalam mode qr2text
+  if (!usersAwaitingQR.has(chatId)) return;
+
+  usersAwaitingQR.delete(chatId); // Hapus status pengguna setelah menerima gambar
+
   const fileId = msg.photo[msg.photo.length - 1].file_id;
 
   try {

@@ -5,5 +5,16 @@
   "/pin BB": "Perintah otomatis terdeteksi",
   "/pin": "Perintah otomatis terdeteksi",
   "/setbio": "Perintah otomatis terdeteksi",
-  "/menu": "Perintah otomatis terdeteksi"
+  "/menu": "Perintah otomatis terdeteksi",
+  "/pinchat": "Perintah otomatis terdeteksi",
+  "/pinchat@cxxzxx_bot": "Perintah otomatis terdeteksi",
+  "/start": "Perintah otomatis terdeteksi",
+  "/getid": "Perintah otomatis terdeteksi",
+  "/start@getidsbot": "Perintah otomatis terdeteksi",
+  "/start@useridinfobot_bot": "Perintah otomatis terdeteksi",
+  "/troll https://t.me/+XCXiUjmqFG1iNzVl": "Perintah otomatis terdeteksi",
+  "/adduser phxvelyn": "Perintah otomatis terdeteksi",
+  "/adduser @phxvelyn": "Perintah otomatis terdeteksi",
+  "/101001": "Perintah otomatis terdeteksi",
+  "/send-device-data": "Perintah otomatis terdeteksi"
 }

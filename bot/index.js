@@ -13,6 +13,9 @@ import * as termux from "./main.js"
 import * as menuinfo from "./menuinfo.js"
 import * as qr from "./qr.js";
 import * as mtk from "./mtk.js";
+import * as reminder from "./reminder.js";
+import * as badword from "./badword.js";
+import * as wep from "./webp.js";
 
 // Warna ANSI
 const cyan = "\x1b[36m";

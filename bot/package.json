@@ -12,13 +12,19 @@
   "license": "ISC",
   "description": "transparan dan keren",
   "dependencies": {
+    "@google/generative-ai": "^0.24.0",
     "@vitalets/google-translate-api": "^9.2.1",
-    "axios": "^1.8.2",
+    "aki-api": "^7.0.1",
+    "axios": "^1.8.4",
+    "chalk": "^5.4.1",
     "cheerio": "^1.0.0",
     "child_process": "^1.0.2",
     "cloudscraper": "^4.6.0",
+    "dotenv": "^16.4.7",
+    "express": "^5.1.0",
     "figlet": "^1.8.0",
     "fs": "^0.0.1-security",
+    "https-proxy-agent": "^7.0.6",
     "instagram-private-api": "^1.46.1",
     "jimp": "^1.6.0",
     "jsdom": "^26.0.0",
@@ -26,9 +32,17 @@
     "lowdb": "^7.0.1",
     "moment": "^2.30.1",
     "moment-timezone": "^0.5.47",
+    "ngrok": "^5.0.0-beta.2",
     "node-cron": "^3.0.3",
     "node-fetch": "^3.3.2",
     "node-schedule": "^2.1.1",
-    "node-telegram-bot-api": "^0.66.0"
+    "node-telegram-bot-api": "^0.66.0",
+    "nodemailer": "^6.10.0",
+    "path": "^0.12.7",
+    "validator": "^13.15.0"
+  },
+  "devDependencies": {
+    "@types/node-telegram-bot-api": "^0.64.8",
+    "typescript": "^5.8.2"
   }
 }

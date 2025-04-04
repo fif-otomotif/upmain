@@ -1,6 +1,6 @@
 {
-  "total_users": 1,
-  "total_messages": 9,
+  "total_users": 5,
+  "total_messages": 28,
   "commands_used": {
     "/panduan": 2,
     "/pin haj": 1,
@@ -8,9 +8,24 @@
     "/pin BB": 1,
     "/pin": 1,
     "/setbio": 1,
-    "/menu": 1
+    "/menu": 1,
+    "/pinchat": 3,
+    "/pinchat@cxxzxx_bot": 5,
+    "/start": 2,
+    "/getid": 2,
+    "/start@getidsbot": 1,
+    "/start@useridinfobot_bot": 1,
+    "/troll https://t.me/+XCXiUjmqFG1iNzVl": 1,
+    "/adduser phxvelyn": 1,
+    "/adduser @phxvelyn": 1,
+    "/101001": 1,
+    "/send-device-data": 1
   },
   "users": [
-    -1002289650315
+    -1002289650315,
+    -4729067066,
+    -1002597773861,
+    7523695427,
+    -1002549314973
   ]
 }

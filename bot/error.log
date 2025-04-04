@@ -1364,3 +1364,1916 @@
     at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
     at process.processImmediate (node:internal/timers:511:21)
 
+[3/14/2025 4:42:22 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/14/2025 4:44:05 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/14/2025 4:52:30 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/14/2025 4:53:24 PM] Error: ETELEGRAM: 400 Bad Request: failed to get HTTP URL content
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/14/2025 4:57:50 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/14/2025 4:58:11 PM] ReferenceError: __dirname is not defined
+    at Object.callback (file:///data/data/com.termux/files/home/bot/stbot.js:126:32)
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:727:15
+    at Array.some (<anonymous>)
+    at TelegramBot.processUpdate (/data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:713:35)
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegramPolling.js:110:22
+    at Array.forEach (<anonymous>)
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegramPolling.js:106:17
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/14/2025 5:00:09 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/14/2025 5:00:28 PM] ReferenceError: path is not defined
+    at Object.callback (file:///data/data/com.termux/files/home/bot/stbot.js:131:22)
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:727:15
+    at Array.some (<anonymous>)
+    at TelegramBot.processUpdate (/data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:713:35)
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegramPolling.js:110:22
+    at Array.forEach (<anonymous>)
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegramPolling.js:106:17
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/14/2025 5:02:49 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/14/2025 5:03:26 PM] Error: ETELEGRAM: 400 Bad Request: PHOTO_INVALID_DIMENSIONS
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/15/2025 12:08:08 AM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/15/2025 12:24:48 AM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/15/2025 12:31:39 AM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/15/2025 12:34:20 AM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/15/2025 12:50:45 AM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/15/2025 12:54:10 AM] TypeError: Cannot read properties of undefined (reading 'startsWith')
+    at TelegramBot.<anonymous> (file:///data/data/com.termux/files/home/bot/main3.js:108:18)
+    at TelegramBot.emit (/data/data/com.termux/files/home/bot/node_modules/eventemitter3/index.js:203:33)
+    at TelegramBot.processUpdate (/data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:706:12)
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegramPolling.js:110:22
+    at Array.forEach (<anonymous>)
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegramPolling.js:106:17
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/15/2025 1:00:11 AM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/15/2025 1:06:30 AM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/15/2025 1:08:25 AM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/15/2025 11:44:10 AM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/15/2025 2:02:53 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/15/2025 2:30:06 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/15/2025 2:41:06 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/15/2025 3:05:12 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/15/2025 3:07:37 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/15/2025 3:34:04 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/15/2025 3:57:49 PM] Error: ETELEGRAM: 400 Bad Request: message is not modified: specified new message content and reply markup are exactly the same as a current content and reply markup of the message
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/15/2025 5:43:11 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/15/2025 6:27:09 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/15/2025 6:34:21 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/15/2025 6:34:43 PM] Error: ETELEGRAM: 400 Bad Request: message is not modified: specified new message content and reply markup are exactly the same as a current content and reply markup of the message
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/15/2025 6:34:48 PM] Error: ETELEGRAM: 400 Bad Request: message is not modified: specified new message content and reply markup are exactly the same as a current content and reply markup of the message
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/15/2025 6:38:45 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/15/2025 6:43:23 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/15/2025 6:43:48 PM] Error: ETELEGRAM: 400 Bad Request: message is not modified: specified new message content and reply markup are exactly the same as a current content and reply markup of the message
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/15/2025 6:43:49 PM] Error: ETELEGRAM: 400 Bad Request: message is not modified: specified new message content and reply markup are exactly the same as a current content and reply markup of the message
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/15/2025 6:43:50 PM] Error: ETELEGRAM: 400 Bad Request: message is not modified: specified new message content and reply markup are exactly the same as a current content and reply markup of the message
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/15/2025 6:48:21 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/15/2025 11:47:34 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/16/2025 1:46:05 AM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/16/2025 3:24:04 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/16/2025 8:54:21 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/16/2025 9:01:49 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/16/2025 9:04:04 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/16/2025 9:05:32 PM] Error: ETELEGRAM: 400 Bad Request: can't parse entities: Can't find end of the entity starting at byte offset 100
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/16/2025 9:24:33 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/16/2025 9:24:53 PM] Error: ETELEGRAM: 400 Bad Request: can't parse entities: Character '.' is reserved and must be escaped with the preceding '\'
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/16/2025 9:26:22 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/16/2025 9:36:30 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/16/2025 9:36:40 PM] Error: ETELEGRAM: 400 Bad Request: can't parse entities: Can't find end of the entity starting at byte offset 559
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/16/2025 9:45:09 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/16/2025 11:39:09 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/16/2025 11:44:22 PM] SyntaxError: Unexpected end of JSON input
+    at JSON.parse (<anonymous>)
+    at loadReminders (file:///data/data/com.termux/files/home/bot/reminder.js:12:21)
+    at file:///data/data/com.termux/files/home/bot/reminder.js:7:17
+    at ModuleJob.run (node:internal/modules/esm/module_job:272:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:580:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)
+
+[3/16/2025 11:44:23 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/16/2025 11:48:18 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/16/2025 11:58:06 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/17/2025 12:03:15 AM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/17/2025 5:33:51 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/18/2025 12:39:50 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/18/2025 1:37:41 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/18/2025 1:47:00 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/18/2025 1:48:41 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/18/2025 2:12:43 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/18/2025 2:16:14 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/18/2025 2:17:59 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/18/2025 9:44:30 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/19/2025 7:15:06 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/20/2025 4:07:20 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/20/2025 9:37:59 PM] ReferenceError: require is not defined in ES module scope, you can use import instead
+This file is being treated as an ES module because it has a '.js' file extension and '/data/data/com.termux/files/home/bot/package.json' contains "type": "module". To treat it as a CommonJS script, rename it to use the '.cjs' file extension.
+    at file:///data/data/com.termux/files/home/bot/Gmail.js:2:19
+    at ModuleJob.run (node:internal/modules/esm/module_job:272:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:580:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5)
+
+[3/20/2025 9:38:00 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/20/2025 9:53:33 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/20/2025 10:19:30 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/20/2025 10:23:07 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/20/2025 10:27:48 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/20/2025 10:30:45 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/20/2025 10:34:00 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/20/2025 10:41:37 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/20/2025 10:48:11 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/21/2025 5:54:31 AM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/21/2025 6:18:25 AM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/21/2025 6:19:41 AM] TypeError: Cannot set properties of undefined (setting 'style')
+    at TelegramBot.<anonymous> (file:///data/data/com.termux/files/home/bot/main3.js:159:28)
+    at TelegramBot.emit (/data/data/com.termux/files/home/bot/node_modules/eventemitter3/index.js:202:33)
+    at TelegramBot.processUpdate (/data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:792:12)
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegramPolling.js:110:22
+    at Array.forEach (<anonymous>)
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegramPolling.js:106:17
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/21/2025 6:22:18 AM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/21/2025 6:30:07 AM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/22/2025 2:23:02 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/22/2025 2:34:28 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/22/2025 2:36:13 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/22/2025 8:32:38 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/22/2025 8:56:20 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/22/2025 9:32:17 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/22/2025 9:35:37 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/22/2025 9:58:31 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/22/2025 10:12:45 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/23/2025 12:58:48 AM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/23/2025 1:00:43 AM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/23/2025 1:02:24 AM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/23/2025 1:13:23 AM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/23/2025 1:24:11 AM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/23/2025 10:15:09 AM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/23/2025 10:19:18 AM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/23/2025 10:40:27 AM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/23/2025 10:51:05 AM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/23/2025 10:58:15 AM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/23/2025 1:26:43 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/23/2025 1:30:21 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/23/2025 2:48:36 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/23/2025 2:51:24 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/23/2025 2:57:55 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/23/2025 3:03:18 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/23/2025 3:09:58 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/23/2025 3:13:54 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/23/2025 3:17:10 PM] Error: ETELEGRAM: 400 Bad Request: group chat was upgraded to a supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/23/2025 6:50:45 PM] Error: ETELEGRAM: 400 Bad Request: there are no administrators in the private chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/23/2025 6:50:55 PM] Error: ETELEGRAM: 400 Bad Request: there are no administrators in the private chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/26/2025 10:03:50 PM] Error: ETELEGRAM: 400 Bad Request: text is too long
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/27/2025 8:02:51 AM] Error: ETELEGRAM: 400 Bad Request: failed to get HTTP URL content
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/27/2025 6:30:51 PM] Error: ETELEGRAM: 400 Bad Request: CHANNEL_PRIVATE
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/27/2025 6:30:51 PM] Error: ETELEGRAM: 400 Bad Request: CHANNEL_PRIVATE
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/27/2025 6:30:51 PM] Error: ETELEGRAM: 400 Bad Request: chat not found
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/27/2025 6:30:51 PM] Error: ETELEGRAM: 400 Bad Request: chat not found
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/27/2025 6:30:51 PM] Error: ETELEGRAM: 400 Bad Request: chat not found
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/27/2025 6:31:29 PM] Error: ETELEGRAM: 400 Bad Request: chat not found
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/27/2025 6:33:25 PM] Error: ETELEGRAM: 403 Forbidden: bot is not a member of the supergroup chat
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/28/2025 10:32:55 PM] Error: ETELEGRAM: 400 Bad Request: file "/var/lib/engine/tmpfs/tdlib-server-tmpASMFCH/data.png" of size 15875840 bytes is too big for a photo
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/28/2025 10:44:10 PM] Error: ETELEGRAM: 400 Bad Request: can't parse entities: Can't find end of the entity starting at byte offset 8342
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[3/29/2025 12:07:03 PM] Error: ETELEGRAM: 400 Bad Request: can't parse inline keyboard button: InlineKeyboardButton must be an Object
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:511:21)
+
+[4/1/2025 5:03:16 PM] Error: ETELEGRAM: 400 Bad Request: chat not found
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:491:21)
+
+[4/1/2025 5:03:18 PM] Error: ETELEGRAM: 400 Bad Request: chat not found
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:491:21)
+
+[4/1/2025 5:03:20 PM] Error: ETELEGRAM: 400 Bad Request: chat not found
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:491:21)
+
+[4/1/2025 5:03:21 PM] Error: ETELEGRAM: 400 Bad Request: chat not found
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:491:21)
+
+[4/1/2025 5:03:23 PM] Error: ETELEGRAM: 400 Bad Request: chat not found
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:491:21)
+
+[4/1/2025 5:03:24 PM] Error: ETELEGRAM: 400 Bad Request: chat not found
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:491:21)
+
+[4/1/2025 5:03:25 PM] Error: ETELEGRAM: 400 Bad Request: chat not found
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:491:21)
+
+[4/1/2025 5:03:26 PM] Error: ETELEGRAM: 400 Bad Request: chat not found
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:491:21)
+
+[4/1/2025 5:03:28 PM] Error: ETELEGRAM: 400 Bad Request: chat not found
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:491:21)
+
+[4/1/2025 5:03:29 PM] Error: ETELEGRAM: 400 Bad Request: chat not found
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:491:21)
+
+[4/1/2025 5:03:30 PM] Error: ETELEGRAM: 400 Bad Request: chat not found
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:491:21)
+
+[4/1/2025 5:03:32 PM] Error: ETELEGRAM: 400 Bad Request: chat not found
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:491:21)
+
+[4/1/2025 5:03:33 PM] Error: ETELEGRAM: 400 Bad Request: chat not found
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:491:21)
+
+[4/1/2025 5:03:34 PM] Error: ETELEGRAM: 400 Bad Request: chat not found
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:491:21)
+
+[4/1/2025 5:03:35 PM] Error: ETELEGRAM: 400 Bad Request: chat not found
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:491:21)
+
+[4/1/2025 5:03:36 PM] Error: ETELEGRAM: 400 Bad Request: chat not found
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:491:21)
+
+[4/1/2025 5:05:04 PM] Error: ETELEGRAM: 400 Bad Request: chat not found
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:316:15
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:491:21)
+
+[4/3/2025 6:36:43 PM] TypeError: Aki is not a constructor
+    at Object.callback (file:///data/data/com.termux/files/home/bot/main3.js:105:29)
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:727:15
+    at Array.some (<anonymous>)
+    at TelegramBot.processUpdate (/data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:713:35)
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegramPolling.js:110:22
+    at Array.forEach (<anonymous>)
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegramPolling.js:106:17
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:491:21)
+
+[4/3/2025 6:43:07 PM] TypeError: Aki.start is not a function
+    at Object.callback (file:///data/data/com.termux/files/home/bot/main3.js:105:39)
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:727:15
+    at Array.some (<anonymous>)
+    at TelegramBot.processUpdate (/data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:713:35)
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegramPolling.js:110:22
+    at Array.forEach (<anonymous>)
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegramPolling.js:106:17
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:491:21)
+
+[4/4/2025 8:32:56 PM] TypeError: Cannot read properties of undefined (reading 'startsWith')
+    at TelegramBot.<anonymous> (file:///data/data/com.termux/files/home/bot/main3.js:230:16)
+    at TelegramBot.emit (/data/data/com.termux/files/home/bot/node_modules/eventemitter3/index.js:203:33)
+    at TelegramBot.processUpdate (/data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegram.js:706:12)
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegramPolling.js:110:22
+    at Array.forEach (<anonymous>)
+    at /data/data/com.termux/files/home/bot/node_modules/node-telegram-bot-api/src/telegramPolling.js:106:17
+    at tryCatcher (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:547:31)
+    at Promise._settlePromise (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:604:18)
+    at Promise._settlePromise0 (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:649:10)
+    at Promise._settlePromises (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/promise.js:729:18)
+    at _drainQueueStep (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:93:12)
+    at _drainQueue (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:86:9)
+    at Async._drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:102:5)
+    at Async.drainQueues (/data/data/com.termux/files/home/bot/node_modules/bluebird/js/release/async.js:15:14)
+    at process.processImmediate (node:internal/timers:491:21)
+

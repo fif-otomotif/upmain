@@ -1,71 +1,152 @@
-[05.24] icikiwiruu: (Text) /scroll hellow
-[06.42] icikiwiruu: (Text) /panduan
-[06.42] icikiwiruu: (Text) /panduan
-[06.43] icikiwiruu: (Text) /pin haj
-[06.44] icikiwiruu: (Text) /autodelete 3
-[06.45] icikiwiruu: (Text) /autodelete 3
-[06.45] icikiwiruu: (Text) /pin BB
-[06.45] icikiwiruu: (Text) /pin
-[06.45] icikiwiruu: (Text) pisang
-[07.00] icikiwiruu: (Text) /panduan
-[07.00] icikiwiruu: (Text) /setbio
-[07.00] icikiwiruu: (Text) /menu
-[07.08] icikiwiruu: (Text) /my_profile
-[07.10] icikiwiruu: (Text) /my_profile
-[07.15] icikiwiruu: (Text) /profile
-[07.18] icikiwiruu: (Text) /profile
-[07.37] icikiwiruu: (Photo)
-[07.37] icikiwiruu: (Photo)
-[07.42] icikiwiruu: (Text) /apakah kamu bisa membuat gambar
-[07.42] icikiwiruu: (Text) /apakah
-[07.43] icikiwiruu: (Text) /apakah aku ganteng?
-[07.45] icikiwiruu: (Text) /profile
-[07.47] icikiwiruu: (Text) /menj
-[07.47] icikiwiruu: (Text) /menu
-[07.47] icikiwiruu: (Text) /aiimg
-[07.47] icikiwiruu: (Text) sunflower
-[07.48] icikiwiruu: (Text) /slot
-[07.54] icikiwiruu: (Text) /menu
-[07.55] icikiwiruu: (Text) /translate
-[07.55] icikiwiruu: (Text) i love you more
-[11.01] icikiwiruu: (Text) /profile
-[11.25] icikiwiruu: (Text) /tebakbendera
-[11.28] icikiwiruu: (Text) /tebakbendera
-[11.28] icikiwiruu: (Text) Malaysia
-[11.28] icikiwiruu: (Text) uk
-[11.28] icikiwiruu: (Text) Amerika
-[11.28] icikiwiruu: (Text) Meksiko
-[11.29] icikiwiruu: (Text) Bangladesh
-[11.31] icikiwiruu: (Text) /tebakbendera
-[11.32] icikiwiruu: (Text) swis
-[11.32] icikiwiruu: (Text) menyerah
-[11.32] icikiwiruu: (Text) /tebakbendera
-[11.32] icikiwiruu: (Text) Blanda
-[11.33] icikiwiruu: (Text) Netherland
-[11.33] icikiwiruu: (Text) netherland
-[11.33] icikiwiruu: (Text) menyerah
-[11.33] icikiwiruu: (Text) /tebakbendera
-[11.33] icikiwiruu: (Text) Kongo
-[11.34] icikiwiruu: (Text) tanzania
-[11.40] icikiwiruu: (Text) /tebakgambar
-[11.40] icikiwiruu: (Text) penarifbulanan
-[11.40] icikiwiruu: (Text) menyerah
-[11.41] icikiwiruu: (Text) /tebakgambar
-[11.41] icikiwiruu: (Text) aksi demo
-[11.41] icikiwiruu: (Text) /tebakgambar
-[11.41] icikiwiruu: (Text) saki kol
-[11.41] icikiwiruu: (Text) menyerah
-[11.42] icikiwiruu: (Text) /upmenu tebakgambar
-[11.42] icikiwiruu: (Text) /upmenu tebakbendera
-[14.02] icikiwiruu: (Text) /mtk
-[14.02] icikiwiruu: (Text) 5, 5, 5, 5, 6, 6, 7, 8, 8, 8, 9, 9, 10, 10, 10, 10
-[14.22] icikiwiruu: (Text) /susunkata
-[14.22] icikiwiruu: (Text) tabib
-[14.22] icikiwiruu: (Text) /susunkata
-[14.22] icikiwiruu: (Text) menyerah
-[14.23] icikiwiruu: (Text) dujs
-[14.28] icikiwiruu: (Text) /upmenu susunkata
-[14.28] icikiwiruu: (Text) /menu
-[14.28] icikiwiruu: (Text) /susunkata
-[14.29] icikiwiruu: (Text) PiPa
-[16.02] icikiwiruu: (Text) /kalender
+[01.32] icikiwiruu: (Text) /spamngl
+[01.32] icikiwiruu: (Text) https://ngl.link/icikiwir_full_speed
+[01.32] icikiwiruu: (Text) tes
+[01.33] icikiwiruu: (Text) /stopngl
+[01.54] icikiwiruu: (Text) /spamngl
+[01.55] icikiwiruu: (Text) https://ngl.link/icikiwir_full_speed
+[01.55] icikiwiruu: (Text) tes bang
+[01.56] icikiwiruu: (Text) /stopngl
+[01.58] icikiwiruu: (Text) /spamngl
+[01.58] icikiwiruu: (Text) https://ngl.link/rizaldevgenzet.id34885
+[01.58] icikiwiruu: (Text) hai bang 🤧
+[01.59] icikiwiruu: (Text) /pinchat
+[06.16] icikiwiruu: (Text) /spy2
+[06.16] icikiwiruu: (Text) lantas
+[06.28] icikiwiruu: (Text) /editimg
+[06.29] icikiwiruu: (Text) /editimg
+[06.30] icikiwiruu: (Photo)
+[06.31] icikiwiruu: (Text) /menu
+[06.32] icikiwiruu: (Text) /aideck
+[06.32] icikiwiruu: (Text) aaaaaaaaaaa
+[06.33] icikiwiruu: (Text) /fact
+[06.33] icikiwiruu: (Text) /faktaharian
+[06.34] icikiwiruu: (Text) /logogenerator
+[06.34] icikiwiruu: (Text) Yanto ternak kumbang
+[06.35] icikiwiruu: (Text) the beetle that looks like the node.js logo
+[06.35] icikiwiruu: (Text) /rndm
+[06.36] icikiwiruu: (Text) /maths
+[06.37] icikiwiruu: (Text) menyerah
+[06.37] icikiwiruu: (Text) /maths
+[06.37] icikiwiruu: (Text) menyerah
+[06.37] icikiwiruu: (Text) /maths
+[06.38] icikiwiruu: (Text) -42
+[06.42] icikiwiruu: (Text) /stopmotion
+[06.42] icikiwiruu: (Text) 4
+[06.42] icikiwiruu: (Text) 😐
+[06.42] icikiwiruu: (Text) 😑
+[06.42] icikiwiruu: (Text) 😐
+[06.42] icikiwiruu: (Text) 😑
+[08.23] icikiwiruu: (Text) /sfanime
+[08.23] icikiwiruu: (Text) /sfanime nsfw neko
+[08.25] icikiwiruu: (Text) /sfanime sfw neko
+[08.25] icikiwiruu: (Text) /sleep
+[11.52] icikiwiruu: (Text) /pinterest banana
+[11.52] icikiwiruu: (Text) /search banana
+[12.01] icikiwiruu: (Text) /pinterest banana
+[12.02] icikiwiruu: (Text) jaja
+[12.02] icikiwiruu: (Text) /pinterest %20
+[12.02] icikiwiruu: (Text) /pinterest mawar merah
+[12.07] icikiwiruu: (Text) /pinterest mawar merah
+[12.09] icikiwiruu: (Text) /pinterest mawar merah
+[12.27] icikiwiruu: (Text) /pinterest meme jomok stiker wa
+[12.31] icikiwiruu: (Text) /pinterest meme jomok stiker wa
+[12.33] icikiwiruu: (Text) /pinterest takbiran ya balapan
+[12.34] icikiwiruu: (Text) /pinterest takbiran ya balapan
+[13.04] icikiwiruu: (Text) /clone
+[13.04] icikiwiruu: (Text) *Y*
+[13.04] icikiwiruu: (Text) 1
+[13.04] icikiwiruu: (Text) /clone
+[13.04] icikiwiruu: (Text) Y
+[13.04] icikiwiruu: (Text) 5
+[21.54] icikiwiruu: (Text) /spamngl
+[21.54] icikiwiruu: (Text) https://ngl.link/rizaldev.co
+[21.54] icikiwiruu: (Text) hai bang
+[18.11] icikiwiruu: (Text) /aiimage
+[18.12] icikiwiruu: (Text) /aiimage 1 momoi
+[18.13] icikiwiruu: (Text) /aiimage 2 naruto
+[18.16] icikiwiruu: (Text) hai
+[18.25] icikiwiruu: (Text) nguwawor
+[18.25] icikiwiruu: (Text) tes
+[18.25] icikiwiruu: (Text) tes
+[16.58] icikiwiruu: (Text) @bila putri
+[16.59] icikiwiruu: (Text) tes
+[16.59] icikiwiruu: (Text) /chat -1002549314973
+[16.59] icikiwiruu: (Text) hai
+[17.03] icikiwiruu: (Text) /chat 8153224945
+[17.03] icikiwiruu: (Text) hai
+[17.03] icikiwiruu: (Text) hai
+[17.03] icikiwiruu: (Text) hai
+[17.03] icikiwiruu: (Text) hai
+[17.03] icikiwiruu: (Text) hai
+[17.03] icikiwiruu: (Text) hai
+[17.03] icikiwiruu: (Text) hai
+[17.03] icikiwiruu: (Text) hai
+[17.03] icikiwiruu: (Text) hai
+[17.03] icikiwiruu: (Text) hai
+[17.03] icikiwiruu: (Text) hai
+[17.03] icikiwiruu: (Text) hai
+[17.03] icikiwiruu: (Text) hai
+[17.03] icikiwiruu: (Text) hai
+[17.03] icikiwiruu: (Text) hai
+[17.03] icikiwiruu: (Text) hai
+[17.05] icikiwiruu: (Text) /stop
+[17.06] icikiwiruu: (Text) /chat 7503049775
+[17.06] icikiwiruu: (Text) hai 🤭
+[17.06] icikiwiruu: (Text) minta thr dong 🤭🤭🤭
+[17.07] icikiwiruu: (Text) /stop
+[00.06] icikiwiruu: (Text) /sendgmail fitrakholib@gmail.com
+[00.06] icikiwiruu: (Text) hai
+[00.11] icikiwiruu: (Text) /sendgmail cxzx75517@gmail.com
+[00.11] icikiwiruu: (Text) <h1>woi</h1>
+[06.59] icikiwiruu: (Text) /start
+[06.59] icikiwiruu: (Photo)
+[06.59] icikiwiruu: (Photo)
+[07.06] icikiwiruu: (Photo)
+[07.07] icikiwiruu: (Photo)
+[07.14] icikiwiruu: (Photo)
+[07.14] icikiwiruu: (Unknown)
+[07.16] icikiwiruu: (Text) tes
+[10.58] icikiwiruu: (Text) /remini
+[11.11] icikiwiruu: (Text) /remini
+[11.11] icikiwiruu: (Text) /remini
+[11.15] icikiwiruu: (Text) /remini
+[11.15] icikiwiruu: (Text) /remini
+[11.18] icikiwiruu: (Text) /upmenu sendgmail
+[11.18] icikiwiruu: (Text) /upmenu remini
+[11.18] icikiwiruu: (Text) /menu
+[11.19] icikiwiruu: (Text) /qr2text
+[11.19] icikiwiruu: (Photo)
+[11.20] icikiwiruu: (Text) /logme
+[18.36] icikiwiruu: (Text) /akinator
+[18.43] icikiwiruu: (Text) /akinator
+[16.20] icikiwiruu: (Text) /send-device-data
+[16.20] icikiwiruu: (Text) /tes
+[16.36] icikiwiruu: (Text) /send-device-data
+[16.36] icikiwiruu: (Text) /101001
+[16.37] icikiwiruu: (Text) /101001
+[16.37] icikiwiruu: (Text) /send-device-data
+[17.12] icikiwiruu: (Text) /spamngl
+[17.12] icikiwiruu: (Text) /spamngl
+[17.13] icikiwiruu: (Text) /spamngl https://ngl.link/icikiwir_full_speed 1 random
+[17.13] icikiwiruu: (Text) tes
+[17.13] icikiwiruu: (Text) anonymous, confessions, 3words, neverhave, tbh, shipme, yourcrush, cancelled, dealbreaker, random
+[17.20] icikiwiruu: (Text) /spamngl
+[17.20] icikiwiruu: (Text) /spamngl
+[17.20] icikiwiruu: (Text) /sleep
+[17.23] icikiwiruu: (Text) /spamngl https://ngl.link/icikiwir_full_speed 1 random
+[17.24] icikiwiruu: (Text) woi
+[17.24] icikiwiruu: (Text) /spamngl https://ngl.link/icikiwir_full_speed 1
+[17.26] icikiwiruu: (Text) /spamngl https://ngl.link/icikiwir_full_speed
+[17.26] icikiwiruu: (Text) /spamngl https://ngl.link/icikiwir_full_speed random
+[17.27] icikiwiruu: (Text) /spamngl https://ngl.link/icikiwir_full_speed 10
+[17.28] icikiwiruu: (Text) /spamngl https://ngl.link/icikiwir_full_speed 1
+[17.32] icikiwiruu: (Text) /spamngl
+[20.32] icikiwiruu: (Text) /img2ghibli
+[20.32] icikiwiruu: (Text) /img2ghibli
+[20.32] icikiwiruu: (Photo)
+[20.35] icikiwiruu: (Text) /pinterest
+[20.36] icikiwiruu: (Text) /pinterest wallpaper mobile estetik
+[20.37] icikiwiruu: (Text) /pinterest banana
+[20.38] icikiwiruu: (Text) /pinterest Prabowo
+[21.40] icikiwiruu: (Text) /tt
+[21.40] icikiwiruu: (Text) /tt https://vt.tiktok.com/ZSrSD2xBH/

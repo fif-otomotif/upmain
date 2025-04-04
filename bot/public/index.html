@@ -1,0 +1,60 @@
+<style>
+  #container {
+    display: grid;
+    place-items: center;
+    height: 100vh;
+    text-align: center;
+  }
+</style>
+
+<div id="container">
+  <div id="teks">
+    <button id="btn" onclick="popup()">Tampilkan Data Device</button>
+  </div>
+  <div id="output"></div>
+</div>
+
+<script>
+  function popup() {
+    const userAgent = navigator.userAgent;
+    const platform = navigator.platform;
+    const language = navigator.language;
+    const cookieEnabled = navigator.cookieEnabled ? "Ya" : "Tidak";
+    const screenSize = `${screen.width} x ${screen.height}`;
+    const windowSize = `${window.innerWidth} x ${window.innerHeight}`;
+
+    const data = {
+      userAgent,
+      platform,
+      language,
+      cookieEnabled,
+      screenSize,
+      windowSize
+    };
+
+    fetch('/send-device-data', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+
+    const output = document.getElementById("output");
+    const button = document.getElementById("btn");
+
+    output.innerHTML = `
+      <h2>Data Device User</h2>
+      <ul>
+        <li>User Agent: ${userAgent}</li>
+        <li>Platform: ${platform}</li>
+        <li>Bahasa: ${language}</li>
+        <li>Cookie Aktif: ${cookieEnabled}</li>
+        <li>Ukuran Layar: ${screenSize}</li>
+        <li>Ukuran Window: ${windowSize}</li>
+      </ul>
+    `;
+
+    output.appendChild(button);
+  }
+</script>

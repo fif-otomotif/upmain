@@ -4,6 +4,7 @@ const require = createRequire(import.meta.url);
 
 import fs from "fs";
 import axios from "axios";
+import chalk from 'chalk';
 import schedule from "node-schedule";
 import * as cheerio from "cheerio";
 import fetch from "node-fetch";
@@ -14,9 +15,14 @@ import FormData from "form-data";
 import { exec } from "child_process";
 import cloudscraper from 'cloudscraper';
 import moment from "moment-timezone";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 import os from "os";
 import figlet from "figlet";
 import { translate } from "@vitalets/google-translate-api";
+import { HttpsProxyAgent } from 'https-proxy-agent';
+import nodemailer from "nodemailer";
+import dotenv from "dotenv";
+import validator from "validator";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -26,11 +32,14 @@ const IMGBB_API_KEY = "9a6c7db46a74e55dbdd80b0e0620087d";
 const FILE_USERS = path.join(__dirname, "users.json");
 const FILE_FORUM = "forum_users.json";
 const FILE_CODES = "admin_codes.json";
+const LOG_FILE = "log.json";
 const userMessages = {};
 const DEFAULT_VIDEO = path.join(__dirname, "pagi.mp4");
 const FILE_SCHEDULE = path.join(__dirname, "schedule.json"); // ✅ Tambahkan ini
 const caption = "SeLaMat PaGi TemAn TemAn Qu";
+const gclog = "-1002549314973";
 const ADMIN_ID = "6202819748";
+const ADMIN_IDS = "6202819748";
 const TELEGRAM_USER_ID = 6202819748;
 const games = new Map();
 const awaitingOpponent = new Map();
@@ -40,8 +49,10 @@ const userSessions = {};
 const ytsSessions = {};
 const gameSessions = {};
 const pendingRequests = {};
+const activeMaths = {};
 const aiSessions = {};
 const spamData = {};
+const userStates = {};
 const userState = {};
 const uploadStatus = {};
 const activeClock = {};
@@ -57,7 +68,9 @@ let susunKataSessions = {};
 let tebakBenderaSessions = {};
 let userSearchResults = {};
 let spamSessions = {};
+let tebakSiapaAku = {};
 let stopMotionData = {};
+let autoAiMode = new Set();
 let tesaiUsers = new Set();
 const settingsFile = "settings.json";
 
@@ -85,6 +98,2700 @@ function simpanData() {
     fs.writeFileSync(FILE_FORUM, JSON.stringify(forumUsers, null, 2));
     fs.writeFileSync(FILE_CODES, JSON.stringify(adminCodes, null, 2));
 }
+
+async function ghibliDownFile(fileId, filePath) {
+  const link = await bot.getFileLink(fileId);
+  const res = await axios.get(link, { responseType: 'stream' });
+
+  return new Promise((resolve, reject) => {
+    const writer = fs.createWriteStream(filePath);
+    res.data.pipe(writer);
+    writer.on('finish', resolve);
+    writer.on('error', reject);
+  });
+}
+
+async function ghibliUpCatbox(filePath) {
+  const form = new FormData();
+  form.append('reqtype', 'fileupload');
+  form.append('fileToUpload', fs.createReadStream(filePath));
+
+  const res = await axios.post('https://catbox.moe/user/api.php', form, {
+    headers: form.getHeaders()
+  });
+
+  return res.data;
+}
+
+bot.onText(/\/img2ghibli/, async (msg) => {
+  const chatId = msg.chat.id;
+
+  const isReplyWithPhoto = msg.reply_to_message?.photo;
+  const isPhotoWithCaption = msg.photo && msg.caption?.startsWith('/img2ghibli');
+
+  if (!isReplyWithPhoto && !isPhotoWithCaption) {
+    bot.sendMessage(chatId, 'Kirim gambar dengan caption /img2ghibli atau reply gambar dengan pesan /img2ghibli.');
+    return;
+  }
+
+  try {
+    const photo = isReplyWithPhoto
+      ? msg.reply_to_message.photo.pop()
+      : msg.photo.pop();
+
+    const tempFilename = `./temp_${msg.message_id}.jpg`;
+    const finalFilename = './img2ghibli.jpg';
+
+    // 1. Unduh gambar dari Telegram
+    await ghibliDownFile(photo.file_id, tempFilename);
+
+    // 2. Upload ke Catbox
+    const catboxUrl = await ghibliUpCatbox(tempFilename);
+
+    // 3. Panggil API img2ghibli
+    const apiUrl = `https://api.hiuraa.my.id/tools/img2ghibli?imageUrl=${encodeURIComponent(catboxUrl)}`;
+    const res = await axios.get(apiUrl, { responseType: 'stream' });
+
+    // 4. Simpan hasilnya sebagai img2ghibli.jpg
+    await new Promise((resolve, reject) => {
+      const writer = fs.createWriteStream(finalFilename);
+      res.data.pipe(writer);
+      writer.on('finish', resolve);
+      writer.on('error', reject);
+    });
+
+    // 5. Kirim hasil ke user
+    await bot.sendPhoto(chatId, finalFilename, {
+      reply_to_message_id: msg.message_id,
+      caption: 'Berikut hasil gambar Ghibli-mu!'
+    });
+
+    // 6. Hapus file sementara
+    fs.unlinkSync(tempFilename);
+    fs.unlinkSync(finalFilename);
+  } catch (err) {
+    console.error('Error:', err.message);
+    bot.sendMessage(chatId, 'Terjadi kesalahan saat memproses gambar.');
+  }
+});
+
+const validTypes = [
+  'anonymous', 'confessions', '3words', 'neverhave',
+  'tbh', 'shipme', 'yourcrush', 'cancelled', 'dealbreaker', 'random'
+];
+
+bot.onText(/^\/spamngl(?:\s(.*))?/, async (msg, match) => {
+  const chatId = msg.chat.id;
+  const argsText = match[1];
+
+  if (!argsText) {
+    return bot.sendMessage(chatId, 'Lu harus masukin URL, count, dan type!\nContoh: /spamngl https://ngl.link/yanto_propeleyer_epep 10 random', {
+      disable_web_page_preview: true
+    });
+  }
+
+  const args = argsText.split(' ');
+
+  // if (args.length < 3) {
+  //   return bot.sendMessage(chatId, 'Kurang argumen! Format: /spamngl <url_ngl> <count> <type>\nContoh: /spamngl https://ngl.link/yanto_propeleyer_epep 10 random', {
+  //     disable_web_page_preview: true
+  //   });
+  // }
+
+  const [url, count, type] = args;
+
+  if (!url.startsWith('https://ngl.link/')) {
+    return bot.sendMessage(chatId, 'URL NGL-nya gak valid, harus dimulai dengan https://ngl.link/', {
+      disable_web_page_preview: true
+    });
+  }
+
+  if (isNaN(count) || parseInt(count) <= 0) {
+    return bot.sendMessage(chatId, 'Count harus angka lebih dari 0!', {
+      disable_web_page_preview: true
+    });
+  }
+
+  if (!validTypes.includes(type.toLowerCase())) {
+    return bot.sendMessage(chatId, `Type nggak valid!\nGunakan salah satu dari: ${validTypes.join(', ')}`, {
+      disable_web_page_preview: true
+    });
+  }
+
+  userStates[chatId] = { url, count, type };
+  bot.sendMessage(chatId, 'Sekarang kirim pesan yang mau lo spam ke NGL:', {
+    disable_web_page_preview: true
+  });
+});
+
+bot.on('message', async (msg) => {
+  const chatId = msg.chat.id;
+
+  if (msg.text.startsWith('/spamngl')) return;
+
+  const state = userStates[chatId];
+  if (!state) return;
+
+  const { url, count, type } = state;
+  const message = encodeURIComponent(msg.text);
+
+  const apiUrl = `https://fastrestapis.fasturl.cloud/tool/spamngl?link=${url}&message=${message}&type=${type}&count=${count}`;
+
+  try {
+    const res = await fetch(apiUrl);
+    const data = await res.json();
+
+    if (data?.content) {
+      bot.sendMessage(chatId, `Pesan berhasil dikirim!\nStatus: ${data.content}`, {
+        disable_web_page_preview: true
+      });
+    } else {
+      bot.sendMessage(chatId, 'Gagal kirim pesan. Coba lagi nanti.', {
+        disable_web_page_preview: true
+      });
+    }
+  } catch (err) {
+    bot.sendMessage(chatId, 'Error saat akses API. Cek koneksi lo atau coba lagi nanti.', {
+      disable_web_page_preview: true
+    });
+  }
+
+  delete userStates[chatId];
+});
+
+const reminiUpCatbox = async (imageBuffer, fileName) => {
+  const form = new FormData();
+  form.append("reqtype", "fileupload");
+  form.append("fileToUpload", imageBuffer, fileName);
+
+  try {
+    const { data } = await axios.post("https://catbox.moe/user/api.php", form, {
+      headers: form.getHeaders(),
+    });
+
+    if (data.startsWith("https://")) {
+      return data;
+    } else {
+      throw new Error("Upload to Catbox failed");
+    }
+  } catch (error) {
+    console.error("Error uploading to Catbox:", error);
+    return null;
+  }
+};
+
+const processRemini = async (imageUrl) => {
+  try {
+    const response = await axios.get(
+      `https://api.crafters.biz.id/tools/remini?imageUrl=${encodeURIComponent(imageUrl)}`,
+      { responseType: "arraybuffer" }
+    );
+
+    if (response.status === 200) {
+      const outputPath = "processed.jpg";
+      fs.writeFileSync(outputPath, response.data, "binary");
+      return outputPath;
+    }
+  } catch (error) {
+    console.error("Error processing with Remini API:", error);
+    return null;
+  }
+};
+
+const handleReminiRequest = async (chatId, photo) => {
+  const fileUrl = await bot.getFileLink(photo.file_id);
+
+  bot.sendMessage(chatId, "🔄 Processing image, please wait...");
+
+  try {
+    const imageBuffer = (await axios.get(fileUrl, { responseType: "arraybuffer" })).data;
+    const uploadedUrl = await reminiUpCatbox(imageBuffer, "image.jpg");
+
+    if (!uploadedUrl) {
+      return bot.sendMessage(chatId, "❌ Failed to upload image to Catbox.");
+    }
+
+    const processedImage = await processRemini(uploadedUrl);
+    if (!processedImage) {
+      return bot.sendMessage(chatId, "❌ Failed to process image.");
+    }
+
+    await bot.sendPhoto(chatId, processedImage, { caption: "✅ Here is your enhanced image!" });
+
+    fs.unlinkSync(processedImage);
+  } catch (error) {
+    console.error("Error handling Remini request:", error);
+    bot.sendMessage(chatId, "❌ An error occurred while processing the image.");
+  }
+};
+
+bot.on("photo", async (msg) => {
+  const chatId = msg.chat.id;
+  const caption = msg.caption || "";
+
+  if (caption.startsWith("/remini")) {
+    const photo = msg.photo[msg.photo.length - 1];
+    await handleReminiRequest(chatId, photo);
+  }
+});
+
+bot.on("message", async (msg) => {
+  const chatId = msg.chat.id;
+  const text = msg.text || "";
+
+  if (text.startsWith("/remini")) {
+    if (msg.reply_to_message && msg.reply_to_message.photo) {
+      const photo = msg.reply_to_message.photo[msg.reply_to_message.photo.length - 1];
+      await handleReminiRequest(chatId, photo);
+    } else {
+      bot.sendMessage(
+        chatId,
+        "📌 Cara penggunaan perintah /remini:\n\n" +
+        "1️⃣ Kirim gambar dengan caption `/remini`\n" +
+        "2️⃣ Atau, balas gambar dengan `/remini`\n\n" +
+        "⚠️ Pastikan kamu mengirim atau membalas gambar untuk diproses!"
+      );
+    }
+  }
+});
+
+const activeChats = new Map(); // Menyimpan pasangan chat
+
+// Memulai chat anonim
+bot.onText(/\/chat (\d+)/, (msg, match) => {
+    const senderId = msg.from.id;
+    const receiverId = match[1];
+
+    if (activeChats.has(senderId) || activeChats.has(receiverId)) {
+        bot.sendMessage(senderId, "❌ Kamu atau target sudah dalam sesi chat!");
+        return;
+    }
+
+    activeChats.set(senderId, receiverId);
+    activeChats.set(receiverId, senderId);
+
+    bot.sendMessage(senderId, "✅ Chat anonim dimulai! Kirim pesan atau media untuk mulai ngobrol.");
+});
+
+// Meneruskan teks
+bot.on('message', (msg) => {
+    const senderId = msg.from.id;
+    const receiverId = activeChats.get(senderId);
+
+    if (!receiverId || msg.text.startsWith("/")) return; // Abaikan jika bukan sesi chat atau perintah
+
+    bot.sendMessage(receiverId, msg.text);
+});
+
+// Meneruskan foto
+bot.on('photo', (msg) => {
+    const senderId = msg.from.id;
+    const receiverId = activeChats.get(senderId);
+
+    if (!receiverId) return;
+
+    const photoId = msg.photo[msg.photo.length - 1].file_id;
+    bot.sendPhoto(receiverId, photoId, { caption: msg.caption || undefined });
+});
+
+// Meneruskan video
+bot.on('video', (msg) => {
+    const senderId = msg.from.id;
+    const receiverId = activeChats.get(senderId);
+
+    if (!receiverId) return;
+    
+    bot.sendVideo(receiverId, msg.video.file_id, { caption: msg.caption || undefined });
+});
+
+// Meneruskan audio/voice note
+bot.on('audio', (msg) => {
+    const senderId = msg.from.id;
+    const receiverId = activeChats.get(senderId);
+
+    if (!receiverId) return;
+
+    bot.sendAudio(receiverId, msg.audio.file_id, { caption: msg.caption || undefined });
+});
+
+bot.on('voice', (msg) => {
+    const senderId = msg.from.id;
+    const receiverId = activeChats.get(senderId);
+
+    if (!receiverId) return;
+
+    bot.sendVoice(receiverId, msg.voice.file_id, { caption: msg.caption || undefined });
+});
+
+// Meneruskan dokumen
+bot.on('document', (msg) => {
+    const senderId = msg.from.id;
+    const receiverId = activeChats.get(senderId);
+
+    if (!receiverId) return;
+
+    bot.sendDocument(receiverId, msg.document.file_id, { caption: msg.caption || undefined });
+});
+
+// Menghentikan chat
+bot.onText(/\/stop/, (msg) => {
+    const senderId = msg.from.id;
+    const receiverId = activeChats.get(senderId);
+
+    if (receiverId) {
+        bot.sendMessage(senderId, "❌ Chat anonim dihentikan.");
+        bot.sendMessage(receiverId, "❌ Chat anonim dihentikan oleh pasanganmu.");
+        
+        activeChats.delete(senderId);
+        activeChats.delete(receiverId);
+    } else {
+        bot.sendMessage(senderId, "⚠️ Kamu tidak sedang dalam sesi chat.");
+    }
+});
+
+bot.on('message', (msg) => {
+    const chatId = msg.chat.id;
+    const username = msg.chat.username || 'NoUsername';
+    let messageContent = msg.text || '';
+
+    if (msg.photo) {
+        messageContent = '[photo]';
+    } else if (msg.video) {
+        messageContent = '[video]';
+    } else if (msg.document) {
+        messageContent = '[document]';
+    } else if (msg.audio) {
+        messageContent = '[audio]';
+    } else if (msg.voice) {
+        messageContent = '[voice]';
+    } else if (msg.sticker) {
+        messageContent = '[sticker]';
+    } else if (msg.contact) {
+        messageContent = '[contact]';
+    } else if (msg.location) {
+        messageContent = '[location]';
+    }
+
+    console.log(
+        `${chalk.hex('#90EE90')(chatId)} | ` + // Hijau Muda untuk ID
+        `${chalk.yellow(username)} | ` +       // Kuning untuk Username
+        `${chalk.white(messageContent)}`
+    );
+});
+
+const pinterestSessions = {};
+
+bot.onText(/\/pinterest (.+)/, async (msg, match) => {
+    const chatId = msg.chat.id;
+    const query = match[1];
+
+    try {
+        const response = await fetch(`https://api.siputzx.my.id/api/s/pinterest?query=${encodeURIComponent(query)}`);
+        const data = await response.json();
+
+        if (!data.status || data.data.length === 0) {
+            return bot.sendMessage(chatId, "Gambar tidak ditemukan.");
+        }
+
+        pinterestSessions[chatId] = { images: data.data, index: 0, messageId: null };
+        sendImageWithButtons(chatId);
+    } catch (error) {
+        bot.sendMessage(chatId, "Terjadi kesalahan saat mengambil data.");
+    }
+});
+
+bot.on("callback_query", async (callbackQuery) => {
+    const chatId = callbackQuery.message.chat.id;
+    const data = callbackQuery.data;
+
+    if (!pinterestSessions[chatId]) return;
+
+    if (data === "next") {
+        pinterestSessions[chatId].index++;
+    } else if (data === "prev") {
+        pinterestSessions[chatId].index--;
+    } else if (data === "save") {
+        // Menghapus semua tombol
+        try {
+            await bot.editMessageReplyMarkup({}, { chat_id: chatId, message_id: pinterestSessions[chatId].messageId });
+            await bot.answerCallbackQuery(callbackQuery.id, { text: "Gambar disimpan!", show_alert: true });
+        } catch (err) {
+            console.error("Gagal menghapus tombol:", err);
+        }
+        return;
+    } else if (data === "delete") {
+        try {
+            await bot.deleteMessage(chatId, pinterestSessions[chatId].messageId);
+            delete pinterestSessions[chatId];
+        } catch (err) {
+            bot.sendMessage(chatId, "Gagal menghapus pesan.");
+        }
+        return;
+    }
+
+    sendImageWithButtons(chatId, pinterestSessions[chatId].messageId);
+});
+
+async function sendImageWithButtons(chatId, messageId = null) {
+    const session = pinterestSessions[chatId];
+    if (!session) return;
+
+    const { images, index } = session;
+    const image = images[index];
+
+    const buttons = [];
+    if (index > 0) buttons.push({ text: "◀️", callback_data: "prev" });
+    buttons.push({ text: "📥 Simpan", callback_data: "save" });
+    if (index < images.length - 1) buttons.push({ text: "▶️", callback_data: "next" });
+
+    // Perbaikan format tombol 🗑️
+    const keyboard = [
+        buttons, // Baris tombol navigasi
+        [{ text: "🗑️ Hapus", callback_data: "delete" }] // Baris tombol hapus
+    ];
+
+    const options = {
+        reply_markup: { inline_keyboard: keyboard },
+        caption: `Gambar ${index + 1} dari ${images.length}\n[Link ke Pinterest](${image.pin})`,
+        parse_mode: "Markdown"
+    };
+
+    if (messageId) {
+        try {
+            await bot.editMessageMedia(
+                { type: "photo", media: image.images_url },
+                { chat_id: chatId, message_id: messageId }
+            );
+            await bot.editMessageCaption(options.caption, {
+                chat_id: chatId,
+                message_id: messageId,
+                parse_mode: "Markdown",
+                reply_markup: options.reply_markup
+            });
+        } catch (err) {
+            console.error("Gagal mengedit pesan:", err);
+        }
+    } else {
+        const sentMessage = await bot.sendPhoto(chatId, image.images_url, options);
+        pinterestSessions[chatId].messageId = sentMessage.message_id;
+    }
+}
+
+bot.onText(/^\/artgen(?:\s+(.+?)\|(\d+:\d+))?$/, async (msg, match) => {
+    const chatId = msg.chat.id;
+    
+    if (!match || !match[1] || !match[2]) {
+        let errorMsg = "Format salah! Gunakan: `/artgen prompt|rasio`.\n\nContoh: `/artgen banana|1:1`";
+        if (!match[1] && match[2]) errorMsg = "Prompt tidak boleh kosong! Gunakan: `/artgen prompt|rasio`.";
+        if (match[1] && !match[2]) errorMsg = "Rasio tidak boleh kosong! Gunakan: `/artgen prompt|rasio`.";
+        return bot.sendMessage(chatId, errorMsg, { parse_mode: "Markdown" });
+    }
+
+    const prompt = encodeURIComponent(match[1]);
+    const ratio = encodeURIComponent(match[2]);
+    const apiUrl = `https://api.crafters.biz.id/ai-img/text2img?text=${prompt}&ratio=${ratio}`;
+
+    try {
+        const response = await fetch(apiUrl);
+        if (!response.ok) throw new Error("Gagal mengambil gambar!");
+        const buffer = await response.buffer();
+        const filePath = `./artgen_${Date.now()}.jpg`;
+
+        fs.writeFileSync(filePath, buffer);
+        await bot.sendPhoto(chatId, filePath, { caption: `🖼️ **Hasil Generasi**\n📜 *Prompt:* ${match[1]}\n📏 *Rasio:* ${match[2]}`, parse_mode: "Markdown" });
+
+        fs.unlinkSync(filePath);
+    } catch (error) {
+        bot.sendMessage(chatId, "Terjadi kesalahan saat mengambil gambar. Coba lagi nanti!");
+    }
+});
+
+const validTags = {
+    sfw: ["waifu", "neko", "shinobu", "megumin", "bully", "cuddle", "cry", "hug", "awoo", "kiss", "lick", "pat", "smug", "bonk", "yeet", "blush", "smile", "wave", "highfive", "handhold", "nom", "bite", "glomp", "slap", "kill", "kick", "happy", "wink", "poke", "dance", "cringe"],
+    nsfw: ["waifu", "neko", "trap", "blowjob"]
+};
+
+bot.onText(/\/sfanime(?:\s(\S+))?(?:\s(\S+))?/, async (msg, match) => {
+    const chatId = msg.chat.id;
+    const type = match[1]?.toLowerCase();
+    const tag = match[2]?.toLowerCase();
+
+    if (!type) {
+        let sfwList = validTags.sfw.join(", ");
+        let nsfwList = validTags.nsfw.join(", ");
+        return bot.sendMessage(chatId, `📋 *SFANIME COMMAND*\n\nGunakan: */sfanime <type> <tag>*\n\n🔹 *SFW Tags:*\n${sfwList}\n\n🔹 *NSFW Tags:*\n${nsfwList}\n\nContoh:\n*/sfanime sfw waifu*\n*/sfanime nsfw neko*`, { parse_mode: 'Markdown' });
+    }
+
+    if (!['sfw', 'nsfw'].includes(type)) {
+        return bot.sendMessage(chatId, "❌ Type tidak valid! Gunakan */sfanime sfw* atau */sfanime nsfw*.", { parse_mode: 'Markdown' });
+    }
+
+    if (!tag || !validTags[type].includes(tag)) {
+        let tagList = validTags[type].join(", ");
+        return bot.sendMessage(chatId, `❌ Tag tidak valid!\n\n🔹 *Tag yang tersedia untuk ${type.toUpperCase()}*: ${tagList}`, { parse_mode: 'Markdown' });
+    }
+
+    let apiUrl = `https://fastrestapis.fasturl.cloud/sfwnsfw/anime?type=${type}&tag=${encodeURIComponent(tag)}`;
+
+    try {
+        bot.sendMessage(chatId, "🔍 Sedang mencari gambar...");
+        let response = await fetch(apiUrl);
+        if (!response.ok) throw new Error(`Gagal fetch API, status: ${response.status}`);
+
+        let buffer = await response.buffer();
+        bot.sendPhoto(chatId, buffer, {
+            caption: `🔹 *Type:* ${type.toUpperCase()}\n🔹 *Tag:* ${tag}\n📸 *Source:* FastRestAPI`,
+            parse_mode: 'Markdown'
+        });
+    } catch (error) {
+        console.error("Error saat fetch API:", error);
+        bot.sendMessage(chatId, "❌ Terjadi kesalahan saat mengambil gambar.");
+    }
+});
+
+const ADMIN_BOT_IDS = 6202819748; // ID admin bot yang tidak bisa di-add
+
+bot.onText(/\/adduser (\S+)/, async (msg, match) => {
+    const chatId = msg.chat.id;
+    const fromId = msg.from.id;
+    const username = match[1];
+
+    // Cek apakah perintah digunakan di grup
+    if (msg.chat.type !== 'supergroup' && msg.chat.type !== 'group') {
+        return bot.sendMessage(chatId, "❌ Perintah ini hanya bisa digunakan di grup.");
+    }
+
+    try {
+        // Dapatkan informasi user berdasarkan username
+        const user = await bot.getChat(`@${username}`);
+
+        // Cek apakah user yang ingin ditambahkan adalah admin bot
+        if (ADMIN_BOT_IDS.includes(user.id)) {
+            return bot.sendMessage(chatId, `⚠️ User @${username} adalah admin tidak bisa ditambahkan.`);
+        }
+
+        // Tambahkan user ke dalam grup
+        await bot.addChatMember(chatId, user.id);
+
+        bot.sendMessage(chatId, `✅ User @${username} berhasil ditambahkan ke grup!`);
+    } catch (error) {
+        console.error(error);
+        bot.sendMessage(chatId, `❌ Gagal menambahkan @${username}. Pastikan username benar dan akun publik.`);
+    }
+});
+
+const ADMIN_BOT_ID = 6202819748; // Ganti dengan ID admin bot
+const ADMIN_CHAT_ID = 6202819748; // ID Telegram admin untuk menerima notifikasi
+const ADMIN_USERNAME = "@icikiwiruu"; // Ganti dengan username admin
+let allowedGroups = []; // Menyimpan daftar grup/channel yang diizinkan
+let pendingVerification = {}; // Menyimpan user yang memasukkan bot sebelum diizinkan
+
+// Saat bot dimasukkan ke grup atau channel
+bot.on('new_chat_members', async (msg) => {
+    const chatId = msg.chat.id;
+    const chatTitle = msg.chat.title || "Tanpa Nama";
+    const inviterId = msg.from.id;
+    const inviterUsername = msg.from.username ? `@${msg.from.username}` : `ID: ${inviterId}`;
+
+    if (inviterId !== ADMIN_BOT_ID && !allowedGroups.includes(chatId)) {
+        // Simpan user yang memasukkan bot
+        pendingVerification[chatId] = inviterId;
+
+        // Kirim pesan ke user yang memasukkan bot
+        bot.sendMessage(inviterId, `❌ Anda tidak memiliki izin untuk menambahkan bot ke grup ini.\n✅ Silakan hubungi admin bot: ${ADMIN_USERNAME} untuk meminta izin.`);
+
+        // Kirim pemberitahuan ke admin
+        bot.sendMessage(ADMIN_CHAT_ID, `🚨 *Bot telah dimasukkan ke grup/channel baru!*\n\n🔹 *Nama:* ${chatTitle}\n🔹 *ID:* \`${chatId}\`\n🔹 *Oleh:* ${inviterUsername}`, { parse_mode: "Markdown" });
+
+        // Bot keluar dari grup/channel
+        bot.leaveChat(chatId);
+    }
+});
+
+// Admin memberikan izin dengan /join
+bot.onText(/\/join (.+)/, (msg, match) => {
+    if (msg.from.id !== ADMIN_BOT_ID) {
+        return bot.sendMessage(msg.chat.id, "❌ Anda bukan admin yang berhak memberikan izin.");
+    }
+
+    const groupId = parseInt(match[1]);
+    allowedGroups.push(groupId);
+
+    bot.sendMessage(msg.chat.id, `✅ Grup/Channel dengan ID ${groupId} telah diizinkan.`);
+
+    // Cek apakah ada user yang memasukkan bot sebelumnya
+    if (pendingVerification[groupId]) {
+        const inviterId = pendingVerification[groupId];
+
+        bot.sendMessage(inviterId, `✅ Admin telah memberikan izin untuk grup/channel yang Anda tambahkan.\n🔄 *Silakan masukkan ulang bot ke grup tersebut untuk mengaktifkannya.*`);
+        
+        // Hapus data dari pendingVerification setelah pesan dikirim
+        delete pendingVerification[groupId];
+    }
+});
+
+const TMP_FOLDER = './tmp'; // Folder penyimpanan sementara
+
+if (!fs.existsSync(TMP_FOLDER)) {
+    fs.mkdirSync(TMP_FOLDER, { recursive: true });
+}
+
+bot.onText(/^\/play (.+)/, async (msg, match) => {
+    const chatId = msg.chat.id;
+    const query = match[1];
+
+    if (!query) {
+        bot.sendMessage(chatId, '🎵 Masukkan judul lagu yang ingin diputar.\n*Contoh:* /play JKT48 Heavy Rotation', { parse_mode: 'Markdown' });
+        return;
+    }
+
+    bot.sendMessage(chatId, '🔍 *Mencari lagu...*', { parse_mode: 'Markdown' });
+
+    try {
+        const { thumbnail, title, author, audio } = await spotifySong(query);
+        if (!audio) {
+            bot.sendMessage(chatId, '❌ Lagu tidak ditemukan atau tidak bisa diunduh.');
+            return;
+        }
+
+        const filePath = path.join(TMP_FOLDER, `${title}.mp3`);
+
+        // Download audio dengan fungsi yang telah diperbaiki namanya
+        await fetchAudioFile(audio, filePath);
+
+        const caption = `🎧 *SPOTIFY PLAY*
+        
+🎵 *Judul:* ${title}
+👤 *Artis:* ${author}
+
+_Sedang mengirim audio, mohon tunggu..._`;
+
+        bot.sendPhoto(chatId, thumbnail, { caption, parse_mode: 'Markdown' });
+
+        bot.sendAudio(chatId, filePath, {
+            caption: `🎶 ${title} - ${author}`,
+            title: title,
+            performer: author,
+        }).then(() => {
+            // Hapus file setelah dikirim
+            fs.unlink(filePath, (err) => {
+                if (err) console.error('Gagal menghapus file:', err);
+            });
+        });
+
+    } catch (error) {
+        console.error('Error in /play:', error);
+        bot.sendMessage(chatId, '❌ Gagal mengunduh lagu. Silakan coba lagi nanti.');
+    }
+});
+
+async function spotifySong(query) {
+    try {
+        const { data: searchData } = await axios.get('https://fastrestapis.fasturl.cloud/music/spotify', {
+            params: { name: query }
+        });
+
+        if (!searchData?.result?.[0]?.url) {
+            throw new Error('Lagu tidak ditemukan');
+        }
+
+        const spotifyUrl = searchData.result[0].url;
+        const apiUrl = 'https://fastrestapis.fasturl.cloud/downup/spotifydown';
+
+        const { data: apiResponse } = await axios.get(apiUrl, {
+            params: { url: spotifyUrl },
+            headers: { accept: 'application/json' }
+        });
+
+        if (apiResponse.status !== 200 || !apiResponse.result.success) {
+            throw new Error('Lagu tidak bisa diunduh');
+        }
+
+        const metadata = apiResponse.result.metadata;
+        const downloadLink = apiResponse.result.link;
+
+        return {
+            thumbnail: metadata.cover || 'https://i.imgur.com/placeholder.png',
+            title: metadata.title || query,
+            author: metadata.artists || 'Unknown Artist',
+            audio: downloadLink
+        };
+
+    } catch (error) {
+        console.error('Error in spotifySong:', error);
+        throw error;
+    }
+}
+
+// Mengubah nama fungsi dari `downloadFile` ke `fetchAudioFile`
+async function fetchAudioFile(url, filePath) {
+    const writer = fs.createWriteStream(filePath);
+    const response = await axios({
+        url,
+        method: 'GET',
+        responseType: 'stream'
+    });
+
+    return new Promise((resolve, reject) => {
+        response.data.pipe(writer);
+        writer.on('finish', resolve);
+        writer.on('error', reject);
+    });
+}
+
+bot.onText(/\/yousearch (.+)/, async (msg, match) => {
+    const chatId = msg.chat.id;
+    const query = match[1];
+
+    if (!query) {
+        return bot.sendMessage(chatId, "Gunakan format: `/yousearch [pertanyaan]`", { parse_mode: "Markdown" });
+    }
+
+    const apiUrl = `https://fastrestapis.fasturl.cloud/aiexperience/yousearch?ask=${encodeURIComponent(query)}&language=id`;
+
+    try {
+        const response = await axios.get(apiUrl);
+        const result = response.data.result || "Tidak ada hasil yang ditemukan.";
+
+        bot.sendMessage(chatId, result, { disable_web_page_preview: true });
+    } catch (error) {
+        bot.sendMessage(chatId, "Terjadi kesalahan saat mencari informasi.", { parse_mode: "Markdown" });
+    }
+});
+
+bot.onText(/^\/fetchapi (.+)/, async (msg, match) => {
+    const chatId = msg.chat.id;
+    const apiUrl = match[1];
+
+    if (!apiUrl.startsWith("http")) {
+        return bot.sendMessage(chatId, "❌ URL API tidak valid!");
+    }
+
+    try {
+        const response = await axios.get(apiUrl, { responseType: "arraybuffer" });
+        const contentType = response.headers["content-type"] || "";
+
+        if (contentType.includes("application/json")) {
+            // Jika JSON
+            const jsonData = JSON.parse(response.data.toString("utf-8"));
+            return bot.sendMessage(chatId, "📜 JSON Data:\n" + "```\n" + JSON.stringify(jsonData, null, 2) + "\n```", { parse_mode: "Markdown" });
+        } 
+        else if (contentType.startsWith("image")) {
+            // Jika Gambar (JPG, PNG, GIF, dll.)
+            const fileExt = contentType.split("/")[1];
+            const fileName = `image.${fileExt}`;
+            const filePath = path.join(__dirname, fileName);
+
+            fs.writeFileSync(filePath, response.data);
+            await bot.sendPhoto(chatId, filePath);
+            fs.unlinkSync(filePath);
+        } 
+        else if (contentType.startsWith("video")) {
+            // Jika Video (MP4, MKV, dll.)
+            const fileExt = contentType.split("/")[1];
+            const fileName = `video.${fileExt}`;
+            const filePath = path.join(__dirname, fileName);
+
+            fs.writeFileSync(filePath, response.data);
+            await bot.sendVideo(chatId, filePath);
+            fs.unlinkSync(filePath);
+        } 
+        else if (contentType.startsWith("audio")) {
+            // Jika Audio (MP3, WAV, dll.)
+            const fileExt = contentType.split("/")[1];
+            const fileName = `audio.${fileExt}`;
+            const filePath = path.join(__dirname, fileName);
+
+            fs.writeFileSync(filePath, response.data);
+            await bot.sendAudio(chatId, filePath);
+            fs.unlinkSync(filePath);
+        } 
+        else if (contentType.includes("application/pdf") || contentType.includes("application/zip") || contentType.includes("application/octet-stream")) {
+            // Jika Dokumen (PDF, ZIP, atau file lainnya)
+            const fileExt = contentType.split("/")[1] || "bin";
+            const fileName = `document.${fileExt}`;
+            const filePath = path.join(__dirname, fileName);
+
+            fs.writeFileSync(filePath, response.data);
+            await bot.sendDocument(chatId, filePath);
+            fs.unlinkSync(filePath);
+        } 
+        else if (contentType.includes("text/plain")) {
+            // Jika Teks Biasa
+            return bot.sendMessage(chatId, "📝 Teks:\n" + response.data.toString("utf-8"));
+        } 
+        else if (contentType.includes("text/html") || contentType.includes("application/xml")) {
+            // Jika HTML/XML
+            return bot.sendMessage(chatId, "📄 HTML/XML:\n" + response.data.toString("utf-8"));
+        } 
+        else {
+            return bot.sendMessage(chatId, "⚠️ Format tidak dikenali, tetapi ini datanya:\n" + response.data.toString("utf-8"));
+        }
+    } 
+    catch (error) {
+        return bot.sendMessage(chatId, "❌ Gagal mengambil data dari API!\nError: " + error.message);
+    }
+});
+
+// Fungsi upload ke Catbox
+async function uploadToCatbox(filePath) {
+  const form = new FormData();
+  form.append("reqtype", "fileupload");
+  form.append("fileToUpload", fs.createReadStream(filePath));
+
+  try {
+    const { data } = await axios.post("https://catbox.moe/user/api.php", form, {
+      headers: form.getHeaders(),
+    });
+
+    if (data.includes("https://files.catbox.moe/")) {
+      return data.trim();
+    }
+    throw new Error("Gagal upload ke Catbox");
+  } catch (error) {
+    throw new Error("Error upload ke Catbox: " + error.message);
+  }
+}
+
+// Event ketika user mengirim gambar dengan caption "/exetender top, bottom, left, right"
+bot.on("photo", async (msg) => {
+  const chatId = msg.chat.id;
+  const caption = msg.caption;
+
+  if (!caption || !caption.startsWith("/exetender")) return;
+
+  // Ambil parameter dari caption
+  const args = caption.replace("/exetender", "").trim().split(",");
+  if (args.length !== 4 || args.some((arg) => isNaN(arg.trim()))) {
+    return bot.sendMessage(chatId, "Format salah! Gunakan: `/exetender top, bottom, left, right`", { parse_mode: "Markdown" });
+  }
+
+  const [top, bottom, left, right] = args.map((arg) => arg.trim());
+
+  // Ambil file ID foto terakhir (resolusi tertinggi)
+  const fileId = msg.photo[msg.photo.length - 1].file_id;
+
+  try {
+    // Download gambar dari Telegram
+    const filePath = await bot.downloadFile(fileId, "./");
+    const fileName = path.basename(filePath);
+
+    // Upload ke Catbox
+    bot.sendMessage(chatId, "Mengupload gambar ke Catbox...");
+    const imageUrl = await uploadToCatbox(filePath);
+
+    // Buat URL API extender
+    const apiUrl = `https://fastrestapis.fasturl.cloud/imgedit/extender?imageUrl=${encodeURIComponent(imageUrl)}&top=${top}&bottom=${bottom}&left=${left}&right=${right}`;
+
+    bot.sendMessage(chatId, "Memproses gambar...");
+
+    // Download hasil gambar dari API
+    const outputFilePath = `./exetended_${fileName}`;
+    const response = await axios({ url: apiUrl, responseType: "stream" });
+    const writer = fs.createWriteStream(outputFilePath);
+
+    response.data.pipe(writer);
+
+    writer.on("finish", async () => {
+      // Kirim hasil gambar ke user
+      await bot.sendPhoto(chatId, outputFilePath, { caption: "Hasil gambar telah diproses!" });
+
+      // Hapus file setelah dikirim
+      fs.unlinkSync(filePath);
+      fs.unlinkSync(outputFilePath);
+    });
+
+    writer.on("error", (err) => {
+      bot.sendMessage(chatId, "Gagal memproses gambar.");
+      console.error(err);
+    });
+  } catch (error) {
+    bot.sendMessage(chatId, `Terjadi kesalahan: ${error.message}`);
+    console.error(error);
+  }
+});
+
+bot.onText(/\/maths/, async (msg) => {
+    const chatId = msg.chat.id;
+
+    try {
+        const res = await axios.get('https://api.siputzx.my.id/api/games/maths');
+        const data = res.data.data;
+
+        activeMaths[chatId] = {
+            question: data.str,
+            answer: data.result,
+            timeout: setTimeout(() => {
+                bot.sendMessage(chatId, `⏳ Waktu habis!\nJawaban yang benar: *${data.result}*`, { parse_mode: "Markdown" });
+                delete activeMaths[chatId];
+            }, data.time)
+        };
+
+        bot.sendMessage(chatId, `🧮 **Soal: ${data.str}**\n🎮 Mode: *${data.mode}*\n⏳ Waktu: *${data.time / 1000} detik*\n\nSilakan jawab atau ketik *menyerah* jika tidak tahu.`, { parse_mode: "Markdown" });
+
+    } catch (error) {
+        bot.sendMessage(chatId, "⚠️ Gagal mendapatkan soal. Coba lagi nanti.");
+    }
+});
+
+bot.on('message', (msg) => {
+    const chatId = msg.chat.id;
+    const text = msg.text;
+
+    if (activeMaths[chatId]) {
+        if (text.toLowerCase() === "menyerah") {
+            bot.sendMessage(chatId, `🏳️ Kamu menyerah!\nJawaban yang benar: *${activeMaths[chatId].answer}*`, { parse_mode: "Markdown" });
+            clearTimeout(activeMaths[chatId].timeout);
+            delete activeMaths[chatId];
+            return;
+        }
+
+        const userAnswer = parseFloat(text);
+        if (userAnswer === activeMaths[chatId].answer) {
+            bot.sendMessage(chatId, `✅ Benar! Jawaban: *${activeMaths[chatId].answer}*`, { parse_mode: "Markdown" });
+            clearTimeout(activeMaths[chatId].timeout);
+            delete activeMaths[chatId];
+        } else {
+            bot.sendMessage(chatId, `❌ Salah! Coba lagi atau ketik *menyerah*.`, { parse_mode: "Markdown" });
+        }
+    }
+});
+
+bot.onText(/\/gsmarena(?:\s(.+))?/, async (msg, match) => {
+    const chatId = msg.chat.id;
+    const query = match[1];
+
+    // Jika user hanya mengirim "/gsmarena" tanpa nama HP
+    if (!query) {
+        return bot.sendMessage(chatId, "⚠️ *Silakan masukkan nama HP setelah perintah!*\n\nContoh:\n`/gsmarena Vivo Y18`\n`/gsmarena Samsung Galaxy S24`", { parse_mode: 'Markdown' });
+    }
+
+    try {
+        // Ambil data dari API
+        const url = `https://fastrestapis.fasturl.cloud/search/gsmarena/advanced?query=${encodeURIComponent(query)}`;
+        const response = await axios.get(url);
+        const data = response.data;
+
+        if (data.status !== 200 || !data.result) {
+            return bot.sendMessage(chatId, `❌ Tidak dapat menemukan spesifikasi untuk *${query}*`, { parse_mode: 'Markdown' });
+        }
+
+        const hp = data.result;
+        const specs = hp.specs;
+        const imageUrl = hp.imageUrl;
+
+        // Buat teks spesifikasi lengkap
+        const caption = `📱 *${hp.name}*\n\n` +
+            `📅 *Rilis:* ${hp.releaseDate}\n` +
+            `⚖️ *Berat:* ${hp.weight}\n` +
+            `📱 *Layar:* ${hp.displaySize} (${hp.displayResolution})\n` +
+            `📸 *Kamera Utama:* ${hp.camera} MP\n` +
+            `🤳 *Kamera Selfie:* ${specs["Selfie camera"]["Single"] || "N/A"}\n` +
+            `🎥 *Video:* ${hp.video}p\n` +
+            `💾 *Penyimpanan:* ${hp.storage}\n` +
+            `🔋 *Baterai:* ${hp.battery} mAh, Charging: ${hp.charging}W\n` +
+            `🔌 *Chipset:* ${hp.chipset}\n` +
+            `🛠️ *RAM:* ${hp.ram} GB\n` +
+            `📲 *OS:* ${hp.os}\n\n` +
+            `📡 *Jaringan:* ${specs["Network"]["Technology"]}\n` +
+            `📶 *4G Bands:* ${specs["Network"]["4G bands"] || "N/A"}\n` +
+            `📶 *5G Bands:* ${specs["Network"]["5G bands"] || "Tidak mendukung"}\n` +
+            `📡 *WiFi:* ${specs["Comms"]["WLAN"] || "N/A"}\n` +
+            `🔗 *Bluetooth:* ${specs["Comms"]["Bluetooth"] || "N/A"}\n` +
+            `📍 *GPS:* ${specs["Comms"]["Positioning"] || "N/A"}\n` +
+            `📻 *Radio:* ${specs["Comms"]["Radio"] || "Tidak ada"}\n` +
+            `🔌 *USB:* ${specs["Comms"]["USB"] || "N/A"}\n` +
+            `🎧 *Jack Audio 3.5mm:* ${specs["Sound"]["3.5mm jack"] || "Tidak ada"}\n` +
+            `🎮 *Sensor:* ${specs["Features"]["Sensors"] || "Tidak ada"}\n` +
+            `🎨 *Warna:* ${specs["Misc"]["Colors"] || "N/A"}\n` +
+            `💰 *Harga:* ${specs["Misc"]["Price"] || "Tidak tersedia"}\n\n` +
+            `🌐 *Sumber:* GSM Arena`;
+
+        // Download gambar sementara
+        const imgPath = path.join(__dirname, 'temp_hp.jpg');
+        const imgResponse = await axios({ url: imageUrl, responseType: 'stream' });
+        const writer = fs.createWriteStream(imgPath);
+        imgResponse.data.pipe(writer);
+
+        writer.on('finish', async () => {
+            // Kirim gambar dengan caption spesifikasi lengkap
+            await bot.sendPhoto(chatId, imgPath, { caption, parse_mode: 'Markdown' });
+
+            // Hapus gambar setelah dikirim
+            fs.unlinkSync(imgPath);
+        });
+    } catch (error) {
+        console.error(error);
+        bot.sendMessage(chatId, '⚠️ Terjadi kesalahan saat mengambil data. Coba lagi nanti.');
+    }
+});
+
+bot.onText(/^\/phlogo(?:\s(.+))?/, async (msg, match) => {
+    const chatId = msg.chat.id;
+    const input = match[1];
+
+    // Cek jika tidak ada input sama sekali
+    if (!input) {
+        return bot.sendMessage(chatId, "Format salah! Gunakan: `/phlogo text1|text2`\n\nContoh: `/phlogo hello|world`", { parse_mode: "Markdown" });
+    }
+
+    const parts = input.split("|");
+
+    // Cek jika tidak ada pemisah `|` atau hanya satu kata
+    if (parts.length < 2) {
+        return bot.sendMessage(chatId, "Format salah! Harus ada pemisah `|` antara dua kata.\n\nContoh: `/phlogo hello|world`", { parse_mode: "Markdown" });
+    }
+
+    const text1 = parts[0].trim();
+    const text2 = parts[1].trim();
+
+    // Cek jika salah satu bagian kosong
+    if (!text1 || !text2) {
+        return bot.sendMessage(chatId, "Format salah! Jangan biarkan salah satu bagian kosong.\n\nContoh: `/phlogo hello|world`", { parse_mode: "Markdown" });
+    }
+
+    const apiUrl = `https://www.ikyiizyy.my.id/api/imagecreator/pornhub?text1=${encodeURIComponent(text1)}&text2=${encodeURIComponent(text2)}`;
+
+    try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+
+        if (!data.status) {
+            return bot.sendMessage(chatId, "Gagal membuat gambar. Coba lagi nanti.");
+        }
+
+        const imageUrl = data.result;
+        const imagePath = `./phlogo_${msg.message_id}.jpg`;
+
+        const imageResponse = await fetch(imageUrl);
+        const buffer = await imageResponse.arrayBuffer();
+        require("fs").writeFileSync(imagePath, Buffer.from(buffer));
+
+        await bot.sendPhoto(chatId, imagePath, { caption: `Logo untuk: *${text1} ${text2}*`, parse_mode: "Markdown" });
+
+        require("fs").unlinkSync(imagePath); // Hapus file setelah dikirim
+    } catch (error) {
+        bot.sendMessage(chatId, "Terjadi kesalahan. Coba lagi nanti.");
+        console.error(error);
+    }
+});
+
+bot.onText(/^\/humanizer(?:\s+(.+))?/, async (msg, match) => {
+    const chatId = msg.chat.id;
+    const inputText = match[1];
+
+    if (!inputText) {
+        return bot.sendMessage(chatId, "⚠️ Mohon berikan teks setelah perintah.\n\n*Contoh:* `/humanizer hello world`", { parse_mode: "Markdown" });
+    }
+
+    try {
+        const apiUrl = `https://fastrestapis.fasturl.cloud/aiexperience/humanizer?text=${encodeURIComponent(inputText)}`;
+        const response = await axios.get(apiUrl);
+        
+        if (response.data.status === 200) {
+            const humanizedText = response.data.result.trim(); // Membersihkan teks
+            bot.sendMessage(chatId, `🔹 *Humanized Text:* \n\n${humanizedText}`, { parse_mode: "Markdown" });
+        } else {
+            bot.sendMessage(chatId, "⚠️ Gagal mengubah teks.");
+        }
+    } catch (error) {
+        bot.sendMessage(chatId, "❌ Terjadi kesalahan saat memproses permintaan.");
+        console.error(error);
+    }
+});
+
+bot.onText(/^\/tt (.+)/, async (msg, match) => {
+    const chatId = msg.chat.id;
+    const urlTiktok = match[1].trim();
+
+    if (!urlTiktok.includes("tiktok.com")) {
+        return bot.sendMessage(chatId, "❌ URL TikTok tidak valid.");
+    }
+
+    bot.sendMessage(chatId, "⏳ Mengunduh...");
+
+    try {
+        const apiUrl = `https://api.siputzx.my.id/api/tiktok/v2?url=${encodeURIComponent(urlTiktok)}`;
+        const { data } = await axios.get(apiUrl);
+
+        if (!data.success || !data.data.download) {
+            return bot.sendMessage(chatId, "❌ Gagal mendapatkan data dari TikTok.");
+        }
+
+        const { video, photo, audio } = data.data.download;
+
+        // Proses video
+        if (video) {
+            const videoFile = `video_${msg.message_id}.mp4`;
+            await ttdl(video, videoFile);
+            await bot.sendVideo(chatId, videoFile);
+            fs.unlinkSync(videoFile);
+        }
+
+        // Proses photo (jika ada)
+        if (photo && Array.isArray(photo)) {
+            for (let i = 0; i < photo.length; i++) {
+                const photoFile = `photo_${msg.message_id}_${i}.jpg`;
+                await ttdl(photo[i], photoFile);
+                await bot.sendPhoto(chatId, photoFile);
+                fs.unlinkSync(photoFile);
+            }
+        }
+
+        // Proses audio (jika ada)
+        if (audio) {
+            const audioFile = `audio_${msg.message_id}.mp3`;
+            await ttdl(audio, audioFile);
+            await bot.sendAudio(chatId, audioFile);
+            fs.unlinkSync(audioFile);
+        }
+
+    } catch (error) {
+        console.error(error);
+        bot.sendMessage(chatId, "❌ Terjadi kesalahan saat memproses permintaan.");
+    }
+});
+
+// Fungsi untuk mendownload file
+async function ttdl(url, filename) {
+    const writer = fs.createWriteStream(filename);
+    const response = await axios({
+        url,
+        method: "GET",
+        responseType: "stream",
+    });
+
+    response.data.pipe(writer);
+    return new Promise((resolve, reject) => {
+        writer.on("finish", resolve);
+        writer.on("error", reject);
+    });
+}
+
+const TOKEN_VT = "277cbd91b627da9fea45221678eb08629a2b62b6133a88ebde91d979083ec8be"; // Ganti dengan API Key VirusTotal
+
+bot.onText(/^\/virustotal (.+)/, async (msg, match) => {
+    const chatId = msg.chat.id;
+    const input = match[1];
+
+    bot.sendMessage(chatId, "🔍 Sedang mengecek URL di VirusTotal...");
+
+    try {
+        // Encode URL ke Base64 (sesuai format API VirusTotal)
+        const encodedUrl = Buffer.from(input).toString("base64").replace(/=/g, '');
+        const url = `https://www.virustotal.com/api/v3/urls/${encodedUrl}`;
+
+        const { data } = await axios.get(url, {
+            headers: { "x-apikey": TOKEN_VT },
+        });
+
+        const stats = data.data.attributes.last_analysis_stats;
+        const totalScans = Object.values(stats).reduce((a, b) => a + b, 0);
+        const positives = stats.malicious + stats.suspicious;
+        const vtLink = `https://www.virustotal.com/gui/url/${data.data.id}`;
+
+        // Tentukan status keamanan berdasarkan deteksi
+        let status;
+        if (positives === 0) {
+            status = "✅ **Aman!**";
+        } else if (positives < 5) {
+            status = "⚠️ **Mencurigakan!**";
+        } else {
+            status = "🚨 **Berbahaya!**";
+        }
+
+        // Ambil daftar deteksi antivirus yang melaporkan sebagai berbahaya
+        const detections = data.data.attributes.last_analysis_results;
+        let detectedList = Object.entries(detections)
+            .filter(([_, result]) => result.category !== "undetected")
+            .map(([engine, result]) => `- **${engine}**: ${result.result}`)
+            .join("\n");
+
+        if (!detectedList) detectedList = "✅ Tidak ada deteksi virus.";
+
+        bot.sendMessage(chatId, `🔍 **Hasil Scan VirusTotal**  
+📂 **Target:** ${input}  
+🦠 **Positif:** ${positives} / ${totalScans}  
+${status}  
+📑 **Deteksi Antivirus:**  
+${detectedList}  
+🔗 **Laporan Lengkap:** [VirusTotal](${vtLink})`, { parse_mode: "Markdown" });
+
+    } catch (error) {
+        bot.sendMessage(chatId, "⚠️ Gagal mengambil data. Pastikan URL valid dan coba lagi.");
+    }
+});
+
+const gemini = new GoogleGenerativeAI("AIzaSyALE4QSweC4Nwdg_leybQLHKQx7hnHzYQY");
+
+// Folder sementara untuk menyimpan gambar
+const TEMP_DIR = path.join(process.cwd(), "tmp");
+if (!fs.existsSync(TEMP_DIR)) {
+  fs.mkdirSync(TEMP_DIR);
+}
+
+// Event saat menerima perintah "/editimg"
+bot.on("message", async (msg) => {
+  const chatId = msg.chat.id;
+
+  // Pastikan pesan adalah teks dan mengandung "/editimg"
+  if (msg.text && msg.text.startsWith("/editimg")) {
+    return bot.sendMessage(
+      chatId,
+      "Kirim gambar bersama caption ini.\n\nGunakan format: `/editimg [deskripsi]`",
+      { parse_mode: "Markdown" }
+    );
+  }
+});
+
+// Event saat menerima gambar
+bot.on("photo", async (msg) => {
+  const chatId = msg.chat.id;
+
+  // Cek apakah caption ada dan dimulai dengan "/editimg"
+  if (!msg.caption || !msg.caption.startsWith("/editimg ")) {
+    return; // Tidak merespons jika tidak ada caption atau caption tidak sesuai
+  }
+
+  const prompt = msg.caption.replace("/editimg", "").trim();
+  if (!prompt) {
+    return bot.sendMessage(
+      chatId,
+      "Gunakan format: `/editimg [deskripsi]`\n\nContoh: `/editimg ubah latar belakang menjadi pantai`",
+      { parse_mode: "Markdown" }
+    );
+  }
+
+  bot.sendMessage(chatId, "*Processing...*", { parse_mode: "Markdown" });
+
+  try {
+    // Ambil file gambar dari Telegram
+    const fileId = msg.photo[msg.photo.length - 1].file_id;
+    const fileInfo = await bot.getFile(fileId);
+    const fileUrl = `https://api.telegram.org/file/bot${TOKEN}/${fileInfo.file_path}`;
+
+    // Download gambar
+    const response = await axios.get(fileUrl, { responseType: "arraybuffer" });
+    const base64Image = Buffer.from(response.data).toString("base64");
+
+    // Kirim permintaan ke Google Gemini
+    const contents = [
+      { text: prompt },
+      {
+        inlineData: {
+          mimeType: "image/jpeg",
+          data: base64Image,
+        },
+      },
+    ];
+
+    const model = gemini.getGenerativeModel({
+      model: "gemini-2.0-flash-exp-image-generation",
+      generationConfig: {
+        responseModalities: ["Text", "Image"],
+      },
+    });
+
+    const responseAI = await model.generateContent(contents);
+
+    if (!responseAI.response.candidates || responseAI.response.candidates.length === 0) {
+      return bot.sendMessage(chatId, "Gagal menghasilkan gambar.");
+    }
+
+    let resultImage;
+    let resultText = "";
+
+    for (const part of responseAI.response.candidates[0].content.parts || []) {
+      if (part.text) {
+        resultText += part.text;
+      } else if (part.inlineData) {
+        resultImage = Buffer.from(part.inlineData.data, "base64");
+      }
+    }
+
+    if (resultImage) {
+      const tempPath = path.join(TEMP_DIR, `gemini_${Date.now()}.png`);
+      fs.writeFileSync(tempPath, resultImage);
+
+      await bot.sendPhoto(chatId, tempPath, { caption: resultText || "Hasil edit gambar." });
+
+      // Hapus file setelah 30 detik
+      setTimeout(() => {
+        try {
+          fs.unlinkSync(tempPath);
+        } catch (err) {}
+      }, 30000);
+    } else {
+      bot.sendMessage(chatId, "Gagal menghasilkan gambar.");
+    }
+  } catch (error) {
+    console.error(error);
+    bot.sendMessage(chatId, `Terjadi kesalahan: ${error.message}`);
+  }
+});
+
+const redirectDetective = {
+    api: {
+        base: "https://redirectdetective.com/ld.px"
+    },
+
+    headers: {
+        'authority': 'redirectdetective.com',
+        'content-type': 'application/x-www-form-urlencoded',
+        'origin': 'https://redirectdetective.com',
+        'referer': 'https://redirectdetective.com/',
+        'user-agent': 'Postify/1.0.0'
+    },
+
+    generateCookie: (count = 1) => {
+        const timestamp = Math.floor(Date.now() / 1000);
+        const random = Math.floor(Math.random() * 1000000000);
+        return `__utma=132634637.${random}.${timestamp}.${timestamp}.${timestamp}.1; __utmz=132634637.${timestamp}.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); __utmc=132634637; __utmt=1; __utmb=132634637.6.10.${timestamp}; c=${count}`;
+    },
+
+    parse: (data) => {
+        const redirects = [];
+        const urlRegex = /<a href="([^"]+)" class="tooltips[^>]+>/g;
+        const statusRegex = /<button[^>]+>([\d]+ - [^<]+)<\/button>/g;
+
+        let urlx;
+        let statusx;
+
+        while ((urlx = urlRegex.exec(data)) !== null) {
+            redirects.push({ url: urlx[1].replace(/\r/g, '') });
+        }
+
+        let i = 0;
+        while ((statusx = statusRegex.exec(data)) !== null) {
+            if (redirects[i]) {
+                redirects[i].status = statusx[1];
+                i++;
+            }
+        }
+
+        return redirects;
+    },
+
+    isUrl: (url) => {
+        try {
+            new URL(url);
+            return { isValid: true, message: '✅ URL valid!' };
+        } catch (err) {
+            return { isValid: false, message: '❌ URL tidak valid! Periksa kembali inputnya.' };
+        }
+    },
+
+    check: async (url) => {
+        const isUrlx = redirectDetective.isUrl(url);
+        if (!isUrlx.isValid) {
+            return { status: false, message: isUrlx.message, result: { redirects: [] } };
+        }
+
+        const formData = new URLSearchParams();
+        formData.append('w', url.replace(/\r/g, ''));
+        formData.append('f', 'true');
+
+        const cookie = redirectDetective.generateCookie();
+
+        try {
+            const response = await axios.post(redirectDetective.api.base, formData, {
+                headers: { ...redirectDetective.headers, 'cookie': cookie }
+            });
+
+            const redirects = redirectDetective.parse(response.data);
+            return { status: true, result: { redirects } };
+
+        } catch (error) {
+            return { status: false, message: '❌ Terjadi kesalahan saat mengecek redirect.' };
+        }
+    }
+};
+
+// Handler untuk perintah /redirectdetail
+bot.onText(/\/redirectdetail (.+)/, async (msg, match) => {
+    const chatId = msg.chat.id;
+    const url = match[1];
+
+    bot.sendMessage(chatId, `🔍 *Memeriksa redirect...*\nURL: \`${url}\``, { parse_mode: "Markdown" });
+
+    const result = await redirectDetective.check(url);
+
+    if (!result.status) {
+        return bot.sendMessage(chatId, result.message, { parse_mode: "Markdown" });
+    }
+
+    const redirects = result.result.redirects;
+    if (redirects.length === 0) {
+        return bot.sendMessage(chatId, "✅ Tidak ada redirect yang terdeteksi.");
+    }
+
+    let message = "🔍 *Detail Redirect:*\n";
+    redirects.forEach((redirect, index) => {
+        message += `➤ *${index + 1}️⃣ ${redirect.status}*\n  🔗 ${redirect.url}\n`;
+    });
+
+    bot.sendMessage(chatId, message, { parse_mode: "Markdown" });
+});
+
+// API Gemini
+const genAI = new GoogleGenerativeAI("AIzaSyDV7fKEkFKCL4cqYjBK9CXvRd8RiO5YnGg");
+
+// Perintah /hytam
+bot.on("photo", async (msg) => {
+  const chatId = msg.chat.id;
+  const caption = msg.caption || "";
+  
+  if (!caption.startsWith("/hytam")) return;
+
+  bot.sendMessage(chatId, "Otw Penghitaman...");
+  
+  try {
+    // Ambil file ID dari foto
+    const fileId = msg.photo[msg.photo.length - 1].file_id;
+    const fileLink = await bot.getFileLink(fileId);
+
+    // Unduh gambar
+    const response = await axios.get(fileLink, { responseType: "arraybuffer" });
+    const base64Image = Buffer.from(response.data).toString("base64");
+
+    // Prompt AI
+    const promptText = "Ubahlah Karakter Dari Gambar Tersebut Diubah Kulitnya Menjadi Hitam";
+
+    // Kirim ke Gemini AI
+    const contents = [
+      { text: promptText },
+      {
+        inlineData: {
+          mimeType: "image/png",
+          data: base64Image
+        }
+      }
+    ];
+
+    const model = genAI.getGenerativeModel({
+      model: "gemini-2.0-flash-exp-image-generation",
+      generationConfig: {
+        responseModalities: ["Text", "Image"]
+      },
+    });
+
+    const responseAI = await model.generateContent(contents);
+
+    let resultImage;
+    
+    for (const part of responseAI.response.candidates[0].content.parts) {
+      if (part.inlineData) {
+        resultImage = Buffer.from(part.inlineData.data, "base64");
+      }
+    }
+
+    if (resultImage) {
+      const tempPath = path.join(process.cwd(), "tmp", `gemini_${Date.now()}.png`);
+      fs.writeFileSync(tempPath, resultImage);
+
+      // Kirim hasil ke user
+      await bot.sendPhoto(chatId, tempPath, { caption: "Wkwkwk Makan Nih Hytam!" });
+
+      // Hapus file sementara
+      setTimeout(() => {
+        try { fs.unlinkSync(tempPath); } catch {}
+      }, 30000);
+    } else {
+      bot.sendMessage(chatId, "Gagal Menghitamkan.");
+    }
+  } catch (error) {
+    console.error(error);
+    bot.sendMessage(chatId, `Error: ${error.message}`);
+  }
+});
+
+bot.onText(/\/lokasi/, async (msg) => {
+    const chatId = msg.chat.id;
+
+    // Kirim pesan "Mencari lokasi..."
+    const findMsg = await bot.sendMessage(chatId, "🔍 Mencari lokasi...");
+
+    // Kirim efek mencari lokasi setiap 1 detik selama 3 detik
+    const actionInterval = setInterval(() => {
+        bot.sendChatAction(chatId, "find_location");
+    }, 1000);
+
+    // Simulasi delay pencarian lokasi
+    setTimeout(async () => {
+        // Hentikan efek mencari lokasi
+        clearInterval(actionInterval);
+
+        // Edit pesan menjadi "Lokasi ditemukan!"
+        await bot.editMessageText("✅ Lokasi ditemukan!", {
+            chat_id: chatId,
+            message_id: findMsg.message_id
+        });
+
+        // Kirim lokasi Surabaya
+        bot.sendLocation(chatId, -7.2575, 112.7521);
+    }, 3000); // Delay 3 detik
+});
+
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+const xminus = {
+  api: {
+    base: "https://x-minus.pro",
+    endpoint: {
+      ai: "/ai",
+      upload: "/upload/vocalCutAi",
+      download: "/dl/vocalCutAi"
+    }
+  },
+
+  headers: {
+    'User-Agent': 'Postify/1.0.0',
+    'Accept': 'application/json',
+    'Accept-Language': 'en-US,en;q=0.9',
+    'Origin': 'https://x-minus.pro',
+    'Referer': 'https://x-minus.pro/ai'
+  },
+
+  getAuthKey: async () => {
+    try {
+      const response = await axios.get(`${xminus.api.base}${xminus.api.endpoint.ai}`, {
+        headers: xminus.headers
+      });
+
+      const dom = new JSDOM(response.data);
+      const authKey = dom.window.document.querySelector('#vocal-cut-auth-key')?.value;
+
+      if (!authKey) throw new Error("Auth key tidak ditemukan!");
+      return authKey;
+    } catch (error) {
+      throw new Error("Gagal mendapatkan auth key!");
+    }
+  },
+
+  convert: async (filePath) => {
+    try {
+      if (!fs.existsSync(filePath)) {
+        return { status: false, error: "File tidak ditemukan!" };
+      }
+
+      const authKey = await xminus.getAuthKey();
+
+      const formData = new FormData();
+      formData.append('myfile', fs.createReadStream(filePath));
+      formData.append('auth_key', authKey);
+      formData.append('locale', 'en');
+      formData.append('separation', 'inst_vocal');
+      formData.append('separation_type', 'vocals_music');
+      formData.append('format', 'mp3');
+      formData.append('version', '1.0');
+      formData.append('model', 'mdx_v2_vocft');
+      formData.append('aggressiveness', 1);
+
+      const up = await axios.post(`${xminus.api.base}${xminus.api.endpoint.upload}?catch-file`, formData, {
+        headers: { ...formData.getHeaders(), ...xminus.headers }
+      });
+
+      if (up.data.status !== 'accepted') {
+        return { status: false, error: "Gagal mengupload file!" };
+      }
+
+      const jobId = up.data.job_id;
+      let attempts = 0;
+      const maxAttempts = 60;
+
+      while (attempts < maxAttempts) {
+        const statusx = new FormData();
+        statusx.append('job_id', jobId);
+        statusx.append('auth_key', authKey);
+        statusx.append('locale', 'en');
+
+        const res = await axios.post(`${xminus.api.base}${xminus.api.endpoint.upload}?check-job-status`, statusx, {
+          headers: { ...statusx.getHeaders(), ...xminus.headers }
+        });
+
+        if (res.data.status === 'done') {
+          return {
+            status: true,
+            vocal: `${xminus.api.base}${xminus.api.endpoint.download}?job-id=${jobId}&stem=vocal&fmt=mp3`,
+            instrumental: `${xminus.api.base}${xminus.api.endpoint.download}?job-id=${jobId}&stem=inst&fmt=mp3`
+          };
+        } else if (res.data.status === 'failed') {
+          return { status: false, error: "Proses gagal!" };
+        }
+
+        console.log(`Proses... (${attempts + 1}/${maxAttempts})`);
+        await delay(5000);
+        attempts++;
+      }
+
+      return { status: false, error: "Timeout, proses terlalu lama!" };
+    } catch (error) {
+      return { status: false, error: "Terjadi kesalahan saat memproses file!" };
+    }
+  }
+};
+
+bot.onText(/\/vocalremove/, (msg) => {
+  bot.sendMessage(msg.chat.id, "Silakan kirim file audio yang ingin diproses...");
+});
+
+bot.on('audio', async (msg) => {
+  const chatId = msg.chat.id;
+  const fileId = msg.audio.file_id;
+
+  const file = await bot.getFile(fileId);
+  const fileUrl = `https://api.telegram.org/file/bot${TOKEN}/${file.file_path}`;
+  const originalFilePath = `./downloads/${file.file_unique_id}.mp3`;
+
+  bot.sendMessage(chatId, "Mendownload file...");
+
+  const writer = fs.createWriteStream(originalFilePath);
+  const response = await axios({
+    url: fileUrl,
+    method: 'GET',
+    responseType: 'stream'
+  });
+
+  response.data.pipe(writer);
+
+  writer.on('finish', async () => {
+    bot.sendMessage(chatId, "Proses pemisahan vokal sedang berlangsung... ⏳");
+
+    const result = await xminus.convert(originalFilePath);
+
+    if (result.status) {
+      const vocalPath = `./downloads/${file.file_unique_id}_vocal.mp3`;
+      const instrumentalPath = `./downloads/${file.file_unique_id}_instrumental.mp3`;
+
+      bot.sendMessage(chatId, "🔄 Mendownload hasil pemisahan...");
+
+      await downloadFile(result.vocal, vocalPath);
+      await downloadFile(result.instrumental, instrumentalPath);
+
+      bot.sendMessage(chatId, "✅ Mengirim file hasil...");
+
+      await bot.sendAudio(chatId, vocalPath, { caption: "🎤 Vokal" });
+      await bot.sendAudio(chatId, instrumentalPath, { caption: "🎶 Instrumen" });
+
+      fs.unlinkSync(originalFilePath);
+      fs.unlinkSync(vocalPath);
+      fs.unlinkSync(instrumentalPath);
+    } else {
+      bot.sendMessage(chatId, `⚠️ Gagal memproses audio: ${result.error}`);
+    }
+  });
+
+  writer.on('error', () => {
+    bot.sendMessage(chatId, "❌ Gagal mendownload file!");
+  });
+});
+
+const downloadFile = async (url, outputPath) => {
+  const writer = fs.createWriteStream(outputPath);
+  const response = await axios({
+    url,
+    method: 'GET',
+    responseType: 'stream'
+  });
+
+  response.data.pipe(writer);
+
+  return new Promise((resolve, reject) => {
+    writer.on('finish', resolve);
+    writer.on('error', reject);
+  });
+};
+
+bot.onText(/\/zakat(?:\s(.+))?/, async (msg, match) => {
+    const chatId = msg.chat.id
+    const text = match[1]
+
+    if (!text) {
+        return bot.sendMessage(
+            chatId,
+            `⚖️ *Kalkulator Zakat*\n\nGunakan format berikut:\n\`/zakat <jenis> <jumlah> [irigasi]\`\n\n📌 *Contoh Penggunaan:*\n➤ \`/zakat beras 900\`\n➤ \`/zakat emas 100\`\n\n*Jenis zakat yang tersedia:* \`beras, emas\`\n*Jenis irigasi:* \`berbayar, tidakberbayar (opsional, default: tidak berbayar)\``,
+            { parse_mode: "Markdown" }
+        )
+    }
+
+    let args = text.split(" ")
+    let jenis = args[0]?.toLowerCase()
+    let jumlah = parseFloat(args[1])
+    let irigasi = args[2]?.toLowerCase() || "tidakberbayar"
+
+    if (isNaN(jumlah)) {
+        return bot.sendMessage(chatId, "Jumlah harus berupa angka!")
+    }
+
+    let nisab, wajib = false, zakatGram = 0, zakatRupiah = 0
+    let satuan = jenis === "emas" ? "gram" : "kg"
+    let hasil = `📊 *Kalkulator Zakat*\nJenis: *${jenis.toUpperCase()}*\nJumlah: *${jumlah} ${satuan}*\n`
+
+    if (jenis === "beras") {
+        nisab = 816 // Nisab beras dalam kg
+        if (jumlah >= nisab) {
+            wajib = true
+            let persentaseZakat = irigasi === "berbayar" ? 0.05 : 0.10
+            zakatGram = jumlah * persentaseZakat
+        } else {
+            return bot.sendMessage(chatId, `Nisab zakat pertanian adalah *${nisab} kg*, hasil panenmu belum mencapai nisab.`)
+        }
+    } else if (jenis === "emas") {
+        nisab = 78 // Nisab emas dalam gram
+        let hargaEmasPerGram = 1527023 // Harga emas per gram (bisa diubah sesuai update)
+        if (jumlah >= nisab) {
+            wajib = true
+            zakatGram = jumlah * 0.025
+            zakatRupiah = zakatGram * hargaEmasPerGram
+        } else {
+            return bot.sendMessage(chatId, `Nisab zakat emas adalah *${nisab} gram*, jumlah emasmu belum mencapai nisab.`)
+        }
+    } else {
+        return bot.sendMessage(chatId, "Jenis zakat tidak didukung!\nJenis yang tersedia: `beras, emas`.")
+    }
+
+    hasil += `Nisab: *${nisab} ${satuan}*\nHasil: *${wajib ? "Wajib Zakat" : "Tidak Wajib Zakat"}*`
+
+    if (wajib) {
+        hasil += `\n🔹 Zakat yang harus dikeluarkan: *${zakatGram.toFixed(2)} ${satuan}*`
+        if (jenis === "emas") {
+            hasil += `\n💰 Jumlah bayar zakat: *Rp${zakatRupiah.toLocaleString("id-ID", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}*`
+        }
+    }
+
+    bot.sendMessage(chatId, hasil, { parse_mode: "Markdown" })
+})
+
+bot.onText(/\/rndm/, async (msg) => {
+    const chatId = msg.chat.id;
+    const sources = [
+        "https://api.siputzx.my.id/api/r/waifu",
+        "https://api.siputzx.my.id/api/r/neko"
+    ];
+
+    // Pilih salah satu API secara acak
+    const randomUrl = sources[Math.floor(Math.random() * sources.length)];
+
+    try {
+      //  console.log("Mengambil gambar dari:", randomUrl);
+
+        // Simpan gambar di folder sementara
+        const imagePath = path.join(__dirname, "random_image.jpg");
+
+        // Download gambar dalam format binary
+        const response = await axios({
+            url: randomUrl,
+            method: "GET",
+            responseType: "stream", // Ambil langsung dalam format binary
+        });
+
+        const writer = fs.createWriteStream(imagePath);
+        response.data.pipe(writer);
+
+        writer.on("finish", async () => {
+            try {
+                // Kirim gambar ke user
+                await bot.sendPhoto(chatId, imagePath, { caption: "Here is your random image!" });
+
+                // Hapus gambar setelah dikirim
+                fs.unlink(imagePath, (err) => {
+                    if (err) console.error("Gagal menghapus gambar:", err);
+                });
+            } catch (error) {
+                console.error("Gagal mengirim gambar:", error);
+                bot.sendMessage(chatId, "Terjadi kesalahan saat mengirim gambar.");
+            }
+        });
+
+    } catch (error) {
+        console.error("Error saat mengambil gambar:", error);
+        bot.sendMessage(chatId, "Terjadi kesalahan saat mengambil gambar.");
+    }
+});
+
+async function cekKhodam(name) {
+  try {
+    const response = await axios.get(`https://khodam.vercel.app/v2?nama=${encodeURIComponent(name)}`);
+    const $ = cheerio.load(response.data);
+
+    const khodamName = $('span.__className_cad559.text-3xl.font-bold.text-rose-600').text().trim();
+    const quoteMessage = $('div.mb-5.sm\\:mb-10.px-8.text-center.text-white\\/90').text().trim().replace(/"/g, '');
+
+    return {
+      yourName: name,
+      khodamName: khodamName || "Tidak ditemukan",
+      quoteMessage: quoteMessage || "Tidak ada pesan",
+    };
+  } catch (error) {
+    console.error("Error:", error);
+    return null;
+  }
+}
+
+bot.onText(/^\/cekkhodam (.+)/, async (msg, match) => {
+  const chatId = msg.chat.id;
+  const name = match[1];
+
+  bot.sendMessage(chatId, "Sedang Mencari khodam mu...");
+
+  const result = await cekKhodam(name);
+  if (result) {
+    bot.sendMessage(
+      chatId,
+      `**Hasil Ramalan Saya**\n\n` +
+      `**Nama:** ${result.yourName}\n` +
+      `**Nama Khodam kamu:** ${result.khodamName}`,
+      { parse_mode: "Markdown" }
+    );
+  } else {
+    bot.sendMessage(chatId, "❌ Gagal mencari nama khodam.");
+  }
+});
+
+const industries = [
+  "Construction", "Education", "Beauty Spa", "Automotive", "Animals Pets",
+  "Travel", "Sports Fitness", "Retail", "Religious", "Real Estate", "Legal",
+  "Internet", "Technology", "Home Family", "Medical Dental", "Restaurant",
+  "Finance", "Nonprofit", "Entertainment"
+];
+
+const stylesLogo = ["Minimalist", "3D", "Letter", "Hand-drawn", "Badge", "Stamp"];
+
+let userData = {}; // Menyimpan data sementara
+
+bot.onText(/\/logogenerator/, async (msg) => {
+  const chatId = msg.chat.id;
+  userData[chatId] = {}; // Reset data user
+
+  await bot.sendMessage(chatId, "Masukkan Brand Name:");
+  userData[chatId].step = "brandname";
+});
+
+bot.on("message", async (msg) => {
+  const chatId = msg.chat.id;
+  if (!userData[chatId] || !userData[chatId].step) return;
+
+  const text = msg.text;
+
+  if (userData[chatId].step === "brandname") {
+    userData[chatId].brandname = text;
+    userData[chatId].step = "prompt";
+
+    return bot.sendMessage(chatId, "Masukkan Prompt:");
+  }
+
+  if (userData[chatId].step === "prompt") {
+    userData[chatId].prompt = text;
+    userData[chatId].step = "industry";
+
+    const sentMsg = await bot.sendMessage(chatId, "Pilih Industry:", {
+      reply_markup: {
+        inline_keyboard: industries.map((industry) => [
+          { text: industry, callback_data: `industry_${industry}` },
+        ]),
+      },
+    });
+
+    userData[chatId].messageId = sentMsg.message_id; // Simpan message ID untuk diedit nanti
+  }
+});
+
+bot.on("callback_query", async (query) => {
+  const chatId = query.message.chat.id;
+  const data = query.data;
+  const messageId = userData[chatId]?.messageId;
+  if (!userData[chatId] || !messageId) return;
+
+  if (data.startsWith("industry_")) {
+    userData[chatId].industry = data.replace("industry_", "");
+    userData[chatId].step = "style";
+
+    return bot.editMessageText("Pilih Style:", {
+      chat_id: chatId,
+      message_id: messageId,
+      reply_markup: {
+        inline_keyboard: stylesLogo.map((style) => [
+          { text: style, callback_data: `style_${style}` },
+        ]),
+      },
+    });
+  }
+
+  if (data.startsWith("style_")) {
+    userData[chatId].style = data.replace("style_", "");
+
+    const { brandname, prompt, industry, style } = userData[chatId];
+
+    bot.editMessageText(`Generating logo untuk *${brandname}*...\nIndustry: ${industry}\nStyle: ${style}`, {
+      chat_id: chatId,
+      message_id: messageId,
+      parse_mode: "Markdown",
+    });
+
+    const apiUrl = `https://fastrestapis.fasturl.cloud/aiimage/logogenerator?brandname=${encodeURIComponent(
+      brandname
+    )}&prompt=${encodeURIComponent(prompt)}&industry=${encodeURIComponent(
+      industry
+    )}&style=${encodeURIComponent(style)}`;
+
+    try {
+      const response = await axios.get(apiUrl, { responseType: "arraybuffer" });
+
+      await bot.sendPhoto(chatId, response.data, {
+        caption: `Logo untuk *${brandname}* berhasil dibuat!\nIndustry: ${industry}\nStyle: ${style}`,
+        parse_mode: "Markdown",
+      });
+
+      bot.deleteMessage(chatId, messageId); // Hapus pesan generating
+    } catch (error) {
+      await bot.editMessageText("Gagal membuat logo. Coba lagi nanti.", {
+        chat_id: chatId,
+        message_id: messageId,
+      });
+    }
+
+    delete userData[chatId]; // Hapus data setelah selesai
+  }
+});
+
+const styleanime = [
+  "Crayon",
+  "Ink Stains",
+  "Simple Drawing",
+  "Witty",
+  "Tinies",
+  "Grumpy 3D",
+  "90s Shoujo Manga",
+  "Gothic",
+  "Vector",
+  "Comic Book",
+  "Felted Doll",
+  "Wojak",
+  "Illustration",
+  "Mini",
+  "Clay",
+  "3D",
+  "Ink Painting",
+  "Color Rough"
+];
+
+bot.onText(/^\/toanime(?:\s+(https?:\/\/\S+))?/, async (msg, match) => {
+  const chatId = msg.chat.id;
+  const imageUrl = match[1];
+
+  if (!imageUrl) {
+    return bot.sendMessage(
+      chatId,
+      "Untuk menggunakan fitur ini, sertakan URL gambar.\n\nContoh:\n`/toanime https://gambar.jpg`",
+      { parse_mode: "Markdown" }
+    );
+  }
+
+  const styleButtons = styleanime.map((style) => [
+    { text: style, callback_data: `toanime|${imageUrl}|${style}` },
+  ]);
+
+  bot.sendMessage(chatId, "Pilih gaya anime yang diinginkan:", {
+    reply_markup: { inline_keyboard: styleButtons },
+  });
+});
+
+bot.on("callback_query", async (query) => {
+  const chatId = query.message.chat.id;
+  const messageId = query.message.message_id;
+  const [command, imageUrl, style] = query.data.split("|");
+
+  if (command === "toanime") {
+    let processingMsg = await bot.editMessageText("Sedang memproses gambar...", {
+      chat_id: chatId,
+      message_id: messageId,
+    });
+
+    const loadingTexts = ["Sedang memproses gambar.", "Sedang memproses gambar..", "Sedang memproses gambar..."];
+    let count = 0;
+    const loadingInterval = setInterval(() => {
+      bot.editMessageText(loadingTexts[count % loadingTexts.length], {
+        chat_id: chatId,
+        message_id: messageId,
+      });
+      count++;
+    }, 3000);
+
+    try {
+      const encodedStyle = encodeURIComponent(style);
+      const apiUrl = `https://fastrestapis.fasturl.cloud/imgedit/toanimation?imageUrl=${encodeURIComponent(imageUrl)}&style=${encodedStyle}`;
+
+      await new Promise((resolve) => setTimeout(resolve, 10000)); // Tunggu API lebih lama
+
+      const response = await axios.get(apiUrl, { responseType: "arraybuffer" });
+
+      if (response.headers["content-type"].includes("image")) {
+        clearInterval(loadingInterval);
+        bot.sendPhoto(chatId, response.data, { caption: `Hasil anime style: ${style}` });
+        bot.deleteMessage(chatId, messageId);
+      } else {
+        throw new Error("Respon API bukan gambar.");
+      }
+    } catch (error) {
+      clearInterval(loadingInterval);
+      bot.editMessageText(`Gagal memproses gambar. Error: ${error.message}`, {
+        chat_id: chatId,
+        message_id: messageId,
+      });
+    }
+  }
+});
+
+const styleskets = [
+  "Anime Sketch",
+  "Line Art",
+  "Simplex",
+  "Doodle",
+  "Intricate Line",
+  "Sketch",
+  "Pencil Sketch",
+  "Ink Sketch",
+  "Manga Sketch",
+  "Gouache",
+  "Color Rough",
+  "BG Line",
+  "Ink Painting",
+  "Watercolor",
+  "Charcoal Sketch"
+];
+
+bot.onText(/^\/tosketsa(?:\s+(https?:\/\/\S+))?/, async (msg, match) => {
+  const chatId = msg.chat.id;
+  const imageUrl = match[1];
+
+  if (!imageUrl) {
+    return bot.sendMessage(
+      chatId,
+      "Untuk menggunakan fitur ini, sertakan URL gambar.\n\nContoh:\n`/tosketsa https://gambar.jpg`",
+      { parse_mode: "Markdown" }
+    );
+  }
+
+  const styleButtons = styleskets.map((style) => [
+    { text: style, callback_data: `tosketsa|${imageUrl}|${style}` },
+  ]);
+
+  bot.sendMessage(chatId, "Pilih gaya sketsa yang diinginkan:", {
+    reply_markup: { inline_keyboard: styleButtons },
+  });
+});
+
+bot.on("callback_query", async (query) => {
+  const chatId = query.message.chat.id;
+  const messageId = query.message.message_id;
+  const [command, imageUrl, style] = query.data.split("|");
+
+  if (command === "tosketsa") {
+    let processingMsg = await bot.editMessageText("Sedang memproses gambar...", {
+      chat_id: chatId,
+      message_id: messageId,
+    });
+
+    const loadingTexts = ["Sedang memproses gambar.", "Sedang memproses gambar..", "Sedang memproses gambar..."];
+    let count = 0;
+    const loadingInterval = setInterval(() => {
+      bot.editMessageText(loadingTexts[count % loadingTexts.length], {
+        chat_id: chatId,
+        message_id: messageId,
+      });
+      count++;
+    }, 3000);
+
+    try {
+      const encodedStyle = encodeURIComponent(style);
+      const apiUrl = `https://fastrestapis.fasturl.cloud/imgedit/tosketch?imageUrl=${encodeURIComponent(imageUrl)}&style=${encodedStyle}`;
+
+      await new Promise((resolve) => setTimeout(resolve, 10000)); // Tambah waktu tunggu
+
+      const response = await axios.get(apiUrl, { responseType: "arraybuffer" });
+
+      if (response.headers["content-type"].includes("image")) {
+        clearInterval(loadingInterval);
+        bot.sendPhoto(chatId, response.data, { caption: `Hasil sketsa: ${style}` });
+        bot.deleteMessage(chatId, messageId);
+      } else {
+        throw new Error("Respon API bukan gambar.");
+      }
+    } catch (error) {
+      clearInterval(loadingInterval);
+      bot.editMessageText(`Gagal memproses gambar. Error: ${error.message}`, {
+        chat_id: chatId,
+        message_id: messageId,
+      });
+    }
+  }
+});
+
+bot.onText(/\/countryinfo(?:\s(.+))?/, async (msg, match) => {
+    const chatId = msg.chat.id;
+    const countryName = match[1] ? match[1].trim() : null;
+
+    if (!countryName) {
+        return bot.sendMessage(chatId, "Gunakan perintah:\n`/countryinfo [Nama Negara]`\nContoh: `/countryinfo Indonesia`", { 
+            parse_mode: "Markdown", 
+            disable_web_page_preview: true 
+        });
+    }
+
+    const apiUrl = `https://api.siputzx.my.id/api/tools/countryInfo?name=${encodeURIComponent(countryName)}`;
+
+    try {
+        const response = await axios.get(apiUrl);
+        const data = response.data;
+
+        if (!data.status || !data.data) {
+            return bot.sendMessage(chatId, `❌ Data negara *${countryName}* tidak ditemukan!`, { 
+                parse_mode: "Markdown", 
+                disable_web_page_preview: true 
+            });
+        }
+
+        const country = data.data;
+        const flagUrl = country.flag || '';
+
+        const caption = `🌍 *Informasi Negara ${country.name}* 🌍\n\n` +
+            `📍 *Ibukota:* ${country.capital}\n` +
+            `📞 *Kode Telepon:* ${country.phoneCode}\n` +
+            `🗺 *Peta:* [Google Maps](${country.googleMapsLink})\n` +
+            `🌍 *Benua:* ${country.continent.name} ${country.continent.emoji}\n` +
+            `📏 *Luas:* ${country.area.squareKilometers.toLocaleString()} km²\n` +
+            `🔗 *Domain Internet:* ${country.internetTLD}\n` +
+            `🚦 *Sisi Mengemudi:* ${country.drivingSide}\n` +
+            `🍺 *Larangan Alkohol:* ${country.alcoholProhibition}\n` +
+            `💰 *Mata Uang:* ${country.currency}\n` +
+            `🏛 *Pemerintahan:* ${country.constitutionalForm}\n` +
+            `🌎 *Negara Tetangga:* ${country.neighbors.map(n => n.name).join(", ") || "Tidak ada"}\n` +
+            `🔥 *Terkenal Karena:* ${country.famousFor}\n` +
+            `🔢 *Kode ISO:* ${country.isoCode.alpha3} (${country.isoCode.alpha2})\n`;
+
+        if (flagUrl) {
+            bot.sendPhoto(chatId, flagUrl, { 
+                caption, 
+                parse_mode: "Markdown", 
+                disable_web_page_preview: true 
+            });
+        } else {
+            bot.sendMessage(chatId, caption, { 
+                parse_mode: "Markdown", 
+                disable_web_page_preview: true 
+            });
+        }
+
+    } catch (error) {
+        bot.sendMessage(chatId, "❌ Terjadi kesalahan saat mengambil data negara!", { 
+            disable_web_page_preview: true 
+        });
+    }
+});
+
+bot.onText(/^\/ttp(?:\s(.+))?$/, async (msg, match) => {
+    const chatId = msg.chat.id;
+    const inputText = match[1];
+
+    if (!inputText) {
+        return bot.sendMessage(chatId, "Cara penggunaan: `/ttp teks`\n\nContoh: `/ttp hai`", { parse_mode: "Markdown" });
+    }
+
+    const apiUrl = `https://www.velyn.biz.id/api/maker/ttp?text=${encodeURIComponent(inputText)}`;
+
+    try {
+        const response = await axios.get(apiUrl);
+        if (response.data.status && response.data.data.length > 0) {
+            const imageUrl = response.data.data[0].url;
+            bot.sendPhoto(chatId, imageUrl, { caption: `TTP untuk: *${inputText}*`, parse_mode: "Markdown" });
+        } else {
+            bot.sendMessage(chatId, "Gagal membuat TTP. Silakan coba lagi.");
+        }
+    } catch (error) {
+        bot.sendMessage(chatId, "Terjadi kesalahan saat mengambil gambar. Coba lagi nanti.");
+        console.error(error);
+    }
+});
+
+const SALDO_FILE = 'saldo.json';
+
+// Fungsi untuk membaca file saldo.json
+function readSaldo() {
+    if (!fs.existsSync(SALDO_FILE)) fs.writeFileSync(SALDO_FILE, '{}');
+    return JSON.parse(fs.readFileSync(SALDO_FILE, 'utf8'));
+}
+
+// Fungsi untuk menyimpan saldo
+function saveSaldo(saldo) {
+    fs.writeFileSync(SALDO_FILE, JSON.stringify(saldo, null, 2));
+}
+
+// Fungsi untuk menangani perintah /addsaldo
+function handleAddSaldo(msg, bot) {
+    const chatId = msg.chat.id;
+    const userId = msg.from.id.toString();
+    const args = msg.text.split(" ").slice(1).join(" ");
+
+    // Cek apakah user adalah admin
+    if (!ADMIN_IDS.includes(userId)) {
+        return bot.sendMessage(chatId, "❌ Anda tidak memiliki izin untuk menggunakan perintah ini.");
+    }
+
+    let saldo = readSaldo();
+    let userList = Object.keys(saldo);
+    let response = "";
+
+    // Jika tidak ada argumen, tampilkan cara penggunaan
+    if (!args) {
+        return bot.sendMessage(chatId, `📌 *Cara Penggunaan*:\n
+1. *Melihat daftar saldo pengguna*:
+   \`/addsaldo list\`
+
+2. *Menambah saldo pengguna*:
+   \`/addsaldo tambah|nomor user|jumlah\`
+   Contoh: \`/addsaldo tambah|1|50000\`
+
+3. *Mengurangi saldo pengguna*:
+   \`/addsaldo kurangi|nomor user|jumlah/all\`
+   Contoh: 
+   - \`/addsaldo kurangi|1|30000\` (mengurangi 30.000)
+   - \`/addsaldo kurangi|1|all\` (menghapus semua saldo user)
+`, { parse_mode: "Markdown" });
+    }
+
+    if (args === "list") {
+        if (userList.length === 0) {
+            return bot.sendMessage(chatId, "📂 Tidak ada data saldo yang tersimpan.");
+        }
+
+        userList.forEach((id, index) => {
+            response += `${index + 1}. (${id}) | ${saldo[id].toLocaleString()}\n`;
+        });
+
+        return bot.sendMessage(chatId, `📜 *Daftar Saldo:*\n\n${response}`, { parse_mode: "Markdown" });
+    }
+
+    const commandParts = args.split("|");
+    if (commandParts.length < 3) {
+        return bot.sendMessage(chatId, "⚠️ Format perintah salah!\nGunakan: `/addsaldo list` atau `/addsaldo (tambah/kurangi)|nomor user|jumlah/all`", { parse_mode: "Markdown" });
+    }
+
+    const action = commandParts[0]; // tambah atau kurangi
+    const userIndex = parseInt(commandParts[1]) - 1;
+    const amount = commandParts[2];
+
+    if (userIndex < 0 || userIndex >= userList.length) {
+        return bot.sendMessage(chatId, "⚠️ Nomor pengguna tidak ditemukan dalam daftar saldo.");
+    }
+
+    const targetUser = userList[userIndex];
+    let targetSaldo = saldo[targetUser];
+
+    if (action === "tambah") {
+        const jumlahTambah = parseInt(amount);
+        if (isNaN(jumlahTambah) || jumlahTambah <= 0) {
+            return bot.sendMessage(chatId, "⚠️ Jumlah saldo yang ditambahkan harus berupa angka positif.");
+        }
+        saldo[targetUser] += jumlahTambah;
+        saveSaldo(saldo);
+        return bot.sendMessage(chatId, `✅ Saldo pengguna ${targetUser} telah ditambah ${jumlahTambah.toLocaleString()}. Saldo sekarang: ${saldo[targetUser].toLocaleString()}`);
+    }
+
+    if (action === "kurangi") {
+        if (amount === "all") {
+            saldo[targetUser] = 0;
+        } else {
+            const jumlahKurang = parseInt(amount);
+            if (isNaN(jumlahKurang) || jumlahKurang <= 0) {
+                return bot.sendMessage(chatId, "⚠️ Jumlah saldo yang dikurangi harus berupa angka positif.");
+            }
+            if (jumlahKurang > targetSaldo) {
+                return bot.sendMessage(chatId, `⚠️ Saldo tidak mencukupi! Saldo pengguna saat ini hanya ${targetSaldo.toLocaleString()}`);
+            }
+            saldo[targetUser] -= jumlahKurang;
+        }
+        saveSaldo(saldo);
+        return bot.sendMessage(chatId, `✅ Saldo pengguna ${targetUser} telah dikurangi. Saldo sekarang: ${saldo[targetUser].toLocaleString()}`);
+    }
+
+    return bot.sendMessage(chatId, "⚠️ Perintah tidak dikenali.");
+}
+
+// Tambahkan ke event message bot
+bot.onText(/\/addsaldo(.*)/, (msg) => handleAddSaldo(msg, bot));
+
+// Perintah /siapakahaku
+bot.onText(/\/siapakahaku/, async (msg) => {
+    const chatId = msg.chat.id;
+
+    try {
+        // Ambil soal dari API
+        const response = await axios.get("https://api.siputzx.my.id/api/games/siapakahaku");
+        if (response.data.status && response.data.data) {
+            const soal = response.data.data.soal;
+            const jawaban = response.data.data.jawaban.toLowerCase(); // Normalisasi jawaban
+
+            // Simpan soal dan set timeout 1 menit
+            tebakSiapaAku[chatId] = { jawaban, timeout: null };
+
+            bot.sendMessage(chatId, `Tebak siapa aku:\n\n*${soal}*\n\n(Ketik jawaban atau ketik "menyerah" untuk melihat jawabannya.)`, { parse_mode: "Markdown" });
+
+            // Set timer 1 menit untuk menghapus sesi
+            tebakSiapaAku[chatId].timeout = setTimeout(() => {
+                bot.sendMessage(chatId, `⏳ Waktu habis! Jawabannya adalah *${jawaban}*`, { parse_mode: "Markdown" });
+                delete tebakSiapaAku[chatId];
+            }, 60000);
+        } else {
+            bot.sendMessage(chatId, "Gagal mendapatkan soal, coba lagi nanti.");
+        }
+    } catch (error) {
+        bot.sendMessage(chatId, "Terjadi kesalahan saat mengambil soal.");
+        console.error(error);
+    }
+});
+
+// Menangkap jawaban user
+bot.on("message", (msg) => {
+    const chatId = msg.chat.id;
+    const text = msg.text ? msg.text.toLowerCase() : "";
+
+    if (tebakSiapaAku[chatId]) {
+        if (text === tebakSiapaAku[chatId].jawaban) {
+            bot.sendMessage(chatId, `✅ Benar! Jawabannya adalah *${tebakSiapaAku[chatId].jawaban}*`, { parse_mode: "Markdown" });
+            clearTimeout(tebakSiapaAku[chatId].timeout);
+            delete tebakSiapaAku[chatId];
+        } else if (text === "menyerah") {
+            bot.sendMessage(chatId, `😢 Kamu menyerah. Jawabannya adalah *${tebakSiapaAku[chatId].jawaban}*`, { parse_mode: "Markdown" });
+            clearTimeout(tebakSiapaAku[chatId].timeout);
+            delete tebakSiapaAku[chatId];
+        } else {
+            bot.sendMessage(chatId, "❌ Salah! Coba lagi.");
+        }
+    }
+});
+
+bot.onText(/\/pinchat/, async (msg) => {
+    const chatId = msg.chat.id;
+    const replyToMessage = msg.reply_to_message;
+
+    if (!replyToMessage) {
+        return bot.sendMessage(chatId, "Balas pesan yang ingin disematkan lalu gunakan /pinchat.");
+    }
+
+    const messageId = replyToMessage.message_id;
+
+    try {
+        await bot.pinChatMessage(chatId, messageId);
+        bot.sendMessage(chatId, "Pesan berhasil disematkan.");
+    } catch (error) {
+        bot.sendMessage(chatId, "Gagal menyematkan pesan. Pastikan bot memiliki izin menyematkan pesan.");
+    }
+});
+
+// Fungsi untuk membaca log dari file JSON
+function readLog() {
+    if (!fs.existsSync(LOG_FILE)) return {};
+    return JSON.parse(fs.readFileSync(LOG_FILE, "utf8"));
+}
+
+// Fungsi untuk menyimpan log ke file JSON
+function saveLog(logData) {
+    fs.writeFileSync(LOG_FILE, JSON.stringify(logData, null, 2));
+}
+
+// Menyimpan perintah yang diketik user
+bot.on("message", async (msg) => {
+    const chatId = msg.chat.id;
+    const username = msg.from.username || `User_${msg.from.id}`;
+    const command = msg.text;
+    const today = new Date().toLocaleDateString("id-ID");
+
+    if (!command || typeof command !== "string" || !command.startsWith("/")) return; // Hanya menyimpan perintah
+
+    let logData = readLog();
+    if (!logData[chatId]) logData[chatId] = [];
+    
+    logData[chatId].push(`[${today} | ${command}]`);
+    saveLog(logData);
+});
+
+// Saat user menggunakan perintah /logme
+bot.onText(/\/logme/, async (msg) => {
+    const chatId = msg.chat.id;
+    const username = msg.from.username || `User_${msg.from.id}`;
+    const today = new Date().toLocaleDateString("id-ID").replace(/\//g, "_");
+    
+    let logData = readLog();
+    if (!logData[chatId] || logData[chatId].length === 0) {
+        return bot.sendMessage(chatId, "Log kamu masih kosong.");
+    }
+
+    // Gabungkan log menjadi teks
+    const logText = logData[chatId].map((entry, index) => `${index + 1}. ${entry}`).join("\n");
+
+    // Buat URL API
+    const apiUrl = `https://fastrestapis.fasturl.cloud/tool/texttonote?name=Name: ${username}&classroom=Class: XXX-XXX&subject=Title: my-log&date=Date: ${today}&content=${encodeURIComponent(logText)}&font=HandwritingCR-2.ttf&format=jpg`;
+
+    try {
+        // Dapatkan gambar dari API
+        const response = await axios.get(apiUrl, { responseType: "arraybuffer" });
+
+        // Simpan gambar sementara
+        const imagePath = `log_${chatId}.jpg`;
+        fs.writeFileSync(imagePath, response.data);
+
+        // Kirim gambar ke user
+        await bot.sendPhoto(chatId, imagePath, { caption: `Log perintah kamu, @${username}` });
+
+        // Hapus file gambar setelah dikirim
+        fs.unlinkSync(imagePath);
+    } catch (error) {
+        console.error("Gagal mengambil gambar log:", error);
+        bot.sendMessage(chatId, "Terjadi kesalahan saat mengambil log.");
+    }
+});
+
+// Load daftar command dari menu.json
+let menuCommands = [];
+try {
+    menuCommands = JSON.parse(fs.readFileSync("menu.json", "utf-8"));
+} catch (err) {
+    console.error("Gagal membaca menu.json:", err);
+}
+
+// Fungsi untuk menghitung tingkat kemiripan dua string
+function similarity(s1, s2) {
+    if (!s1 || !s2) return 0;
+    let longer = s1.length > s2.length ? s1 : s2;
+    let shorter = s1.length > s2.length ? s2 : s1;
+    
+    let editDistance = (str1, str2) => {
+        const costs = Array(str2.length + 1).fill().map((_, i) => i);
+        for (let i = 1; i <= str1.length; i++) {
+            let lastValue = i;
+            for (let j = 1; j <= str2.length; j++) {
+                let newValue = str1[i - 1] === str2[j - 1] ? costs[j - 1] : Math.min(costs[j - 1] + 1, lastValue + 1, costs[j] + 1);
+                costs[j - 1] = lastValue;
+                lastValue = newValue;
+            }
+            costs[str2.length] = lastValue;
+        }
+        return costs[str2.length];
+    };
+    
+    let score = 1 - (editDistance(longer, shorter) / longer.length);
+    return score;
+}
+
+// Fitur koreksi otomatis
+let autoCorrectionEnabled = true;
+
+// Command untuk mengaktifkan/nonaktifkan koreksi
+bot.onText(/\/autokoreksi (on|off)/, (msg, match) => {
+    if (!ADMIN_IDS.includes(msg.from.id)) {
+        return bot.sendMessage(msg.chat.id, "❌ Anda tidak memiliki izin untuk mengubah pengaturan ini.");
+    }
+
+    autoCorrectionEnabled = match[1] === "on";
+    bot.sendMessage(msg.chat.id, `✅ Auto-koreksi ${autoCorrectionEnabled ? "diaktifkan" : "dinonaktifkan"}.`);
+});
+
+// Menangani semua pesan untuk mendeteksi typo pada command
+bot.on("message", (msg) => {
+    if (!msg.text || !msg.text.startsWith("/")) return;
+    if (!autoCorrectionEnabled) return;
+
+    let command = msg.text.split(" ")[0].slice(1); // Ambil hanya bagian command tanpa "/"
+    
+    if (menuCommands.includes(command)) return; // Jika command valid, abaikan
+
+    let bestMatch = null;
+    let bestScore = 0.6; // Ambang batas minimal kemiripan
+
+    for (let cmd of menuCommands) {
+        let score = similarity(command, cmd);
+        if (score > bestScore) {
+            bestScore = score;
+            bestMatch = cmd;
+        }
+    }
+
+    if (bestMatch) {
+        bot.sendMessage(msg.chat.id, `🔍 Apakah yang Anda maksud "/${bestMatch}"?`);
+    }
+});
+
+// Fitur /ai (manual)
+bot.onText(/^\/ai2 (.+)/, async (msg, match) => {
+    const chatId = msg.chat.id;
+    let userInput = match[1];
+
+    await processAiRequest(chatId, userInput, msg.from.id);
+});
+
+// Fitur /autoai2 (on/off)
+bot.onText(/^\/autoai2 (on|off)/, (msg, match) => {
+    const chatId = msg.chat.id;
+    const userId = msg.from.id;
+    const mode = match[1];
+
+    if (mode === "on") {
+        autoAiMode.add(userId);
+        bot.sendMessage(chatId, "Auto AI diaktifkan! Semua pesanmu akan dikirim ke AI.");
+    } else {
+        autoAiMode.delete(userId);
+        bot.sendMessage(chatId, "Auto AI dimatikan! Pesanmu tidak akan dikirim ke AI.");
+    }
+});
+
+// Mode Auto AI (semua pesan user akan masuk ke AI jika aktif)
+bot.on("message", async (msg) => {
+    const chatId = msg.chat.id;
+    const userId = msg.from.id;
+    const text = msg.text;
+
+    // Abaikan jika bukan teks atau jika itu perintah
+    if (!text || text.startsWith("/")) return;
+
+    // Jika Auto AI aktif, kirim semua pesan ke AI
+    if (autoAiMode.has(userId)) {
+        await processAiRequest(chatId, text, userId);
+    }
+});
+
+// Fungsi untuk memproses permintaan AI
+async function processAiRequest(chatId, userInput, userId) {
+    // Regex untuk menangkap URL dalam tanda ""
+    const imageRegex = /"(https?:\/\/[^"]+)"/;
+    const imageMatch = userInput.match(imageRegex);
+
+    let textQuery = userInput.replace(imageRegex, "").trim(); // Ambil teks tanpa URL
+    let imageUrl = imageMatch ? imageMatch[1] : null;
+
+    // Style kombinasi Onee-san + Cool Tsundere
+    let apiUrl = `https://fastrestapis.fasturl.cloud/aillm/gpt-4o?ask=${encodeURIComponent(textQuery)}&style=answer%20like%20a%20realistic%20big%20sister,%20who%20is%20caring,%20expressive,%20and%20has%20dynamic%20emotions%20depending%20on%20the%20situation,%20use%20Indonesian&sessionId=${userId}`;
+    if (imageUrl) apiUrl += `&imageUrl=${encodeURIComponent(imageUrl)}`;
+
+    try {
+        const response = await axios.get(apiUrl);
+        let result = response.data.result || "Gagal mendapatkan respon dari AI.";
+
+        // Batas karakter Telegram per pesan
+        const maxLength = 4000;
+
+        // Jika result lebih panjang dari maxLength, bagi jadi beberapa bagian
+        if (result.length > maxLength) {
+            let parts = [];
+            for (let i = 0; i < result.length; i += maxLength) {
+                parts.push(result.substring(i, i + maxLength));
+            }
+
+            // Kirimkan setiap bagian satu per satu
+            for (const part of parts) {
+                await bot.sendMessage(chatId, part);
+            }
+        } else {
+            bot.sendMessage(chatId, result);
+        }
+    } catch (error) {
+        bot.sendMessage(chatId, "Terjadi kesalahan saat mengambil data AI.");
+    }
+}
+
+bot.onText(/\/webrec/, async (msg) => {
+    const chatId = msg.chat.id;
+
+    // Langkah 1: Minta URL
+    bot.sendMessage(chatId, "Silakan masukkan URL website yang ingin direkam:").then(() => {
+        bot.once("message", async (msg) => {
+            if (!msg.text || msg.text.startsWith("/")) return;
+            const url = msg.text.trim();
+
+            // Langkah 2: Pilih device (mobile/desktop)
+            bot.sendMessage(chatId, "Pilih device: ketik *mobile* atau *desktop*", { parse_mode: "Markdown" }).then(() => {
+                bot.once("message", async (msg) => {
+                    const device = msg.text.toLowerCase();
+                    if (device !== "mobile" && device !== "desktop") {
+                        return bot.sendMessage(chatId, "Pilihan tidak valid. Gunakan *mobile* atau *desktop*.", { parse_mode: "Markdown" });
+                    }
+
+                    // Langkah 3: Pilih durasi (maks 30 detik)
+                    bot.sendMessage(chatId, "Masukkan durasi rekaman dalam detik (maks 30):").then(() => {
+                        bot.once("message", async (msg) => {
+                            let time = parseInt(msg.text);
+                            if (isNaN(time) || time < 1 || time > 30) {
+                                return bot.sendMessage(chatId, "Durasi tidak valid. Masukkan angka antara 1-30.");
+                            }
+
+                            // Langkah 4: Pilih FPS (maks 120)
+                            bot.sendMessage(chatId, "Masukkan FPS (maks 120):").then(() => {
+                                bot.once("message", async (msg) => {
+                                    let fps = parseInt(msg.text);
+                                    if (isNaN(fps) || fps < 1 || fps > 120) {
+                                        return bot.sendMessage(chatId, "FPS tidak valid. Masukkan angka antara 1-120.");
+                                    }
+
+                                    // Panggil API untuk merekam website
+                                    const apiUrl = `https://fastrestapis.fasturl.cloud/tool/screenrecord?url=${encodeURIComponent(url)}&device=${device}&delay=0&time=${time}&fps=${fps}`;
+                                    bot.sendMessage(chatId, "🔄 Sedang merekam... Mohon tunggu beberapa saat.");
+
+                                    try {
+                                        const response = await axios.get(apiUrl, { responseType: "stream" });
+
+                                        if (response.status === 200) {
+                                            bot.sendVideo(chatId, response.data, { caption: `🎥 Rekaman website: ${url}\n📱 Device: ${device}\n⏳ Durasi: ${time} detik\n🎞️ FPS: ${fps}` });
+                                        } else {
+                                            bot.sendMessage(chatId, "Gagal merekam website. Coba lagi nanti.");
+                                        }
+                                    } catch (error) {
+                                        console.error("Error recording website:", error);
+                                        bot.sendMessage(chatId, "Terjadi kesalahan saat merekam website.");
+                                    }
+                                });
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    });
+});
+
+bot.onText(/^\/ssweb(?:\s+(.+))?$/, async (msg, match) => {
+    const chatId = msg.chat.id;
+    const url = match[1];
+
+    if (!url) {
+        return bot.sendMessage(chatId, "❌ Masukkan URL setelah perintah. Contoh:\n`/ssweb google.com`", { parse_mode: "Markdown" });
+    }
+
+    const apiUrl = `https://api.siputzx.my.id/api/tools/ssweb?url=${encodeURIComponent(url)}&theme=light&device=desktop`;
+    const filePath = path.join(__dirname, `screenshot_${chatId}.jpg`);
+
+    bot.sendMessage(chatId, "⏳ Sedang mengambil screenshot...");
+
+    try {
+        // Unduh gambar dari API
+        const response = await axios({
+            url: apiUrl,
+            responseType: "stream",
+        });
+
+        // Simpan ke file sementara
+        const writer = fs.createWriteStream(filePath);
+        response.data.pipe(writer);
+
+        writer.on("finish", async () => {
+            // Kirim gambar ke Telegram
+            await bot.sendPhoto(chatId, filePath, { caption: `🖥 Screenshot dari: ${url}` });
+
+            // Hapus file setelah dikirim
+            fs.unlinkSync(filePath);
+        });
+    } catch (error) {
+        bot.sendMessage(chatId, "❌ Gagal mengambil screenshot. Pastikan URL valid dan coba lagi.");
+    }
+});
 
 bot.onText(/\/susunkata/, async (msg) => {
     const chatId = msg.chat.id;
@@ -254,54 +2961,6 @@ bot.onText(/^\/emojimix (.+)/, async (msg, match) => {
         bot.sendMessage(chatId, "Gagal membuat emoji mix. Coba lagi.");
     }
 });
-
-bot.onText(/\/tt (.+)/, async (msg, match) => {
-    const chatId = msg.chat.id;
-    const url = match[1];
-
-    if (!url.includes("tiktok.com")) return; // Abaikan jika bukan URL TikTok
-
-    processTikTok(chatId, url);
-});
-
-bot.on("message", async (msg) => {
-    const chatId = msg.chat.id;
-    const text = msg.text;
-
-    // Deteksi apakah pesan mengandung URL TikTok
-    if (text && text.includes("tiktok.com")) {
-        processTikTok(chatId, text);
-    }
-});
-
-async function processTikTok(chatId, url) {
-    try {
-        const apiUrl = `https://velyn.vercel.app/api/downloader/tiktok?url=${encodeURIComponent(url)}`;
-        const response = await axios.get(apiUrl);
-        const data = response.data;
-
-        if (!data.status || !data.data || !data.data.no_watermark) {
-            return bot.sendMessage(chatId, "⚠️ Gagal mengambil video. Coba link lain.");
-        }
-
-        const { title, no_watermark, music } = data.data;
-
-        // Kirim video tanpa watermark dengan caption
-        bot.sendVideo(chatId, no_watermark, { caption: title })
-            .then(() => {
-                // Setelah video terkirim, kirim musik
-                if (music) {
-                    bot.sendAudio(chatId, music);
-                }
-            })
-            .catch(() => {
-                bot.sendMessage(chatId, "⚠️ Gagal mengirim video.");
-            });
-
-    } catch (error) {
-        bot.sendMessage(chatId, "⚠️ Terjadi kesalahan saat mengambil data.");
-    }
-}
 
 bot.onText(/^\/apakah(?:\s+(.+))?$/, (msg, match) => {
     const chatId = msg.chat.id;
@@ -606,79 +3265,6 @@ bot.onText(/^\/cekip_me$/, async (msg) => {
     }
 });
 
-bot.onText(/\/spmngl/, (msg) => {
-  const chatId = msg.chat.id;
-  bot.sendMessage(chatId, "🔗 Kirimkan link NGL kamu:").then(() => {
-    bot.once("message", (msg) => {
-      if (!msg.text.startsWith("http")) return bot.sendMessage(chatId, "⚠️ Link tidak valid!");
-      const linkNGL = msg.text;
-
-      bot.sendMessage(chatId, "📝 Kirimkan pesan yang ingin dikirim:").then(() => {
-        bot.once("message", (msg) => {
-          const pesanNGL = msg.text;
-          const stopButtonId = `stopspm_${chatId}`; // Tombol dengan alamat unik
-
-          bot.sendMessage(chatId, "🚀 Mulai spamming...", {
-            reply_markup: {
-              inline_keyboard: [[{ text: "🛑 Stop", callback_data: stopButtonId }]],
-            },
-          }).then((sentMessage) => {
-            let count = 0;
-            spamSessions[chatId] = { active: true, messageId: sentMessage.message_id };
-
-            const sendSpam = async () => {
-              while (spamSessions[chatId]?.active) {
-                try {
-                  const response = await axios.get(
-                    `https://api.siputzx.my.id/api/tools/ngl?link=${encodeURIComponent(linkNGL)}&text=${encodeURIComponent(pesanNGL)}`
-                  );
-
-                  if (response.data.status) {
-                    count++;
-                    bot.editMessageText(
-                      `📨 Request ke-${count}\n🆔 Question ID: ${response.data.data.questionId}`,
-                      {
-                        chat_id: chatId,
-                        message_id: sentMessage.message_id,
-                        reply_markup: {
-                          inline_keyboard: [[{ text: "🛑 Stop", callback_data: stopButtonId }]],
-                        },
-                      }
-                    );
-                  }
-                } catch (error) {
-                  continue; // Jika error, langsung coba lagi
-                }
-              }
-            };
-
-            sendSpam();
-          });
-        });
-      });
-    });
-  });
-});
-
-// Handle tombol "Stop" dengan alamat unik
-bot.on("callback_query", (callbackQuery) => {
-  const chatId = callbackQuery.message.chat.id;
-  const data = callbackQuery.data;
-
-  if (data.startsWith("stopspm_") && data === `stopspm_${chatId}`) {
-    if (spamSessions[chatId]) {
-      const messageId = spamSessions[chatId].messageId;
-      delete spamSessions[chatId]; // Hentikan spam
-
-      bot.deleteMessage(chatId, messageId).then(() => {
-        bot.sendMessage(chatId, "✅ Spamming dihentikan.");
-      }).catch(() => {
-        bot.sendMessage(chatId, "✅ Spamming dihentikan.");
-      });
-    }
-  }
-});
-
 bot.onText(/\/alay/, async (msg) => {
     const chatId = msg.chat.id;
 
@@ -809,7 +3395,7 @@ ${error.stack}
 `;
 
     fs.appendFileSync("error.log", `[${getTime()}] ${error.stack}\n\n`);
-    bot.sendMessage(TELEGRAM_USER_ID, errorMessage, { parse_mode: "Markdown" });
+    bot.sendMessage(gclog, errorMessage, { parse_mode: "Markdown" });
 }
 
 process.on("uncaughtException", (err) => {
@@ -1970,9 +4556,7 @@ bot.onText(/\/cuaca (.+)/, async (msg, match) => {
             + `🌬️ Angin: ${wind}\n`
             + `🌧️ Curah Hujan: ${precipitation}\n`
             + `☁️ Tutupan Awan: ${cloudCover}\n`
-            + `👀 Jarak Pandang: ${visibility}\n`
-            + `🌅 Matahari Terbit: ${sunrise}\n`
-            + `🌇 Matahari Terbenam: ${sunset}\n`
+            + `👀 Jarak Pandang: ${visibility}\n\n`
             + `📍 Koordinat: ${latitude}, ${longitude}`;
 
         bot.sendMessage(chatId, message, { parse_mode: "Markdown" });
@@ -2138,7 +4722,7 @@ function saveSettings() {
 }
 
 // **Tombol ON/OFF AutoAI**
-bot.onText(/\/autoai/, (msg) => {
+bot.onText(/^\/autoai$/, (msg) => {
     const chatId = msg.chat.id;
     const status = autoAI[chatId] ? "ON" : "OFF";
     
@@ -2304,7 +4888,7 @@ bot.onText(/\/getpp/, async (msg) => {
             };
 
             await downloadImage(imageUrl, filePath);
-            bot.sendPhoto(chatId, filePath, { caption: `Foto profil ${username}` });
+            bot.sendPhoto(chatId, filePath, { caption: `Foto profil @${username}` });
 
             // Hapus file setelah dikirim
             setTimeout(() => fs.unlinkSync(filePath), 5000);
@@ -2313,46 +4897,6 @@ bot.onText(/\/getpp/, async (msg) => {
         }
     });
 });
-
-bot.onText(/^\/pin$/, async (msg) => {
-    const chatId = msg.chat.id;
-    bot.sendMessage(chatId, 'Masukkan query untuk mencari gambar di Pinterest:');
-    
-    bot.once('message', async (msg) => {
-        const query = msg.text;
-        const apiUrl = `https://api.siputzx.my.id/api/s/pinterest?query=${encodeURIComponent(query)}`;
-
-        try {
-            const response = await axios.get(apiUrl);
-            const data = response.data;
-
-            if (!data.status || !data.data.length) {
-                return bot.sendMessage(chatId, 'Gambar tidak ditemukan! Coba dengan query lain.');
-            }
-
-            // Pilih gambar secara acak dari hasil
-            const randomImage = data.data[Math.floor(Math.random() * data.data.length)].images_url;
-            
-            // Unduh gambar
-            const imagePath = path.join(__dirname, 'pinterest_image.jpg');
-            const writer = fs.createWriteStream(imagePath);
-            const imageResponse = await axios({
-                url: randomImage,
-                method: 'GET',
-                responseType: 'stream',
-            });
-            
-            imageResponse.data.pipe(writer);
-            writer.on('finish', () => {
-                bot.sendPhoto(chatId, imagePath, { caption: 'Berikut hasil dari Pinterest!' });
-            });
-        } catch (error) {
-            console.error(error);
-            bot.sendMessage(chatId, 'Terjadi kesalahan saat mengambil gambar. Coba lagi nanti.');
-        }
-    });
-});
-
 
 bot.onText(/\/yts/, (msg) => {
     const chatId = msg.chat.id;
@@ -2486,35 +5030,33 @@ async function downloadAndSendVideo(chatId, userId) {
     }
 }
 
-bot.onText(/\/brat/, (msg) => {
+bot.onText(/^\/brat(?:\s(.+))?/, async (msg, match) => {
     const chatId = msg.chat.id;
-    bot.sendMessage(chatId, "Silakan kirimkan teks untuk digunakan dalam BRAT.");
-    
-    bot.once('message', async (msg) => {
-        if (msg.chat.id !== chatId) return;
-        
-        const userInput = encodeURIComponent(msg.text);
-        const apiUrl = `https://fastrestapis.fasturl.link/maker/brat/animated?text=${userInput}&mode=image`;
+    const text = match[1];
 
-        bot.sendMessage(chatId, "Memproses... Mohon tunggu");
+    if (!text) {
+        return bot.sendMessage(chatId, "Gunakan format: `/brat [teks]`\nContoh: `/brat I love you`", { parse_mode: "Markdown" });
+    }
 
-        try {
-            const response = await axios({
-                url: apiUrl,
-                method: 'GET',
-                responseType: 'arraybuffer'
-            });
+    const apiUrl = `https://api.siputzx.my.id/api/m/brat?text=${encodeURIComponent(text)}&isVideo=false&delay=500`;
 
-            const filePath = `brat_${chatId}.jpg`;
-            fs.writeFileSync(filePath, response.data);
+    try {
+        // Ambil gambar dari API
+        const response = await axios.get(apiUrl, { responseType: "arraybuffer" });
+        const filePath = path.join(__dirname, "brat.png");
 
-            bot.sendPhoto(chatId, filePath).then(() => {
-                fs.unlinkSync(filePath); // Hapus file setelah dikirim
-            });
-        } catch (error) {
-            bot.sendMessage(chatId, "Gagal mengambil hasil BRAT. Coba lagi nanti.");
-        }
-    });
+        // Simpan gambar
+        fs.writeFileSync(filePath, response.data);
+
+        // Kirim gambar sebagai stiker
+        await bot.sendSticker(chatId, fs.createReadStream(filePath));
+
+        // Hapus file setelah dikirim
+        fs.unlinkSync(filePath);
+    } catch (error) {
+        console.error("Error:", error);
+        bot.sendMessage(chatId, "Gagal mengambil gambar.");
+    }
 });
 
 // 🔹 Handle /start
@@ -2745,65 +5287,6 @@ bot.onText(/^\/report$/, (msg) => {
     });
 });
 
-bot.onText(/\/webrec/, async (msg) => {
-    const chatId = msg.chat.id;
-
-    // Langkah 1: Minta URL
-    bot.sendMessage(chatId, "Silakan masukkan URL website yang ingin direkam:").then(() => {
-        bot.once("message", async (msg) => {
-            if (!msg.text || msg.text.startsWith("/")) return;
-            const url = msg.text.trim();
-
-            // Langkah 2: Pilih device (mobile/desktop)
-            bot.sendMessage(chatId, "Pilih device: ketik *mobile* atau *desktop*", { parse_mode: "Markdown" }).then(() => {
-                bot.once("message", async (msg) => {
-                    const device = msg.text.toLowerCase();
-                    if (device !== "mobile" && device !== "desktop") {
-                        return bot.sendMessage(chatId, "Pilihan tidak valid. Gunakan *mobile* atau *desktop*.", { parse_mode: "Markdown" });
-                    }
-
-                    // Langkah 3: Pilih durasi (maks 30 detik)
-                    bot.sendMessage(chatId, "Masukkan durasi rekaman dalam detik (maks 30):").then(() => {
-                        bot.once("message", async (msg) => {
-                            let time = parseInt(msg.text);
-                            if (isNaN(time) || time < 1 || time > 30) {
-                                return bot.sendMessage(chatId, "Durasi tidak valid. Masukkan angka antara 1-30.");
-                            }
-
-                            // Langkah 4: Pilih FPS (maks 120)
-                            bot.sendMessage(chatId, "Masukkan FPS (maks 120):").then(() => {
-                                bot.once("message", async (msg) => {
-                                    let fps = parseInt(msg.text);
-                                    if (isNaN(fps) || fps < 1 || fps > 120) {
-                                        return bot.sendMessage(chatId, "FPS tidak valid. Masukkan angka antara 1-120.");
-                                    }
-
-                                    // Panggil API untuk merekam website
-                                    const apiUrl = `https://fastrestapis.fasturl.cloud/tool/screenrecord?url=${encodeURIComponent(url)}&device=${device}&delay=0&time=${time}&fps=${fps}`;
-                                    bot.sendMessage(chatId, "🔄 Sedang merekam... Mohon tunggu beberapa saat.");
-
-                                    try {
-                                        const response = await axios.get(apiUrl, { responseType: "stream" });
-
-                                        if (response.status === 200) {
-                                            bot.sendVideo(chatId, response.data, { caption: `🎥 Rekaman website: ${url}\n📱 Device: ${device}\n⏳ Durasi: ${time} detik\n🎞️ FPS: ${fps}` });
-                                        } else {
-                                            bot.sendMessage(chatId, "Gagal merekam website. Coba lagi nanti.");
-                                        }
-                                    } catch (error) {
-                                        console.error("Error recording website:", error);
-                                        bot.sendMessage(chatId, "Terjadi kesalahan saat merekam website.");
-                                    }
-                                });
-                            });
-                        });
-                    });
-                });
-            });
-        });
-    });
-});
-
 bot.onText(/^\/senduser$/, (msg) => {
     if (!isAdmin(msg)) {
         bot.sendMessage(msg.chat.id, "❌ Anda tidak memiliki izin untuk menggunakan perintah ini.");
@@ -2961,7 +5444,7 @@ const updateSchedule = () => {
     if (existingJob) existingJob.cancel();
 
     schedule.scheduleJob("morningJob", `0 ${minute} ${hour} * * *`, sendMorningVideo);
-    bot.sendMessage("-4624817188", `✅ Jadwal pengiriman video diatur pada ${scheduleData.time} WIB.`);
+    bot.sendMessage("-1002549314973", `✅ Jadwal pengiriman video diatur pada ${scheduleData.time} WIB.`);
 };
 
 // Load dan atur jadwal saat bot dijalankan
