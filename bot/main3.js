@@ -99,6 +99,85 @@ function simpanData() {
     fs.writeFileSync(FILE_CODES, JSON.stringify(adminCodes, null, 2));
 }
 
+const komikData = new Map();
+
+bot.onText(/^\/komik (.+)/, async (msg, match) => {
+  const chatId = msg.chat.id;
+  const query = match[1];
+
+  try {
+    const response = await fetch(`https://api.crafters.biz.id/manga/pixhentai?text=${encodeURIComponent(query)}`);
+    const data = await response.json();
+
+    if (!data.status || !data.result || data.result.length === 0) {
+      return bot.sendMessage(chatId, 'Komik tidak ditemukan.');
+    }
+
+    const komik = data.result[0];
+    const { title, thumbnail, images } = komik;
+
+    const sentMessages = [];
+
+    const thumbMsg = await bot.sendPhoto(chatId, thumbnail, { caption: `Judul: ${title}` });
+    sentMessages.push(thumbMsg.message_id);
+
+    for (const img of images) {
+      const photoMsg = await bot.sendPhoto(chatId, img);
+      sentMessages.push(photoMsg.message_id);
+    }
+
+    // ID unik tombol berdasarkan waktu dan message_id
+    const uniqueId = `komik_hapus_${thumbMsg.message_id}_${Date.now()}`;
+
+    const deleteBtnMsg = await bot.sendMessage(chatId, 'Klik tombol di bawah untuk menghapus komik ini sebelum 5 menit:', {
+      reply_markup: {
+        inline_keyboard: [
+          [{ text: '🗑 Hapus Komik', callback_data: uniqueId }]
+        ]
+      }
+    });
+
+    komikData.set(uniqueId, {
+      chatId,
+      messageIds: sentMessages.concat(deleteBtnMsg.message_id)
+    });
+
+    // Auto hapus setelah 5 menit
+    setTimeout(() => {
+      hapusPesan(uniqueId);
+    }, 5 * 60 * 1000);
+
+  } catch (error) {
+    console.error(error);
+    bot.sendMessage(chatId, 'Terjadi kesalahan saat mengambil data komik.');
+  }
+});
+
+bot.on('callback_query', async (callbackQuery) => {
+  const { data } = callbackQuery;
+
+  if (data.startsWith('komik_hapus_')) {
+    await hapusPesan(data);
+    bot.answerCallbackQuery(callbackQuery.id, { text: 'Komik berhasil dihapus.' });
+  }
+});
+
+async function hapusPesan(key) {
+  const data = komikData.get(key);
+  if (!data) return;
+
+  const { chatId, messageIds } = data;
+  for (const msgId of messageIds) {
+    try {
+      await bot.deleteMessage(chatId, msgId);
+    } catch (e) {
+      // Abaikan error jika gagal hapus
+    }
+  }
+
+  komikData.delete(key);
+}
+
 async function ghibliDownFile(fileId, filePath) {
   const link = await bot.getFileLink(fileId);
   const res = await axios.get(link, { responseType: 'stream' });
